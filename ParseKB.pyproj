@@ -4,13 +4,13 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>ae7ea644-e7d8-4d00-b817-2b61b57ac802</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>ParseKB.py</StartupFile>
+    <StartupFile>ParseKM.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>ParseKB</Name>
-    <RootNamespace>ParseKB</RootNamespace>
+    <Name>ParseKM</Name>
+    <RootNamespace>ParseKM</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ParseKB.py" />
+    <Compile Include="ParseKM.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
