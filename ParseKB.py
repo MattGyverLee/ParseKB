@@ -7,7 +7,7 @@ import copy
 #Do Comparison
 #expand Any's
 
-isVerbose = False
+isVerbose = True
 archive = {}
 
 def parseKB(filenameToParse, expand):
@@ -34,10 +34,12 @@ def sterilizeLine(line, replaceSpaces=False):
     if line.startswith(u'\ufeff'):
         line = line[1:]
     #compress multiple spaces
-    rex = re.compile(r'[\t ]{2,}')
+    rex = re.compile(r'\t')
+    line = rex.sub(' ', line)
+    rex = re.compile(r' {2,}')
     line = rex.sub(' ', line)
     # remove comments
-    rex = re.compile(r' *c .*')
+    rex = re.compile(r' * c .*')
     line = rex.sub('', line)
 
     if replaceSpaces:
@@ -47,13 +49,10 @@ def sterilizeLine(line, replaceSpaces=False):
 def parseKeyman(keymanFilename, generateDeadkeys = False):
     lineCount = 0
     infile = open(keymanFilename, mode='r', encoding='utf-8')
-    currentGroup = "none"
+    currentGroup = {}
     
     for line in infile:
         if (line != "\n"):
-            if 'dkf003d' in line:    
-                print("x")
-                #Crashing on lowercase letters.
             #line = line[:-2].strip()
             line = sterilizeLine(line)
             if (len(line) != 0):
@@ -75,12 +74,11 @@ def parseKeyman(keymanFilename, generateDeadkeys = False):
                     resultDef['type'] = "store"
 
                 elif (upperLine.startswith(u"STORE")):
-
+                    
                     verbose(lineCount,"It's a store")
-                    storeSearch = re.search('store\((.*)\)', line, re.IGNORECASE)
+                    storeSearch = re.search('store\((.*?)\)', line, re.IGNORECASE)
                     if storeSearch: 
                         resultDef["storeName"] = storeSearch.group(1)
-
                     storeItemList = line.split(")",1)[1].strip()
                     resultDef['fullStore'] = storeItemList
                     resultDef['type'] = "store"
@@ -105,7 +103,7 @@ def parseKeyman(keymanFilename, generateDeadkeys = False):
                     for item in storeItems:
                         item = item.replace("---"," ").strip()
                         if item.startswith("U+"):
-                            resultDef['storeItems'].append(item)
+                            resultDef['storeItems'].append(item.upper())
                         elif item.upper().startswith("DK"):
                             resultDef['storeItems'].append(item)
                         elif item.upper().startswith("NUL"):
@@ -131,6 +129,8 @@ def parseKeyman(keymanFilename, generateDeadkeys = False):
 #                    verbose(lineCount,"It's a Match")
                 else:
                     resultDef = processKeymanRule(line,lineCount,currentGroup)
+                    if resultDef is None:
+                        print("This line is unparsed:", line)
                     resultDef["line"] = line
                     resultDef["lineCount"] = lineCount
                 # Storing Starts Here
@@ -161,8 +161,8 @@ def parseKeyman(keymanFilename, generateDeadkeys = False):
                     outputTargetList = [i['storeItems'] for i in archive[keymanFilename] if ('storeName' in i) and (i['storeName'] == outputTargetStore)]
                     inputTargetStore = importantInputs[int(splitIndex[2])-1][4:-1]
                     inputTargetList = [i['storeItems'] for i in archive[keymanFilename] if ('storeName' in i) and (i['storeName'] == inputTargetStore)]
-
-                    print("w")
+                    if (len(inputTargetList) < 1) or len(outputTargetList) < 1:
+                        print('This group is Broken')
                     if len(inputTargetList[0]) != len(outputTargetList[0]):
                         print(inputTargetStore, " and ", outputTargetStore, " are not the same length!")
                     outputTargetStores.append(outputTargetStore)            
@@ -175,8 +175,6 @@ def parseKeyman(keymanFilename, generateDeadkeys = False):
                     unwrappedInputTargetLists = inputTargetLists[0]
                     unwrappedOutputTargetLists = outputTargetLists[0]
                     for i in range(0,len(unwrappedInputTargetLists)-1):
-                        if storeItemCounter == 72:
-                            print('w')
                         tempDef = copy.deepcopy(line)
                         inputCounter = 0
                         copyInputs = copy.deepcopy(tempDef['inputs'])
@@ -278,7 +276,7 @@ def buildCombo(line,inputs,outputs, lineCount):
             thisCombo['inputs'].append(input)
         elif (input.startswith(u"U+")):
             verbose(lineCount,"It's a Unicode ID")
-            thisCombo['inputs'].append(input)
+            thisCombo['inputs'].append(input.upper())
         elif (input.startswith(u"[")):
             keyCombo = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False, 
                         "isRALT" : False, "isLALT" : False, "isALT" : False, 
@@ -381,8 +379,6 @@ def buildCombo(line,inputs,outputs, lineCount):
         else:
             print(output)
     return thisCombo
-
-            
 
 filenameToParse = "sil_cameroon_qwerty.kmn"
 parseKB(filenameToParse, True)
