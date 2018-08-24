@@ -1,6 +1,7 @@
 import codecs
 import re
 import json
+import copy
 
 #ToDo: Parse Stores like strings
 #Do Comparison
@@ -50,6 +51,9 @@ def parseKeyman(keymanFilename, generateDeadkeys = False):
     
     for line in infile:
         if (line != "\n"):
+            if 'dkf003d' in line:    
+                print("x")
+                #Crashing on lowercase letters.
             #line = line[:-2].strip()
             line = sterilizeLine(line)
             if (len(line) != 0):
@@ -71,10 +75,12 @@ def parseKeyman(keymanFilename, generateDeadkeys = False):
                     resultDef['type'] = "store"
 
                 elif (upperLine.startswith(u"STORE")):
+
                     verbose(lineCount,"It's a store")
                     storeSearch = re.search('store\((.*)\)', line, re.IGNORECASE)
                     if storeSearch: 
                         resultDef["storeName"] = storeSearch.group(1)
+
                     storeItemList = line.split(")",1)[1].strip()
                     resultDef['fullStore'] = storeItemList
                     resultDef['type'] = "store"
@@ -100,7 +106,11 @@ def parseKeyman(keymanFilename, generateDeadkeys = False):
                         item = item.replace("---"," ").strip()
                         if item.startswith("U+"):
                             resultDef['storeItems'].append(item)
-                        if item.lower().startswith("dk"):
+                        elif item.upper().startswith("DK"):
+                            resultDef['storeItems'].append(item)
+                        elif item.upper().startswith("NUL"):
+                            resultDef['storeItems'].append(item)
+                        elif item.upper().startswith("BEEP"):
                             resultDef['storeItems'].append(item)
                         if (item.startswith("'") or item.startswith('"')):
                             item = item[1:-1]
@@ -153,8 +163,8 @@ def parseKeyman(keymanFilename, generateDeadkeys = False):
                     inputTargetList = [i['storeItems'] for i in archive[keymanFilename] if ('storeName' in i) and (i['storeName'] == inputTargetStore)]
 
                     print("w")
-                    if len(inputTargetList) != len(outputTargetList):
-                        print(outputTargetStore, " and ", inputTargetStore, " are not the same length!")
+                    if len(inputTargetList[0]) != len(outputTargetList[0]):
+                        print(inputTargetStore, " and ", outputTargetStore, " are not the same length!")
                     outputTargetStores.append(outputTargetStore)            
                     outputTargetLists.append(outputTargetList[0])
                     inputTargetStores.append(inputTargetStore)
@@ -162,16 +172,38 @@ def parseKeyman(keymanFilename, generateDeadkeys = False):
                     indexNumCounter = indexNumCounter + 1
             if len(inputTargetLists) == 1:
                     storeItemCounter = 0
-                    for i in inputTargetLists[0]:
-                        tempDef = line
-                        for tempInput in tempDef['inputs']:        
+                    unwrappedInputTargetLists = inputTargetLists[0]
+                    unwrappedOutputTargetLists = outputTargetLists[0]
+                    for i in range(0,len(unwrappedInputTargetLists)-1):
+                        if storeItemCounter == 72:
+                            print('w')
+                        tempDef = copy.deepcopy(line)
+                        inputCounter = 0
+                        copyInputs = copy.deepcopy(tempDef['inputs'])
+                        for tempInput in copyInputs:        
                             if inputTargetStores[0].upper() in tempInput.upper():
-                                tempInput = inputTargetLists[0][storeItemCounter]
-                        for tempOutput in tempDef['outputs']:
+                                copyInputs[inputCounter] = unwrappedInputTargetLists[storeItemCounter]
+                                tempDef['inputs'] = copyInputs
+                            inputCounter += 1
+                        outputCounter = 0
+                        copyOutputs = copy.deepcopy(tempDef['outputs'])
+                        for tempOutput in copyOutputs:
                             if outputTargetStores[0].upper() in tempOutput.upper():
-                                tempOutput = outputTargetLists[0][storeItemCounter]
-                        storeItemCounter = storeItemCounter + 1
-
+                                copyOutputs[outputCounter] = unwrappedOutputTargetLists[storeItemCounter]
+                                tempDef['outputs'] = copyOutputs
+                            outputCounter += 1
+                        
+                        tempDef['type'] = "rule.generated"
+                        tempDef['sourceLine'] = tempDef['line']
+                        newLine = " ".join(tempDef['inputs']) + " > " + " ".join(tempDef['outputs'] )
+                        tempDef['line'] = newLine
+                        tempDef['sourceLineCount'] = tempDef['lineCount']
+                        tempDef['lineCount'] = lineCount
+                        tempDef.pop('isExpandable',None)
+                        storeItemCounter += 1
+                        lineCount += 1
+                        archive[keymanFilename].append(tempDef)
+                        
                     numRounds = len(inputTargetLists)
 
 def processKeymanRule(line,lineCount,currentGroup):

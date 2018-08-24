@@ -11323,13 +11323,24 @@
                 "U+005D",
                 "U+007D",
                 "U+0027",
-                "U+0022"
+                "U+0022",
+                "nul",
+                "nul",
+                "nul",
+                "nul",
+                "nul",
+                "nul",
+                "nul",
+                "nul",
+                "nul",
+                "nul",
+                "nul"
             ],
             "line": "store(dkt003b) U+003B U+2019 U+201D U+00BC U+00BD U+00BE U+20AC U+00D7 U+2018 U+201C U+025B U+0190 U+0253 U+0181 U+0327 U+00A9 U+0257 U+018A U+0259 U+018F U+00E6 U+00C6 U+02BC U+A78B U+03B1 U+2C6D U+0268 U+0197 U+0330 U+0323 U+1DC5 U+1DC7 U+1DC6 U+1DC4 U+2122 U+014B U+014A U+0254 U+0186 U+00F8 U+00D8 U+2014 U+2013 U+25CC U+00AE U+0153 U+0152 U+0289 U+0244 U+A78C U+A78B U+1E85 U+1E84 U+01B4 U+01B3 U+2026 U+2020 U+00B1 U+0304 U+203A U+00F7 U+2039 U+00AB U+00BB U+0060 U+007E U+005B U+007B U+005D U+007D U+0027 U+0022 nul nul nul nul nul nul nul nul nul nul nul",
             "lineCount": 483
         },
         {
-            "type": "rule.expandable",
+            "type": "rule.dk.expandable",
             "inputs": [
                 "dk(003b)",
                 "any(dkf003b)"
@@ -11342,7 +11353,7 @@
             "lineCount": 484
         },
         {
-            "type": "rule",
+            "type": "rule.dk",
             "inputs": [
                 "dk(003b)",
                 "dk(003d)"
@@ -11354,7 +11365,7 @@
             "lineCount": 485
         },
         {
-            "type": "rule",
+            "type": "rule.dk",
             "inputs": [
                 "platform('hardware')",
                 "dk(003b)",
@@ -11367,7 +11378,7 @@
             "lineCount": 486
         },
         {
-            "type": "rule",
+            "type": "rule.dk",
             "inputs": [
                 "dk(003d)",
                 "dk(003d)"
@@ -11412,7 +11423,7 @@
             "lineCount": 489
         },
         {
-            "type": "rule.expandable",
+            "type": "rule.dk.expandable",
             "inputs": [
                 "dk(003d)",
                 "any(dkf003d)"
@@ -11423,6 +11434,4680 @@
             ],
             "line": "dk(003d) any(dkf003d) > index(dkt003d, 2)",
             "lineCount": 490
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0020"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "dk(003b) U+0020 > U+003B",
+            "lineCount": 490,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0030"
+            ],
+            "outputs": [
+                "U+2019"
+            ],
+            "line": "dk(003b) U+0030 > U+2019",
+            "lineCount": 491,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0029"
+            ],
+            "outputs": [
+                "U+201D"
+            ],
+            "line": "dk(003b) U+0029 > U+201D",
+            "lineCount": 492,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0031"
+            ],
+            "outputs": [
+                "U+00BC"
+            ],
+            "line": "dk(003b) U+0031 > U+00BC",
+            "lineCount": 493,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0032"
+            ],
+            "outputs": [
+                "U+00BD"
+            ],
+            "line": "dk(003b) U+0032 > U+00BD",
+            "lineCount": 494,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0033"
+            ],
+            "outputs": [
+                "U+00BE"
+            ],
+            "line": "dk(003b) U+0033 > U+00BE",
+            "lineCount": 495,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0024"
+            ],
+            "outputs": [
+                "U+20AC"
+            ],
+            "line": "dk(003b) U+0024 > U+20AC",
+            "lineCount": 496,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+002A"
+            ],
+            "outputs": [
+                "U+00D7"
+            ],
+            "line": "dk(003b) U+002A > U+00D7",
+            "lineCount": 497,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0039"
+            ],
+            "outputs": [
+                "U+2018"
+            ],
+            "line": "dk(003b) U+0039 > U+2018",
+            "lineCount": 498,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0028"
+            ],
+            "outputs": [
+                "U+201C"
+            ],
+            "line": "dk(003b) U+0028 > U+201C",
+            "lineCount": 499,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0061"
+            ],
+            "outputs": [
+                "U+025B"
+            ],
+            "line": "dk(003b) U+0061 > U+025B",
+            "lineCount": 500,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0041"
+            ],
+            "outputs": [
+                "U+0190"
+            ],
+            "line": "dk(003b) U+0041 > U+0190",
+            "lineCount": 501,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0062"
+            ],
+            "outputs": [
+                "U+0253"
+            ],
+            "line": "dk(003b) U+0062 > U+0253",
+            "lineCount": 502,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0042"
+            ],
+            "outputs": [
+                "U+0181"
+            ],
+            "line": "dk(003b) U+0042 > U+0181",
+            "lineCount": 503,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0063"
+            ],
+            "outputs": [
+                "U+0327"
+            ],
+            "line": "dk(003b) U+0063 > U+0327",
+            "lineCount": 504,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0043"
+            ],
+            "outputs": [
+                "U+00A9"
+            ],
+            "line": "dk(003b) U+0043 > U+00A9",
+            "lineCount": 505,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0064"
+            ],
+            "outputs": [
+                "U+0257"
+            ],
+            "line": "dk(003b) U+0064 > U+0257",
+            "lineCount": 506,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0044"
+            ],
+            "outputs": [
+                "U+018A"
+            ],
+            "line": "dk(003b) U+0044 > U+018A",
+            "lineCount": 507,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0065"
+            ],
+            "outputs": [
+                "U+0259"
+            ],
+            "line": "dk(003b) U+0065 > U+0259",
+            "lineCount": 508,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0045"
+            ],
+            "outputs": [
+                "U+018F"
+            ],
+            "line": "dk(003b) U+0045 > U+018F",
+            "lineCount": 509,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0066"
+            ],
+            "outputs": [
+                "U+00E6"
+            ],
+            "line": "dk(003b) U+0066 > U+00E6",
+            "lineCount": 510,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0046"
+            ],
+            "outputs": [
+                "U+00C6"
+            ],
+            "line": "dk(003b) U+0046 > U+00C6",
+            "lineCount": 511,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0067"
+            ],
+            "outputs": [
+                "U+02BC"
+            ],
+            "line": "dk(003b) U+0067 > U+02BC",
+            "lineCount": 512,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0047"
+            ],
+            "outputs": [
+                "U+A78B"
+            ],
+            "line": "dk(003b) U+0047 > U+A78B",
+            "lineCount": 513,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0068"
+            ],
+            "outputs": [
+                "U+03B1"
+            ],
+            "line": "dk(003b) U+0068 > U+03B1",
+            "lineCount": 514,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0048"
+            ],
+            "outputs": [
+                "U+2C6D"
+            ],
+            "line": "dk(003b) U+0048 > U+2C6D",
+            "lineCount": 515,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0069"
+            ],
+            "outputs": [
+                "U+0268"
+            ],
+            "line": "dk(003b) U+0069 > U+0268",
+            "lineCount": 516,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0049"
+            ],
+            "outputs": [
+                "U+0197"
+            ],
+            "line": "dk(003b) U+0049 > U+0197",
+            "lineCount": 517,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+006A"
+            ],
+            "outputs": [
+                "U+0330"
+            ],
+            "line": "dk(003b) U+006A > U+0330",
+            "lineCount": 518,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+004A"
+            ],
+            "outputs": [
+                "U+0323"
+            ],
+            "line": "dk(003b) U+004A > U+0323",
+            "lineCount": 519,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+006B"
+            ],
+            "outputs": [
+                "U+1DC5"
+            ],
+            "line": "dk(003b) U+006B > U+1DC5",
+            "lineCount": 520,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+004B"
+            ],
+            "outputs": [
+                "U+1DC7"
+            ],
+            "line": "dk(003b) U+004B > U+1DC7",
+            "lineCount": 521,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+006C"
+            ],
+            "outputs": [
+                "U+1DC6"
+            ],
+            "line": "dk(003b) U+006C > U+1DC6",
+            "lineCount": 522,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+004C"
+            ],
+            "outputs": [
+                "U+1DC4"
+            ],
+            "line": "dk(003b) U+004C > U+1DC4",
+            "lineCount": 523,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+004D"
+            ],
+            "outputs": [
+                "U+2122"
+            ],
+            "line": "dk(003b) U+004D > U+2122",
+            "lineCount": 524,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+006E"
+            ],
+            "outputs": [
+                "U+014B"
+            ],
+            "line": "dk(003b) U+006E > U+014B",
+            "lineCount": 525,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+004E"
+            ],
+            "outputs": [
+                "U+014A"
+            ],
+            "line": "dk(003b) U+004E > U+014A",
+            "lineCount": 526,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+006F"
+            ],
+            "outputs": [
+                "U+0254"
+            ],
+            "line": "dk(003b) U+006F > U+0254",
+            "lineCount": 527,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+004F"
+            ],
+            "outputs": [
+                "U+0186"
+            ],
+            "line": "dk(003b) U+004F > U+0186",
+            "lineCount": 528,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0070"
+            ],
+            "outputs": [
+                "U+00F8"
+            ],
+            "line": "dk(003b) U+0070 > U+00F8",
+            "lineCount": 529,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0050"
+            ],
+            "outputs": [
+                "U+00D8"
+            ],
+            "line": "dk(003b) U+0050 > U+00D8",
+            "lineCount": 530,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0071"
+            ],
+            "outputs": [
+                "U+2014"
+            ],
+            "line": "dk(003b) U+0071 > U+2014",
+            "lineCount": 531,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0051"
+            ],
+            "outputs": [
+                "U+2013"
+            ],
+            "line": "dk(003b) U+0051 > U+2013",
+            "lineCount": 532,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0072"
+            ],
+            "outputs": [
+                "U+25CC"
+            ],
+            "line": "dk(003b) U+0072 > U+25CC",
+            "lineCount": 533,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0052"
+            ],
+            "outputs": [
+                "U+00AE"
+            ],
+            "line": "dk(003b) U+0052 > U+00AE",
+            "lineCount": 534,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0074"
+            ],
+            "outputs": [
+                "U+0153"
+            ],
+            "line": "dk(003b) U+0074 > U+0153",
+            "lineCount": 535,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0054"
+            ],
+            "outputs": [
+                "U+0152"
+            ],
+            "line": "dk(003b) U+0054 > U+0152",
+            "lineCount": 536,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0075"
+            ],
+            "outputs": [
+                "U+0289"
+            ],
+            "line": "dk(003b) U+0075 > U+0289",
+            "lineCount": 537,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0055"
+            ],
+            "outputs": [
+                "U+0244"
+            ],
+            "line": "dk(003b) U+0055 > U+0244",
+            "lineCount": 538,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0076"
+            ],
+            "outputs": [
+                "U+A78C"
+            ],
+            "line": "dk(003b) U+0076 > U+A78C",
+            "lineCount": 539,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0056"
+            ],
+            "outputs": [
+                "U+A78B"
+            ],
+            "line": "dk(003b) U+0056 > U+A78B",
+            "lineCount": 540,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0077"
+            ],
+            "outputs": [
+                "U+1E85"
+            ],
+            "line": "dk(003b) U+0077 > U+1E85",
+            "lineCount": 541,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0057"
+            ],
+            "outputs": [
+                "U+1E84"
+            ],
+            "line": "dk(003b) U+0057 > U+1E84",
+            "lineCount": 542,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0079"
+            ],
+            "outputs": [
+                "U+01B4"
+            ],
+            "line": "dk(003b) U+0079 > U+01B4",
+            "lineCount": 543,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0059"
+            ],
+            "outputs": [
+                "U+01B3"
+            ],
+            "line": "dk(003b) U+0059 > U+01B3",
+            "lineCount": 544,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+007A"
+            ],
+            "outputs": [
+                "U+2026"
+            ],
+            "line": "dk(003b) U+007A > U+2026",
+            "lineCount": 545,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+005A"
+            ],
+            "outputs": [
+                "U+2020"
+            ],
+            "line": "dk(003b) U+005A > U+2020",
+            "lineCount": 546,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+002B"
+            ],
+            "outputs": [
+                "U+00B1"
+            ],
+            "line": "dk(003b) U+002B > U+00B1",
+            "lineCount": 547,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+002D"
+            ],
+            "outputs": [
+                "U+0304"
+            ],
+            "line": "dk(003b) U+002D > U+0304",
+            "lineCount": 548,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+002E"
+            ],
+            "outputs": [
+                "U+203A"
+            ],
+            "line": "dk(003b) U+002E > U+203A",
+            "lineCount": 549,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+002F"
+            ],
+            "outputs": [
+                "U+00F7"
+            ],
+            "line": "dk(003b) U+002F > U+00F7",
+            "lineCount": 550,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+002C"
+            ],
+            "outputs": [
+                "U+2039"
+            ],
+            "line": "dk(003b) U+002C > U+2039",
+            "lineCount": 551,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+003C"
+            ],
+            "outputs": [
+                "U+00AB"
+            ],
+            "line": "dk(003b) U+003C > U+00AB",
+            "lineCount": 552,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+003E"
+            ],
+            "outputs": [
+                "U+00BB"
+            ],
+            "line": "dk(003b) U+003E > U+00BB",
+            "lineCount": 553,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+030D"
+            ],
+            "outputs": [
+                "U+0060"
+            ],
+            "line": "dk(003b) U+030D > U+0060",
+            "lineCount": 554,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0303"
+            ],
+            "outputs": [
+                "U+007E"
+            ],
+            "line": "dk(003b) U+0303 > U+007E",
+            "lineCount": 555,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0301"
+            ],
+            "outputs": [
+                "U+005B"
+            ],
+            "line": "dk(003b) U+0301 > U+005B",
+            "lineCount": 556,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+030C"
+            ],
+            "outputs": [
+                "U+007B"
+            ],
+            "line": "dk(003b) U+030C > U+007B",
+            "lineCount": 557,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0327"
+            ],
+            "outputs": [
+                "U+005D"
+            ],
+            "line": "dk(003b) U+0327 > U+005D",
+            "lineCount": 558,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0308"
+            ],
+            "outputs": [
+                "U+007D"
+            ],
+            "line": "dk(003b) U+0308 > U+007D",
+            "lineCount": 559,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0300"
+            ],
+            "outputs": [
+                "U+0027"
+            ],
+            "line": "dk(003b) U+0300 > U+0027",
+            "lineCount": 560,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0302"
+            ],
+            "outputs": [
+                "U+0022"
+            ],
+            "line": "dk(003b) U+0302 > U+0022",
+            "lineCount": 561,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0078"
+            ],
+            "outputs": [
+                "nul"
+            ],
+            "line": "dk(003b) U+0078 > nul",
+            "lineCount": 562,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0058"
+            ],
+            "outputs": [
+                "nul"
+            ],
+            "line": "dk(003b) U+0058 > nul",
+            "lineCount": 563,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+006D"
+            ],
+            "outputs": [
+                "nul"
+            ],
+            "line": "dk(003b) U+006D > nul",
+            "lineCount": 564,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+005C"
+            ],
+            "outputs": [
+                "nul"
+            ],
+            "line": "dk(003b) U+005C > nul",
+            "lineCount": 565,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0073"
+            ],
+            "outputs": [
+                "nul"
+            ],
+            "line": "dk(003b) U+0073 > nul",
+            "lineCount": 566,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0053"
+            ],
+            "outputs": [
+                "nul"
+            ],
+            "line": "dk(003b) U+0053 > nul",
+            "lineCount": 567,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0034"
+            ],
+            "outputs": [
+                "nul"
+            ],
+            "line": "dk(003b) U+0034 > nul",
+            "lineCount": 568,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0035"
+            ],
+            "outputs": [
+                "nul"
+            ],
+            "line": "dk(003b) U+0035 > nul",
+            "lineCount": 569,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0036"
+            ],
+            "outputs": [
+                "nul"
+            ],
+            "line": "dk(003b) U+0036 > nul",
+            "lineCount": 570,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "U+0037"
+            ],
+            "outputs": [
+                "nul"
+            ],
+            "line": "dk(003b) U+0037 > nul",
+            "lineCount": 571,
+            "sourceLine": "dk(003b) any(dkf003b) > index(dkt003b, 2)",
+            "sourceLineCount": 484
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 572,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 573,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 574,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 575,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 576,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 577,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 578,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 579,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 580,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 581,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 582,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 583,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 584,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 585,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 586,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 587,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 588,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 589,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 590,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 591,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 592,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 593,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 594,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 595,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 596,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 597,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 598,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 599,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 600,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 601,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 602,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 603,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 604,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 605,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 606,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 607,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 608,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 609,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 610,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 611,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 612,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 613,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 614,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 615,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 616,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 617,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 618,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 619,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 620,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 621,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 622,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 623,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 624,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 625,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 626,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 627,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 628,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 629,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 630,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 631,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 632,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 633,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 634,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 635,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 636,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 637,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 638,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 639,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 640,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 641,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 642,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 643,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 644,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 645,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 646,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 647,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 648,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 649,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 650,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 651,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 652,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003b)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003b) dk(003d) > U+003D",
+            "lineCount": 653,
+            "sourceLine": "dk(003b) dk(003d) > U+003D",
+            "sourceLineCount": 485
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 654,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 655,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 656,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 657,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 658,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 659,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 660,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 661,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 662,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 663,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 664,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 665,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 666,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 667,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 668,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 669,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 670,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 671,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 672,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 673,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 674,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 675,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 676,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 677,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 678,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 679,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 680,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 681,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 682,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 683,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 684,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 685,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 686,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 687,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 688,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 689,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 690,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 691,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 692,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 693,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 694,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 695,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 696,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 697,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 698,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 699,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 700,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 701,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 702,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 703,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 704,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 705,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 706,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 707,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 708,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 709,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 710,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 711,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 712,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 713,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 714,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 715,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 716,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 717,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 718,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 719,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 720,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 721,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 722,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 723,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 724,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 725,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 726,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 727,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 728,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 729,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 730,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 731,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 732,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 733,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 734,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "platform('hardware')",
+                "dk(003b)",
+                "dk(003b)"
+            ],
+            "outputs": [
+                "U+003B"
+            ],
+            "line": "platform('hardware') dk(003b) dk(003b) > U+003B",
+            "lineCount": 735,
+            "sourceLine": "platform('hardware') dk(003b) dk(003b) > U+003b",
+            "sourceLineCount": 486
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 736,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 737,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 738,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 739,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 740,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 741,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 742,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 743,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 744,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 745,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 746,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 747,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 748,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 749,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 750,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 751,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 752,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 753,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 754,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 755,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 756,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 757,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 758,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 759,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 760,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 761,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 762,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 763,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 764,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 765,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 766,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 767,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 768,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 769,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 770,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 771,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 772,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 773,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 774,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 775,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 776,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 777,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 778,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 779,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 780,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 781,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 782,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 783,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 784,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 785,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 786,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 787,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 788,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 789,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 790,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 791,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 792,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 793,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 794,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 795,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 796,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 797,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 798,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 799,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 800,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 801,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 802,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 803,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 804,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 805,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 806,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 807,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 808,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 809,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 810,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 811,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 812,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 813,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 814,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 815,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 816,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
+        },
+        {
+            "type": "rule.generated",
+            "inputs": [
+                "dk(003d)",
+                "dk(003d)"
+            ],
+            "outputs": [
+                "U+003D"
+            ],
+            "line": "dk(003d) dk(003d) > U+003D",
+            "lineCount": 817,
+            "sourceLine": "dk(003d) dk(003d) > U+003D",
+            "sourceLineCount": 487
         }
     ]
 }
