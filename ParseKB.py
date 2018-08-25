@@ -2,6 +2,7 @@ import codecs
 import re
 import json
 import copy
+import functools
 
 #ToDo: Parse Stores like strings
 #Do Comparison
@@ -10,11 +11,11 @@ import copy
 isVerbose = True
 archive = {}
 
-def parseKB(filenameToParse, expand):
+def parseKB(filenameToParse, expand = False, scan = False):
     if (filenameToParse[-4:] == ".klc"):
         print("Is MSKLC");
     elif (filenameToParse[-4:] == ".kmn"):
-        parseKeyman(filenameToParse, expand)
+        parseKeyman(filenameToParse, expand, scan)
 
 def parseMicrosoft(keymanFilename):
     print("Parsing MS")
@@ -46,7 +47,7 @@ def sterilizeLine(line, replaceSpaces=False):
         line = line.replace(u" ", u"---")
     return line
 
-def parseKeyman(keymanFilename, generateDeadkeys = False):
+def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
     lineCount = 0
     infile = open(keymanFilename, mode='r', encoding='utf-8')
     currentGroup = {}
@@ -142,10 +143,12 @@ def parseKeyman(keymanFilename, generateDeadkeys = False):
     #Expand
     outputTargetStores = []            
     outputTargetLists = []
+    outputLines = []
     inputTargetStores = []
     inputTargetLists = []
+    inputLines = []
     for line in archive[keymanFilename]:
-        if "dk" in line['type']:
+        if ("dk" in line['type']) and ("index" in line['type']):
             #inputTargetList = []
             #inputTargetStore = ""
             #outputTargetStore = ""
@@ -157,24 +160,31 @@ def parseKeyman(keymanFilename, generateDeadkeys = False):
             for item in importantOutputs:
                 if item.upper().startswith("INDEX"):
                     splitIndex = re.split(r'\(|\)|,',item)
+                    outputLine = item
                     outputTargetStore = splitIndex[1]             
                     outputTargetList = [i['storeItems'] for i in archive[keymanFilename] if ('storeName' in i) and (i['storeName'] == outputTargetStore)]
                     inputTargetStore = importantInputs[int(splitIndex[2])-1][4:-1]
+                    inputLine = importantInputs[int(splitIndex[2])-1]
                     inputTargetList = [i['storeItems'] for i in archive[keymanFilename] if ('storeName' in i) and (i['storeName'] == inputTargetStore)]
                     if (len(inputTargetList) < 1) or len(outputTargetList) < 1:
                         print('This group is Broken')
                     if len(inputTargetList[0]) != len(outputTargetList[0]):
                         print(inputTargetStore, " and ", outputTargetStore, " are not the same length!")
                     outputTargetStores.append(outputTargetStore)            
-                    outputTargetLists.append(outputTargetList[0])
+                    outputTargetLists.append(outputTargetList) #was [0]
                     inputTargetStores.append(inputTargetStore)
-                    inputTargetLists.append(inputTargetList[0])
+                    inputTargetLists.append(inputTargetList)
+                    inputLines.append(inputLine)
+                    outputLines.append(outputLine)
+                   #was [0]
                     indexNumCounter = indexNumCounter + 1
-            if len(inputTargetLists) == 1:
+            #theTable = generateCombos(line,importantInputs, inputTargetStores, inputTargetLists, inputLines, importantOutputs, outputTargetStores, outputTargetLists, outputLines)
+            if len(outputTargetLists) == 1: # This is the problem
                     storeItemCounter = 0
                     unwrappedInputTargetLists = inputTargetLists[0]
                     unwrappedOutputTargetLists = outputTargetLists[0]
-                    for i in range(0,len(unwrappedInputTargetLists)-1):
+                    tempDef = []
+                    for i in range(0,len(unwrappedInputTargetLists)): # was -1
                         tempDef = copy.deepcopy(line)
                         inputCounter = 0
                         copyInputs = copy.deepcopy(tempDef['inputs'])
@@ -193,16 +203,26 @@ def parseKeyman(keymanFilename, generateDeadkeys = False):
                         
                         tempDef['type'] = "rule.generated"
                         tempDef['sourceLine'] = tempDef['line']
-                        newLine = " ".join(tempDef['inputs']) + " > " + " ".join(tempDef['outputs'] )
+                        if isinstance(tempDef['outputs'], list):
+                            outString = " ".join(i for i in tempDef['outputs'][0])
+                        else:
+                            outString = tempDef['outputs']
+                        if isinstance(tempDef['inputs'], list):
+                            inString = " ".join(i for i in tempDef['inputs'][0])
+                        else:
+                            inString = tempDef['intputs']
+                        newLine = inString + " > " + outString
                         tempDef['line'] = newLine
+                        verbose(lineCount, newLine)
                         tempDef['sourceLineCount'] = tempDef['lineCount']
                         tempDef['lineCount'] = lineCount
                         tempDef.pop('isExpandable',None)
                         storeItemCounter += 1
                         lineCount += 1
                         archive[keymanFilename].append(tempDef)
-                        
-                    numRounds = len(inputTargetLists)
+            else:
+                print('This is too complex')
+                #numRounds = len(inputTargetLists)
 
 def processKeymanRule(line,lineCount,currentGroup):
     rule = {}
@@ -253,7 +273,7 @@ def buildCombo(line,inputs,outputs, lineCount):
         elif (inputUpper.startswith(u"ANY(")):
             verbose(lineCount,"It's an any.")
             thisCombo['inputs'].append(input)
-            thisCombo['isExpandable'] = True
+   
         elif (inputUpper.startswith(u"GROUP")):
             verbose(lineCount,"It's a Group")
             thisCombo['inputs'].append(input)
@@ -351,8 +371,8 @@ def buildCombo(line,inputs,outputs, lineCount):
             verbose(lineCount,"It's a INDEX")
             thisCombo['outputs'].append(output)
             thisCombo['isExpandable'] = True
-            if "expandable" not in thisCombo["type"]:
-                thisCombo["type"] = thisCombo["type"] + ".expandable"
+            if "index" not in thisCombo["type"]:
+                thisCombo["type"] = thisCombo["type"] + ".index"
         elif (outputUpper.startswith(u"LAYER")):
             verbose(lineCount,"It's a Layer")
             thisCombo['outputs'].append(outputUpper)
@@ -379,6 +399,41 @@ def buildCombo(line,inputs,outputs, lineCount):
         else:
             print(output)
     return thisCombo
+
+def prod(iterable):
+    def add(x,y): return x*y
+    functools.reduce(add, iterable)
+
+def generateCombos(line,importantInputs, inputTargetStores, inputTargetLists, inputLists, importantOutputs, outputTargetStores, outputTargetLists, outputLists):
+    #for i in inputTargetLists[0]:
+    depth = 0
+    loopCount = 0
+    for lister in inputTargetLists[0]:
+        if depth == 0:
+            loopCount = len(lister)
+            depth += 1
+        else:
+            loopCount = loopCount * len(lister)
+            depth += 1
+    changeArray = []
+    
+    for inputItem in inputTargetLists[0]:
+        outputItem = outputTargetLists[0]
+        #This won't work later
+        repeatCount = int(loopCount / len(inputItem))
+        for fullLoop in range(1,loopCount):
+            index = 0
+            for waitCount in range(0,repeatCount):
+                changeArray.append([inputItem[index], outputItem[index]])
+                #output is too deep
+            index += 1
+            #next item
+
+            #Repeat
+    print("w")
+
+    #DeterminePairs
+    #get length of each pair
 
 filenameToParse = "sil_cameroon_qwerty.kmn"
 parseKB(filenameToParse, True)
