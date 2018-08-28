@@ -171,14 +171,16 @@ def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
                     if len(inputTargetList[0]) != len(outputTargetList[0]):
                         print(inputTargetStore, " and ", outputTargetStore, " are not the same length!")
                     outputTargetStores.append(outputTargetStore)            
-                    outputTargetLists.append(outputTargetList) #was [0]
+                    outputTargetLists.append(outputTargetList[0]) #was [0]
                     inputTargetStores.append(inputTargetStore)
-                    inputTargetLists.append(inputTargetList)
+                    inputTargetLists.append(inputTargetList[0])
                     inputLines.append(inputLine)
                     outputLines.append(outputLine)
                    #was [0]
                     indexNumCounter = indexNumCounter + 1
+
             #theTable = generateCombos(line,importantInputs, inputTargetStores, inputTargetLists, inputLines, importantOutputs, outputTargetStores, outputTargetLists, outputLines)
+            #Method 1 of processinglists
             if len(outputTargetLists) == 1: # This is the problem
                     storeItemCounter = 0
                     unwrappedInputTargetLists = inputTargetLists[0]
@@ -204,18 +206,21 @@ def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
                         tempDef['type'] = "rule.generated"
                         tempDef['sourceLine'] = tempDef['line']
                         if isinstance(tempDef['outputs'], list):
-                            outString = " ".join(i for i in tempDef['outputs'][0])
+                            outString = " ".join(i for i in tempDef['outputs'])
                         else:
                             outString = tempDef['outputs']
                         if isinstance(tempDef['inputs'], list):
-                            inString = " ".join(i for i in tempDef['inputs'][0])
+                            inString = " ".join(i for i in tempDef['inputs'])
                         else:
-                            inString = tempDef['intputs']
+                            inString = tempDef['inputs']
                         newLine = inString + " > " + outString
                         tempDef['line'] = newLine
                         verbose(lineCount, newLine)
                         tempDef['sourceLineCount'] = tempDef['lineCount']
+
+                        tempDef['baseKey'] = "K_" + chr(int(inString.strip().upper()[-4:], 16))
                         tempDef['lineCount'] = lineCount
+                        tempDef['baseOutput'] = outString.strip().upper()
                         tempDef.pop('isExpandable',None)
                         storeItemCounter += 1
                         lineCount += 1
@@ -303,6 +308,7 @@ def buildCombo(line,inputs,outputs, lineCount):
                         "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False,
                         "isKey" : ""}
             verbose(lineCount,"It's a keypress")
+            keyCombo['fullKey'] = inputUpper
             inputUpper = inputUpper[1:-1]
             if "SHIFT" in inputUpper:
                 isSHIFT = True
@@ -335,6 +341,7 @@ def buildCombo(line,inputs,outputs, lineCount):
             if " " in inputUpper:
                 print("I missed something", input)
             keyCombo["isKey"] = inputUpper.strip("-")
+            thisCombo['baseKey'] = keyCombo["isKey"]
             if keyCombo["isKey"].startswith('T'):
                 if "touch" not in thisCombo["type"]:
                     thisCombo["type"] = thisCombo["type"] + ".touch"
@@ -390,6 +397,7 @@ def buildCombo(line,inputs,outputs, lineCount):
         elif (output.startswith(u"U+")):
             verbose(lineCount,"It's a Unicode ID")
             thisCombo['outputs'].append(outputUpper)
+            thisCombo['baseOutput'] = outputUpper
         elif (output.startswith("'") or output.startswith('"')):
             output = output[1:-1]
             if output == "---":
@@ -403,6 +411,30 @@ def buildCombo(line,inputs,outputs, lineCount):
 def prod(iterable):
     def add(x,y): return x*y
     functools.reduce(add, iterable)
+
+class bumpindex:
+    import itertools
+    Array = []
+    loopNum = 0
+    cycleCounter = 0
+    def __init__(repeatcount, inputTargetList, outputTargetList):
+        cycleCounter = itertools.cycle(range(1,repeatCount))
+        index = 0
+        Array = [inputTargetList, outputTargetList]
+        loopNum = repeatcount
+        
+        #TODO finish this
+    def bump(group):
+        if cycleCounter == 1:
+            
+            ReturnA = Array[1,index]
+            totalCounter += 1
+            index += 1
+        else:
+            ReturnA = Array[1,counter]
+            counter += 1
+        #in i
+        return 
 
 def generateCombos(line,importantInputs, inputTargetStores, inputTargetLists, inputLists, importantOutputs, outputTargetStores, outputTargetLists, outputLists):
     #for i in inputTargetLists[0]:
@@ -418,6 +450,7 @@ def generateCombos(line,importantInputs, inputTargetStores, inputTargetLists, in
     changeArray = []
     
     for inputItem in inputTargetLists[0]:
+
         outputItem = outputTargetLists[0]
         #This won't work later
         repeatCount = int(loopCount / len(inputItem))
@@ -434,15 +467,111 @@ def generateCombos(line,importantInputs, inputTargetStores, inputTargetLists, in
 
     #DeterminePairs
     #get length of each pair
+def inferCaps(filenameToParse):
+    from itertools import groupby
+    from operator import itemgetter
+    keyboard = archive[filenameToParse]
+    SortedCombosOutput = sorted(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
+    f = open(filenameToParse + '_InferredCaps.txt', 'w', encoding="utf-8")
+    for key, group in groupby(SortedCombosOutput, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None))):
+        Booler = []
+        inferCaps = CheckCondition(group)
+        
+        if inferCaps != None:
+            f.write(str(inferCaps[0]) + " " + str(inferCaps[1]) + "\n")
+    f.close
+        
+
+def CheckCondition(group):
+    FoundSimple = False
+    FoundCapsSimple = False
+    FoundCapsShift = False
+    FoundRaltSimple = False
+    FoundRaltCapsSimple = False
+    FoundCapsShiftRalt = False
+    FoundNcapsShift = False
+    for thing in group:
+            if thing['type'] == 'rule':
+                for input in thing['inputs']:
+                    if "fullKey" in input:
+                        if input['isNCAPS'] and not input['isSHIFT'] and not input['isRALT']:
+                            FoundSimple = True
+                        elif input['isCAPS'] and not input['isSHIFT'] and not input['isRALT']:
+                            FoundCapsSimple = True
+                        elif input['isCAPS'] and input['isSHIFT'] and not input['isRALT']:
+                            FoundCapsShift = True
+                        elif input['isNCAPS'] and input['isRALT'] and not input['isSHIFT']:
+                            FoundRaltSimple = True
+                        if input['isNCAPS'] and input['isSHIFT'] and not input['isRALT']:
+                            FoundNcapsShift = True
+                        elif input['isCAPS'] and input['isRALT'] and not input['isSHIFT']:
+                            FoundRaltCapsSimple = True
+                        elif input['isCAPS'] and input['isSHIFT'] and input['isRALT']:
+                            FoundCapsShiftRalt = True
+                            #CAPS Shift, caps
+
+    if FoundSimple and FoundCapsSimple:
+        return False, input["isKey"]
+    if FoundRaltSimple and FoundRaltCapsSimple:
+        return False, input["isKey"]
+    if FoundSimple and FoundCapsShift:
+        return True, input["isKey"]
+    if FoundRaltSimple and FoundCapsShiftRalt:
+        return True, input["isKey"]
+
+
+def getKeyValues(filenameToParse):
+    from itertools import groupby
+    from operator import itemgetter
+    keyboard = archive[filenameToParse]
+    SortedCombosKey = sorted(keyboard, key=lambda k: ("baseKey" not in k, k.get("baseKey", None),"baseOutput" not in k, k.get("baseOutput", None)))
+    SortedCombosOutput = sorted(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
+    #groupedCombosOutput = groupby(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
+    f = open(filenameToParse + '_SortedCombos.txt', 'w', encoding="utf-8")
+    #f.write(foo.encode('utf8'))    
+    for key, group in groupby(SortedCombosOutput, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None))):
+        for thing in group:
+            if 'baseOutput' in thing:
+                tempBaseKey = ""
+                if 'baseKey' in thing:
+                    tempBaseKey = thing['baseKey']
+                    spacer = " - "
+                    stringtoWrite = thing['line'] + spacer + tempBaseKey
+                f.write(stringtoWrite + "\n")
+
+        f.write("\n")
+    f.close()
+    #SortedCombos = sorted(keyboard, key=lambda x: (x['baseKey'], x['baseOutput']))
+    
+                
+                    #print("w")
+    # https://stackoverflow.com/questions/29051573/python-filter-list-of-dictionaries-based-on-key-value
+    
+    #for combo in archive[filenameToParse]:
+        #if "U+" in combo['outputs']:
+            #for key, group in groupby(archive[filenameToParse], x for x if "U+" x["outputs"]) :
+
+            #print("w")
+    #for key, group in groupby(archive[filenameToParse], lambda x: x['outputs'] if "U+" in x['outputs'] ) :
+        
+#    groups = []
+#    uniquekeys = []
+#    for k, g in groupby(data, keyfunc):
+#        groups.append(list(g))    # Store group iterator as a list
+#        uniquekeys.append(k)
 
 filenameToParse = "sil_cameroon_qwerty.kmn"
 parseKB(filenameToParse, True)
+inferCaps(filenameToParse)
+getKeyValues(filenameToParse)
 jsonName = filenameToParse + ".json"
 with open(jsonName, 'w') as fp:
     json.dump({filenameToParse : archive[filenameToParse]}, fp, indent=4)
 filenameToParse = "sil_cameroon_azerty.kmn"
 parseKB(filenameToParse, True)
+inferCaps(filenameToParse)
 jsonName = filenameToParse + ".json"
 with open(jsonName, 'w') as fp:
     json.dump({filenameToParse : archive[filenameToParse]}, fp, indent=4)
+
 print("Finished")
