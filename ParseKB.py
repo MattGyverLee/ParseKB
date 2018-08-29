@@ -8,8 +8,9 @@ import functools
 #Do Comparison
 #expand Any's
 
-isVerbose = True
+isVerbose = False
 archive = {}
+kbProps = {}
 
 def parseKB(filenameToParse, expand = False, scan = False):
     if (filenameToParse[-4:] == ".klc"):
@@ -141,23 +142,19 @@ def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
                 resultDef["lineCount"] = lineCount  
                 archive[keymanFilename].append(resultDef)
     #Expand
-    outputTargetStores = []            
-    outputTargetLists = []
-    outputLines = []
-    inputTargetStores = []
-    inputTargetLists = []
-    inputLines = []
     for line in archive[keymanFilename]:
         if ("dk" in line['type']) and ("index" in line['type']):
-            #inputTargetList = []
-            #inputTargetStore = ""
-            #outputTargetStore = ""
-            #outputTargetList = []
+            outputTargetStores = []            
+            outputTargetLists = []
+            outputLines = []
+            inputTargetStores = []
+            inputTargetLists = []
+            inputLines = []
             indexNumCounter = 0
             # counted items have parentheses
             importantInputs = [i for i in line['inputs'] if ("(" in i)]
             importantOutputs = [i for i in line['outputs'] if ("(" in i)]
-            for item in importantOutputs:
+            for item in importantOutputs: #from 
                 if item.upper().startswith("INDEX"):
                     splitIndex = re.split(r'\(|\)|,',item)
                     outputLine = item
@@ -217,8 +214,9 @@ def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
                         tempDef['line'] = newLine
                         verbose(lineCount, newLine)
                         tempDef['sourceLineCount'] = tempDef['lineCount']
-
-                        tempDef['baseKey'] = "K_" + chr(int(inString.strip().upper()[-4:], 16))
+                        tempDef['baseKey'] = 'Undefined'
+                        if len(inString) < 16:
+                            tempDef['baseKey'] = "K_" + chr(int(inString.strip().upper()[-4:], 16))
                         tempDef['lineCount'] = lineCount
                         tempDef['baseOutput'] = outString.strip().upper()
                         tempDef.pop('isExpandable',None)
@@ -268,7 +266,7 @@ def buildCombo(line,inputs,outputs, lineCount):
             verbose(lineCount,"It's a deadkey.")
             thisCombo['inputs'].append(input)
             if "dk" not in thisCombo["type"]:
-                        thisCombo["type"] = thisCombo["type"] + ".dk"
+                thisCombo["type"] = thisCombo["type"] + ".dk"
         elif (inputUpper.startswith(u"BEGIN")):
             verbose(lineCount,"It's a Begin")
             thisCombo['inputs'].append(input)
@@ -310,41 +308,54 @@ def buildCombo(line,inputs,outputs, lineCount):
             verbose(lineCount,"It's a keypress")
             keyCombo['fullKey'] = inputUpper
             inputUpper = inputUpper[1:-1]
+            tempProps = {}
             if "SHIFT" in inputUpper:
                 isSHIFT = True
                 keyCombo['isSHIFT'] = True
                 inputUpper = inputUpper.replace("SHIFT","").strip()
+                tempProps['containsSHIFT'] = True 
             if "NCAPS" in inputUpper:
                 keyCombo['isNCAPS'] = True
                 inputUpper = inputUpper.replace("NCAPS","").strip()
+                tempProps['containsNCAPS'] = True
             if "CAPS" in inputUpper:
                 keyCombo['isCAPS'] = True
                 inputUpper = inputUpper.replace("CAPS","").strip()
+                tempProps['containsCAPS'] = True
             if "RALT" in inputUpper:
                 keyCombo['isRALT'] = True
                 inputUpper = inputUpper.replace("RALT","").strip()
+                tempProps['containsRALT'] = True
             if "LALT" in inputUpper:
                 keyCombo['isLALT']= True
                 inputUpper = inputUpper.replace("LALT","").strip()
+                tempProps['containsLALT'] = True
             if "ALT" in inputUpper:
                 keyCombo['isALT'] = True
                 inputUpper = inputUpper.replace("ALT","").strip()
+                tempProps['containsALT'] = True
             if "LCTRL" in inputUpper:
                 keyCombo['isLCTRL'] = True
                 inputUpper = inputUpper.replace("LCTRL","").strip()
+                tempProps['containsLCTRL'] = True
             if "RCTRL" in inputUpper:
                 keyCombo['isRCTRL'] = True
                 inputUpper = inputUpper.replace("RCTRL","").strip()
+                tempProps['containsRCTRL'] = True
             if "CTRL" in inputUpper:
                 keyCombo['isCTRL'] = True
                 inputUpper = inputUpper.replace("CTRL","").strip()
+                tempProps['containsCTRL'] = True
             if " " in inputUpper:
                 print("I missed something", input)
             keyCombo["isKey"] = inputUpper.strip("-")
             thisCombo['baseKey'] = keyCombo["isKey"]
-            if keyCombo["isKey"].startswith('T'):
+            if keyCombo["isKey"].startswith('T_'):
                 if "touch" not in thisCombo["type"]:
                     thisCombo["type"] = thisCombo["type"] + ".touch"
+            if filenameToParse not in kbProps:
+                kbProps[filenameToParse] = {}
+            kbProps[filenameToParse].update(tempProps)
             thisCombo['inputs'].append(keyCombo)
             
 
@@ -386,11 +397,13 @@ def buildCombo(line,inputs,outputs, lineCount):
         elif (outputUpper.startswith(u"BEEP")):
             verbose(lineCount,"It's a BEEP")
             thisCombo['outputs'].append(outputUpper)
-            thisCombo['type'] = "deadEnd"
+            if "index" not in thisCombo["type"]:
+                thisCombo['type'] = thisCombo["type"] + ".deadEnd"
         elif (outputUpper.startswith(u"NUL")):
             verbose(lineCount,"It's a NUL")
             thisCombo['outputs'].append(outputUpper)
-            thisCombo['type'] = "deadEnd"
+            if "index" not in thisCombo["type"]:
+                thisCombo['type'] = thisCombo["type"] + ".deadEnd"
         elif (outputUpper.startswith(u"CONTEXT")):
             verbose(lineCount,"It's a Context")
             thisCombo['outputs'].append(outputUpper)
@@ -473,12 +486,14 @@ def inferCaps(filenameToParse):
     keyboard = archive[filenameToParse]
     SortedCombosOutput = sorted(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
     f = open(filenameToParse + '_InferredCaps.txt', 'w', encoding="utf-8")
+    stringList = []
     for key, group in groupby(SortedCombosOutput, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None))):
         Booler = []
         inferCaps = CheckCondition(group)
-        
         if inferCaps != None:
-            f.write(str(inferCaps[0]) + " " + str(inferCaps[1]) + "\n")
+            stringList.append(str(inferCaps[0]) + " " + str(inferCaps[1]) + "\n")
+    stringList = list(set(stringList))
+    f.writelines(sorted(stringList))
     f.close
         
 
@@ -541,37 +556,129 @@ def getKeyValues(filenameToParse):
 
         f.write("\n")
     f.close()
-    #SortedCombos = sorted(keyboard, key=lambda x: (x['baseKey'], x['baseOutput']))
-    
-                
-                    #print("w")
     # https://stackoverflow.com/questions/29051573/python-filter-list-of-dictionaries-based-on-key-value
     
-    #for combo in archive[filenameToParse]:
-        #if "U+" in combo['outputs']:
-            #for key, group in groupby(archive[filenameToParse], x for x if "U+" x["outputs"]) :
+def missingCombo(filenameToParse):
+    from itertools import groupby
+    from operator import itemgetter
+    keyboard = archive[filenameToParse]
+    SortedCombosKey = sorted(keyboard, key=lambda k: ("baseKey" not in k, k.get("baseKey", None),"baseOutput" not in k, k.get("baseOutput", None)))
+    f = open(filenameToParse + '_InferredCaps.txt', 'w', encoding="utf-8")
+    stringList = []
+    #https://help.keyman.com/DEVELOPER/language/guide/virtual-keys
+    # Val   =               SHIFT    NCAPS   CAPS    RALT    LALT    ALT     RCTRL   LCTRL   CTRL
+    flags0 =                [False,   False,  False,  False,  False,  False,  False,  False,  False]
+    flags1_SHIFT =          [False,   False,  False,  False,  False,  False,  False,  False,  False]
+    flags2_NCAPS =          [False,   True,   False,  False,  False,  False,  False,  False,  False]
+    flags3_NCAPS_SHIFT =    [True,    True,   False,  False,  False,  False,  False,  False,  False]
+    flags4_CAPS =           [False,   False,  True,   False,  False,  False,  False,  False,  False]
+    flags5_CAPS_SHIFT =     [True,    False,  True,   False,  False,  False,  False,  False,  False] 
+    flags6_NCAPS_RALT =     [False,   True,   False,  True,   False,  False,  False,  False,  False]
+    flags7_NCAPS_SHIFT_RALT=[True,    True,   False,  True,   False,  False,  False,  False,  False]
+    flags8_RALT_CAPS =      [False,   False,  True,   True,   False,  False,  False,  False,  False]
+    flags9_CAPS_SHIFT_RALT= [True,    False,  True,   True,   False,  False,  False,  False,  False]
 
-            #print("w")
-    #for key, group in groupby(archive[filenameToParse], lambda x: x['outputs'] if "U+" in x['outputs'] ) :
-        
-#    groups = []
-#    uniquekeys = []
-#    for k, g in groupby(data, keyfunc):
-#        groups.append(list(g))    # Store group iterator as a list
-#        uniquekeys.append(k)
+    for key, group in groupby(SortedCombosKey, key=lambda k: ("baseKey" not in k, k.get("baseKey", None))):
+        needs0 = False
+        needs1 = False
+        needs2 = False
+        needs3 = False
+        needs4 = False
+        needs5 = False
+        needs6 = False
+        needs7 = False
+        needs8 = False
+        needs9 = False
+        if ("containsSHIFT" in kbProps[filenameToParse]) and ("containsNCAPS" not in kbProps[filenameToParse]) and ("containsCAPS" not in kbProps[filenameToParse]):            
+            needs0 = True
+            needs1 = True
+        elif ("containsSHIFT" in kbProps[filenameToParse]) and ("containsNCAPS" in kbProps[filenameToParse]) and ("containsCAPS" in kbProps[filenameToParse]):            
+            needs2 = True
+            needs3 = True
+            needs4 = True
+            needs5 = True
+        if "containsRALT" in kbProps[filenameToParse]:
+            needs6 = True
+            needs7 = True
+            needs8 = True
+            needs9 = True
+        lastKey = ""
+        for combo in group:
+            testing = False
+            if ("rule" in combo['type']) and ("touch" not in combo['type']):
+                if "inputs" in combo:
+                    for item in combo['inputs']:
+                        if "fullKey" in item:
+                            testing = True
+                            currentFlags = [item['isSHIFT'],item['isNCAPS'],item['isCAPS'],item['isRALT'],item['isLALT'],item['isALT'],item['isRCTRL'],item['isLCTRL'],item['isCTRL']]
+                            if currentFlags == flags0:
+                                needs0 = False
+                            if currentFlags == flags1_SHIFT:
+                                needs1 = False
+                            if currentFlags == flags2_NCAPS:
+                                needs2 = False
+                            if currentFlags == flags3_NCAPS_SHIFT:
+                                needs3 = False
+                            if currentFlags == flags4_CAPS:
+                                needs4 = False
+                            if currentFlags == flags5_CAPS_SHIFT:
+                                needs5 = False
+                            if currentFlags == flags6_NCAPS_RALT:
+                                needs6 = False
+                            if currentFlags == flags7_NCAPS_SHIFT_RALT:
+                                needs7 = False
+                            if currentFlags == flags8_RALT_CAPS:
+                                needs8 = False
+                            if currentFlags == flags9_CAPS_SHIFT_RALT:
+                                needs9 = False
+                            lastKey = item['isKey']
+
+        if testing:
+            if needs0 or needs1 or needs2 or needs3 or needs4 or needs5 or needs6 or needs7 or needs8 or needs9:
+                print(filenameToParse)
+            if needs1:
+                print("Missing [] for:" + lastKey)
+            if needs1:
+                print("Missing [SHIFT] for:" + lastKey)
+            if needs2:
+                print("Missing [NCAPS] for:" + lastKey)
+            if needs3:
+                print("Missing [CAPS] for:" + lastKey)
+            if needs4:
+                print("Missing [CAPS SHIFT] for:" + lastKey)
+            if needs5:
+                print("Missing [NCAPS RALT] for:" + lastKey)
+            if needs6:
+                print("Missing [NCAPS SHIFT] for:" + lastKey)
+            if needs7:
+                print("Missing [CAPS RALT] for:" + lastKey)
+            if needs8:
+                print("Missing [NCAPS SHIFT RALT] for:" + lastKey)
+            if needs9:
+                print("Missing [CAPS SHIFT RALT] for:" + lastKey)
+
+        stringList = list(set(stringList))
+        f.writelines(sorted(stringList))
+        f.close
+
+def analyze(filenameToParse):
+    inferCaps(filenameToParse)
+    missingCombo(filenameToParse)
+    getKeyValues(filenameToParse)
+
+def printToJson(filenameToParse):
+    jsonName = filenameToParse + ".json"
+    with open(jsonName, 'w') as fp:
+        json.dump({filenameToParse : archive[filenameToParse]}, fp, indent=4)
 
 filenameToParse = "sil_cameroon_qwerty.kmn"
 parseKB(filenameToParse, True)
-inferCaps(filenameToParse)
-getKeyValues(filenameToParse)
-jsonName = filenameToParse + ".json"
-with open(jsonName, 'w') as fp:
-    json.dump({filenameToParse : archive[filenameToParse]}, fp, indent=4)
+analyze(filenameToParse)
+printToJson(filenameToParse)
+
 filenameToParse = "sil_cameroon_azerty.kmn"
 parseKB(filenameToParse, True)
-inferCaps(filenameToParse)
-jsonName = filenameToParse + ".json"
-with open(jsonName, 'w') as fp:
-    json.dump({filenameToParse : archive[filenameToParse]}, fp, indent=4)
+analyze(filenameToParse)
+printToJson(filenameToParse)
 
 print("Finished")
