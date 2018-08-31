@@ -11,6 +11,58 @@ import functools
 isVerbose = False
 archive = {}
 kbProps = {}
+kbLinks = [
+        {"linux": "TLDE", "scancode": "29", "microsoft": "OEM_3", "caps": False, "keyman": "K_BKQUOTE", 'row': 0},
+        {"linux": "AE01", "scancode": "02", "microsoft": "1", "caps": False, "keyman": "K_1", 'row': 0},
+        {"linux": "AE02", "scancode": "03", "microsoft": "2", "caps": False, "keyman": "K_2", 'row': 0},
+        {"linux": "AE03", "scancode": "04", "microsoft": "3", "caps": False, "keyman": "K_3", 'row': 0},
+        {"linux": "AE04", "scancode": "05", "microsoft": "4", "caps": False, "keyman": "K_4", 'row': 0},
+        {"linux": "AE05", "scancode": "06", "microsoft": "5", "caps": False, "keyman": "K_5", 'row': 0},
+        {"linux": "AE06", "scancode": "07", "microsoft": "6", "caps": False, "keyman": "K_6", 'row': 0},
+        {"linux": "AE07", "scancode": "08", "microsoft": "7", "caps": False, "keyman": "K_7", 'row': 0},
+        {"linux": "AE08", "scancode": "09", "microsoft": "8", "caps": False, "keyman": "K_8", 'row': 0},
+        {"linux": "AE09", "scancode": "0a", "microsoft": "9", "caps": False, "keyman": "K_9", 'row': 0},
+        {"linux": "AE10", "scancode": "0b", "microsoft": "0", "caps": False, "keyman": "K_0", 'row': 0},
+        {"linux": "AE11", "scancode": "0c", "microsoft": "OEM_MINUS", "caps": False, "keyman": "K_HYPHEN", 'row': 0},
+        {"linux": "AE12", "scancode": "0d", "microsoft": "OEM_PLUS", "caps": False, "keyman": "K_EQUAL", 'row': 0},
+        {"linux": "AD01", "scancode": "10", "microsoft": "Q", "caps": True, "keyman": "K_Q", 'row': 1},
+        {"linux": "AD02", "scancode": "11", "microsoft": "W", "caps": True, "keyman": "K_W", 'row': 1},
+        {"linux": "AD03", "scancode": "12", "microsoft": "E", "caps": True, "keyman": "K_E", 'row': 1},
+        {"linux": "AD04", "scancode": "13", "microsoft": "R", "caps": True, "keyman": "K_R", 'row': 1},
+        {"linux": "AD05", "scancode": "14", "microsoft": "T", "caps": True, "keyman": "K_T", 'row': 1},
+        {"linux": "AD06", "scancode": "15", "microsoft": "Y", "caps": True, "keyman": "K_Y", 'row': 1},
+        {"linux": "AD07", "scancode": "16", "microsoft": "U", "caps": True, "keyman": "K_U", 'row': 1},
+        {"linux": "AD08", "scancode": "17", "microsoft": "I", "caps": True, "keyman": "K_I", 'row': 1},
+        {"linux": "AD09", "scancode": "18", "microsoft": "O", "caps": True, "keyman": "K_O", 'row': 1},
+        {"linux": "AD10", "scancode": "19", "microsoft": "P", "caps": True, "keyman": "K_P", 'row': 1},
+        {"linux": "AD11", "scancode": "1a", "microsoft": "OEM_4", "caps": False, "keyman": "K_LBRKT", 'row': 1},
+        {"linux": "AD12", "scancode": "1b", "microsoft": "OEM_6", "caps": False, "keyman": "K_RBRKT", 'row': 1},
+        {"linux": "BKSL", "scancode": "2b", "microsoft": "OEM_5", "caps": False, "keyman": "K_BKSLASH", 'row': 1},
+        {"linux": "AC01", "scancode": "1e", "microsoft": "A", "caps": True, "keyman": "K_A", 'row': 2},
+        {"linux": "AC02", "scancode": "1f", "microsoft": "S", "caps": True, "keyman": "K_S", 'row': 2},
+        {"linux": "AC03", "scancode": "20", "microsoft": "D", "caps": True, "keyman": "K_D", 'row': 2},
+        {"linux": "AC04", "scancode": "21", "microsoft": "F", "caps": True, "keyman": "K_F", 'row': 2},
+        {"linux": "AC05", "scancode": "22", "microsoft": "G", "caps": True, "keyman": "K_G", 'row': 2},
+        {"linux": "AC06", "scancode": "23", "microsoft": "H", "caps": True, "keyman": "K_H", 'row': 2},
+        {"linux": "AC07", "scancode": "24", "microsoft": "J", "caps": True, "keyman": "K_J", 'row': 2},
+        {"linux": "AC08", "scancode": "25", "microsoft": "K", "caps": True, "keyman": "K_K", 'row': 2},
+        {"linux": "AC09", "scancode": "26", "microsoft": "L", "caps": True, "keyman": "K_L", 'row': 2},
+        {"linux": "AC10", "scancode": "27", "microsoft": "OEM_1", "caps": False, "keyman": "K_COLON", 'row': 2},
+        {"linux": "AC11", "scancode": "28", "microsoft": "OEM_7", "caps": False, "keyman": "K_QUOTE", 'row': 2},
+        {"linux": "K102", "scancode": "56", "microsoft": "OEM_102", "caps": False, "keyman": "K_oE2", 'row': 3},
+        {"linux": "AB01", "scancode": "2c", "microsoft": "Z", "caps": True, "keyman": "K_Z", 'row': 3},
+        {"linux": "AB02", "scancode": "2d", "microsoft": "X", "caps": True, "keyman": "K_X", 'row': 3},
+        {"linux": "AB03", "scancode": "2e", "microsoft": "C", "caps": True, "keyman": "K_C", 'row': 3},
+        {"linux": "AB04", "scancode": "2f", "microsoft": "V", "caps": True, "keyman": "K_V", 'row': 3},
+        {"linux": "AB05", "scancode": "30", "microsoft": "B", "caps": True, "keyman": "K_B", 'row': 3},
+        {"linux": "AB06", "scancode": "31", "microsoft": "N", "caps": True, "keyman": "K_N", 'row': 3},
+        {"linux": "AB07", "scancode": "32", "microsoft": "M", "caps": True, "keyman": "K_M", 'row': 3},
+        {"linux": "AB08", "scancode": "33", "microsoft": "OEM_COMMA", "caps": False, "keyman": "K_COMMA", 'row': 3},
+        {"linux": "AB09", "scancode": "34", "microsoft": "OEM_PERIOD", "caps": False, "keyman": "K_PERIOD", 'row': 3},
+        {"linux": "AB10", "scancode": "35", "microsoft": "OEM_2", "caps": False, "keyman": "K_SLASH", 'row': 3},
+        {"linux": "SPCE", "scancode": "39", "microsoft": "SPACE", "caps": False, "keyman": "K_SPACE", 'row': 4},
+        {"linux": "KPDL", "scancode": "53", "microsoft": "DECIMAL", "caps": False, "keyman": "K_NPDOT", 'row': 5},
+    ]
 
 def parseKB(filenameToParse, expand = False, scan = False):
     if (filenameToParse[-4:] == ".klc"):
@@ -72,8 +124,14 @@ def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
                     valueSearch = re.search(r'store\(.*?\) (.*)',line, re.IGNORECASE)
                     if valueSearch: 
                         value = valueSearch.group(1).strip()[1:-1]
+
                     resultDef[variableName] = value
+                    tempProps = {}
+                    tempProps[variableName.upper()] = value
                     resultDef['type'] = "store"
+                    if filenameToParse not in kbProps:
+                        kbProps[filenameToParse] = {}
+                    kbProps[filenameToParse].update(tempProps)
 
                 elif (upperLine.startswith(u"STORE")):
                     
@@ -665,15 +723,127 @@ def analyze(filenameToParse):
     inferCaps(filenameToParse)
     missingCombo(filenameToParse)
     getKeyValues(filenameToParse)
+    writeKeyboardGist(filenameToParse)
 
 def printToJson(filenameToParse):
     jsonName = filenameToParse + ".json"
     with open(jsonName, 'w') as fp:
         json.dump({filenameToParse : archive[filenameToParse]}, fp, indent=4)
 
+def writeKeyboardGist(filenameToParse, layout = 'US102'):
+    #Current Supported Layouts ar US102, and AZERTY
+    thisKBProps = kbProps[filenameToParse]
+    header =   {
+    "backcolor": "#ffffff",
+    "name": thisKBProps['&NAME'],
+    "author": thisKBProps['&COPYRIGHT'],
+    "background": {
+      "name": "Carbon fibre 5",
+      "style": "background-image: url('/bg/carbonfibre/carbon_texture1876.jpg');"
+    },
+    "radii": "20px"
+    }
+    if layout == 'US102':
+        row0 = rowGenerator(0, layout) + [{ "w": 2 }, "\nBkspce"]
+        row1 = [{ "w": 1.5 },"\nTab"] +  rowGenerator(1, layout)
+        row2 = [{"w": 1.75 }, "\nCaps Lock"] + rowGenerator(2, layout) + [{"w": 2.25}, "\nEnter"]
+        row3 = [{"w": 2.25},"\nShift"] + rowGenerator(3, layout) + [{"w": 2.75},"\nShift"]
+        row4 = [{"c": "#cccccc","w": 1.25},"\nCtrl",{"w": 1.25},"\nWin",{"w": 1.25},"\nAlt",{"a": 7,"w": 6.25},"",{"a": 4,"w": 1.25},"\nAlt",{"w": 1.25},"\nWin",{"w": 1.25},"\nMenu",{"w": 1.25},"\nCtrl"]
+    else:
+         print("I don't know that layout!")
+    fullKB = [header,row0,row1,row2,row3,row4]
+    jsonName = filenameToParse + ".kbd.json"
+    with open(jsonName, 'w', encoding="UTF-8") as fp:
+        json.dump(fullKB, fp, indent=4)
+
+def rowGenerator(row, layout):
+    expectedResult = [d for d in kbLinks if (d['row'] == row)]
+    rowList = []
+    # Val   =               SHIFT    NCAPS   CAPS    RALT    LALT    ALT     RCTRL   LCTRL   CTRL
+    flags0_BASE =           [False,  False,  False,  False,  False,  False,  False,  False,  False]
+    flags1_SHIFT =          [False,  False,  False,  False,  False,  False,  False,  False,  False]
+    flags2_NCAPS =          [False,  True,   False,  False,  False,  False,  False,  False,  False]
+    flags3_NCAPS_SHIFT =    [True,   True,   False,  False,  False,  False,  False,  False,  False]
+    flags5_RALT =           [False,  False,  False,  True,   False,  False,  False,  False,  False]
+    flags6_NCAPS_RALT =     [False,  True,   False,  True,   False,  False,  False,  False,  False]
+    flags7_NCAPS_SHIFT_RALT=[True,   True,   False,  True,   False,  False,  False,  False,  False]
+    for key in expectedResult:
+        if layout == "US102" and key["keyman"] == "K_oE2":
+            verbose(0,"Skipping oE2 key")
+        else:
+            currentKey = {}
+            currentKey['bottomLeft'] = u""
+            currentKey['topLeft'] = u""
+            currentKey['bottomRight'] = u""
+            currentKey['topRight'] = u""
+            if key['keyman'] == "K_BKSLASH":
+                    rowList.append({"w": 1.5})
+            for combo in [a for a in archive[filenameToParse] if (('baseKey' in a) and (a['baseKey'] == key['keyman']))]:
+                if ("rule" in combo['type']) and ("touch" not in combo['type']):
+                    if "inputs" in combo:
+                        for item in combo['inputs']:
+                            if "fullKey" in item:
+                                testing = True
+                                
+                                currentFlags = [item['isSHIFT'],item['isNCAPS'],item['isCAPS'],item['isRALT'],item['isLALT'],item['isALT'],item['isRCTRL'],item['isLCTRL'],item['isCTRL']]
+
+                                #Bottom Left
+                                if (currentFlags == flags0_BASE) or (currentFlags == flags2_NCAPS):
+                                    currentKey['bottomLeft'] = u""
+                                    for outItem in combo['outputs']:
+                                        
+                                        if "U+" in outItem:
+                                            if outItem.startswith("U+03"):
+                                                currentKey['bottomLeft'] = chr(int("25CC", 16)) 
+                                                #TODO Add empty circle, do 4 times
+                                            if 'bottomLeft' not in currentKey:
+                                                currentKey['bottomLeft'] = chr(int(outItem.strip().upper()[-4:], 16))
+                                            else:
+                                                currentKey['bottomLeft'] = currentKey['bottomLeft'] + chr(int(outItem.strip().upper()[-4:], 16))
+                                #Top Left
+                                if (currentFlags == flags1_SHIFT) or (currentFlags == flags3_NCAPS_SHIFT):
+                                    currentKey['topLeft'] = u""
+                                    for outItem in combo['outputs']:
+                                        if "U+" in outItem:
+                                            if outItem.startswith("U+03"):
+                                                #todo fix this 4 times, add U+17
+                                                currentKey['topLeft'] = chr(int("25CC", 16)) 
+                                            if 'topLeft' not in currentKey:
+                                                currentKey['topLeft'] = chr(int(outItem.strip().upper()[-4:], 16))
+                                            else:
+                                                currentKey['topLeft'] = currentKey['topLeft'] + chr(int(outItem.strip().upper()[-4:], 16))
+                                #Top Right
+                                if (currentFlags == flags7_NCAPS_SHIFT_RALT):
+                                    currentKey['topRight'] = u""
+                                    for outItem in combo['outputs']:
+                                        if "U+" in outItem:
+                                            if outItem.startswith("U+03"):
+                                                currentKey['topRight'] = chr(int("25CC", 16)) 
+                                            if 'topRight' not in currentKey:
+                                                currentKey['topRight'] = chr(int(outItem.strip().upper()[-4:], 16))
+                                            else:
+                                                currentKey['topRight'] = currentKey['topRight'] + chr(int(outItem.strip().upper()[-4:], 16))
+                                #Bottom Right
+                                if (currentFlags == flags5_RALT) or (currentFlags == flags6_NCAPS_RALT):
+                                    currentKey['bottomRight'] = u""
+                                    for outItem in combo['outputs']:
+                                        if "U+" in outItem:
+                                            if outItem.startswith("U+03"):
+                                                currentKey['bottomRight'] = chr(int("25CC", 16)) 
+                                            if 'bottomRight' not in currentKey:
+                                                currentKey['bottomRight'] = chr(int(outItem.strip().upper()[-4:], 16))
+                                            else:
+                                                currentKey['bottomRight'] = currentKey['bottomRight'] + chr(int(outItem.strip().upper()[-4:], 16))
+            
+            keyString = currentKey['topLeft'] + "\n" + currentKey['bottomLeft'] + "\n" + currentKey['topRight'] + "\n" + currentKey['bottomRight'] + "\n"
+            rowList.append(keyString)
+    return rowList        
+
+
 filenameToParse = "sil_cameroon_qwerty.kmn"
 parseKB(filenameToParse, True)
 analyze(filenameToParse)
+
 printToJson(filenameToParse)
 
 filenameToParse = "sil_cameroon_azerty.kmn"
