@@ -436,6 +436,8 @@ def buildCombo(line,inputs,outputs, lineCount):
         if (outputUpper.startswith(u"DK")):
             verbose(lineCount,"It's a deadkey.")
             thisCombo['outputs'].append(output)
+            if "dk" not in thisCombo["type"]:
+                thisCombo["type"] = thisCombo["type"] + ".dk"
         elif (outputUpper.startswith(u"GROUP")):
             verbose(lineCount,"It's a Group")
             thisCombo['outputs'].append(outputUpper)
@@ -455,16 +457,18 @@ def buildCombo(line,inputs,outputs, lineCount):
         elif (outputUpper.startswith(u"BEEP")):
             verbose(lineCount,"It's a BEEP")
             thisCombo['outputs'].append(outputUpper)
-            if "index" not in thisCombo["type"]:
+            if "deadEnd" not in thisCombo["type"]:
                 thisCombo['type'] = thisCombo["type"] + ".deadEnd"
         elif (outputUpper.startswith(u"NUL")):
             verbose(lineCount,"It's a NUL")
             thisCombo['outputs'].append(outputUpper)
-            if "index" not in thisCombo["type"]:
+            if "deadEnd" not in thisCombo["type"]:
                 thisCombo['type'] = thisCombo["type"] + ".deadEnd"
         elif (outputUpper.startswith(u"CONTEXT")):
             verbose(lineCount,"It's a Context")
             thisCombo['outputs'].append(outputUpper)
+            if "deadEnd" not in thisCombo["type"]:
+                thisCombo['type'] = thisCombo["type"] + ".deadEnd"
         elif (output.startswith(u"U+")):
             verbose(lineCount,"It's a Unicode ID")
             thisCombo['outputs'].append(outputUpper)
@@ -768,75 +772,84 @@ def rowGenerator(row, layout):
     flags6_NCAPS_RALT =     [False,  True,   False,  True,   False,  False,  False,  False,  False]
     flags7_NCAPS_SHIFT_RALT=[True,   True,   False,  True,   False,  False,  False,  False,  False]
     for key in expectedResult:
-        if layout == "US102" and key["keyman"] == "K_oE2":
-            verbose(0,"Skipping oE2 key")
-        else:
-            currentKey = {}
-            currentKey['bottomLeft'] = u""
-            currentKey['topLeft'] = u""
-            currentKey['bottomRight'] = u""
-            currentKey['topRight'] = u""
-            if key['keyman'] == "K_BKSLASH":
-                    rowList.append({"w": 1.5})
+        currentKey = {}
+        currentKey['bottomLeft'] = u""
+        currentKey['topLeft'] = u""
+        currentKey['bottomRight'] = u""
+        currentKey['topRight'] = u""
+        if key['keyman'] == "K_BKSLASH":
+            rowList.append({"w": 1.5})
+        if 0==0:
             for combo in [a for a in archive[filenameToParse] if (('baseKey' in a) and (a['baseKey'] == key['keyman']))]:
-                if ("rule" in combo['type']) and ("touch" not in combo['type']):
+                if ("rule" in combo['type']) and ("touch" not in combo['type']) and ("deadEnd" not in combo['type']) and ("dk" not in combo['type']):
                     if "inputs" in combo:
                         for item in combo['inputs']:
                             if "fullKey" in item:
                                 testing = True
-                                
                                 currentFlags = [item['isSHIFT'],item['isNCAPS'],item['isCAPS'],item['isRALT'],item['isLALT'],item['isALT'],item['isRCTRL'],item['isLCTRL'],item['isCTRL']]
-
                                 #Bottom Left
                                 if (currentFlags == flags0_BASE) or (currentFlags == flags2_NCAPS):
+                                    oldKey = currentKey['bottomLeft']
                                     currentKey['bottomLeft'] = u""
                                     for outItem in combo['outputs']:
-                                        
                                         if "U+" in outItem:
-                                            if outItem.startswith("U+03"):
+                                            if outItem.startswith("U+030") or outItem.startswith("U+031") or outItem.startswith("U+032") or outItem.startswith("U+033") or outItem.startswith("U+034") or outItem.startswith("U+035") or outItem.startswith("U+036") or outItem.startswith("U+1D"):
                                                 currentKey['bottomLeft'] = chr(int("25CC", 16)) 
                                                 #TODO Add empty circle, do 4 times
                                             if 'bottomLeft' not in currentKey:
                                                 currentKey['bottomLeft'] = chr(int(outItem.strip().upper()[-4:], 16))
                                             else:
                                                 currentKey['bottomLeft'] = currentKey['bottomLeft'] + chr(int(outItem.strip().upper()[-4:], 16))
+                                    if (oldKey != u"") and (oldKey != currentKey['bottomLeft']):
+                                        print("These don't match:", combo['line'] )
                                 #Top Left
                                 if (currentFlags == flags1_SHIFT) or (currentFlags == flags3_NCAPS_SHIFT):
+                                    oldKey = currentKey['topLeft']
                                     currentKey['topLeft'] = u""
                                     for outItem in combo['outputs']:
                                         if "U+" in outItem:
-                                            if outItem.startswith("U+03"):
+                                            if outItem.startswith("U+030") or outItem.startswith("U+031") or outItem.startswith("U+032") or outItem.startswith("U+033") or outItem.startswith("U+034") or outItem.startswith("U+035") or outItem.startswith("U+036") or outItem.startswith("U+1D"):
                                                 #todo fix this 4 times, add U+17
-                                                currentKey['topLeft'] = chr(int("25CC", 16)) 
+                                                currentKey['topLeft'] = chr(int("25CC", 16))
                                             if 'topLeft' not in currentKey:
                                                 currentKey['topLeft'] = chr(int(outItem.strip().upper()[-4:], 16))
                                             else:
                                                 currentKey['topLeft'] = currentKey['topLeft'] + chr(int(outItem.strip().upper()[-4:], 16))
+                                    if (oldKey != u"") and (oldKey != currentKey['topLeft']):
+                                        print("These don't match:", combo['line'] )
                                 #Top Right
                                 if (currentFlags == flags7_NCAPS_SHIFT_RALT):
+                                    oldKey = currentKey['topRight']
                                     currentKey['topRight'] = u""
                                     for outItem in combo['outputs']:
                                         if "U+" in outItem:
-                                            if outItem.startswith("U+03"):
+                                            if outItem.startswith("U+030") or outItem.startswith("U+031") or outItem.startswith("U+032") or outItem.startswith("U+033") or outItem.startswith("U+034") or outItem.startswith("U+035") or outItem.startswith("U+036") or outItem.startswith("U+1D"):
                                                 currentKey['topRight'] = chr(int("25CC", 16)) 
                                             if 'topRight' not in currentKey:
                                                 currentKey['topRight'] = chr(int(outItem.strip().upper()[-4:], 16))
                                             else:
                                                 currentKey['topRight'] = currentKey['topRight'] + chr(int(outItem.strip().upper()[-4:], 16))
+                                    if (oldKey != u"") and (oldKey != currentKey['topRight']):
+                                        print("These don't match:", combo['line'] )
                                 #Bottom Right
                                 if (currentFlags == flags5_RALT) or (currentFlags == flags6_NCAPS_RALT):
+                                    oldKey = currentKey['bottomRight']
                                     currentKey['bottomRight'] = u""
                                     for outItem in combo['outputs']:
                                         if "U+" in outItem:
-                                            if outItem.startswith("U+03"):
-                                                currentKey['bottomRight'] = chr(int("25CC", 16)) 
+                                            if outItem.startswith("U+030") or outItem.startswith("U+031") or outItem.startswith("U+032") or outItem.startswith("U+033") or outItem.startswith("U+034") or outItem.startswith("U+035") or outItem.startswith("U+036") or outItem.startswith("U+1D"):
+                                                currentKey['bottomRight'] = chr(int("25CC", 16))
                                             if 'bottomRight' not in currentKey:
                                                 currentKey['bottomRight'] = chr(int(outItem.strip().upper()[-4:], 16))
                                             else:
                                                 currentKey['bottomRight'] = currentKey['bottomRight'] + chr(int(outItem.strip().upper()[-4:], 16))
-            
-            keyString = currentKey['topLeft'] + "\n" + currentKey['bottomLeft'] + "\n" + currentKey['topRight'] + "\n" + currentKey['bottomRight'] + "\n"
-            rowList.append(keyString)
+                                    if (oldKey != u"") and (oldKey != currentKey['bottomRight']):
+                                        print("These don't match:", combo['line'] )
+            if layout == "US102" and key["keyman"] == "K_oE2":
+                verbose(0,"Skipping oE2 key")
+            else:
+                keyString = currentKey['topLeft'] + u"\n" + currentKey['bottomLeft'] + u"\n" + currentKey['topRight'] + u"\n" + currentKey['bottomRight'] + u"\n"
+                rowList.append(keyString)
     return rowList        
 
 
