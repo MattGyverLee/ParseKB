@@ -3,6 +3,7 @@ import re
 import json
 import copy
 import functools
+from pprint import pprint
 
 #ToDo: Parse Stores like strings
 #Do Comparison
@@ -64,11 +65,12 @@ kbLinks = [
         {"linux": "KPDL", "scancode": "53", "microsoft": "DECIMAL", "caps": False, "keyman": "K_NPDOT", 'row': 5},
     ]
 
-def parseKB(filenameToParse, expand = False, scan = False):
+def parseKB(passedKeyboard, filenameToParse, expand = False, scan = False):
     if (filenameToParse[-4:] == ".klc"):
         print("Is MSKLC");
     elif (filenameToParse[-4:] == ".kmn"):
-        parseKeyman(filenameToParse, expand, scan)
+        #parseKeyman(filenameToParse, expand, scan)
+        parseKeyman(passedKeyboard, filenameToParse, expand, scan)
 
 def parseMicrosoft(keymanFilename):
     print("Parsing MS")
@@ -100,11 +102,10 @@ def sterilizeLine(line, replaceSpaces=False):
         line = line.replace(u" ", u"---")
     return line
 
-def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
+def parseKeyman(passedKeyboard, keymanFilename, generateDeadkeys = False, scan = False):
     lineCount = 0
     infile = open(keymanFilename, mode='r', encoding='utf-8')
     currentGroup = {}
-    
     for line in infile:
         if (line != "\n"):
             #line = line[:-2].strip()
@@ -118,11 +119,11 @@ def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
                     variableSearch = re.search('store\((.*)\)', line, re.IGNORECASE)
                     variableName = "Undefined"
                     value = ""
-                    if variableSearch: 
+                    if variableSearch:
                         variableName = variableSearch.group(1)
-                        
+
                     valueSearch = re.search(r'store\(.*?\) (.*)',line, re.IGNORECASE)
-                    if valueSearch: 
+                    if valueSearch:
                         value = valueSearch.group(1).strip()[1:-1]
 
                     resultDef[variableName] = value
@@ -134,10 +135,10 @@ def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
                     kbProps[filenameToParse].update(tempProps)
 
                 elif (upperLine.startswith(u"STORE")):
-                    
+
                     verbose(lineCount,"It's a store")
                     storeSearch = re.search('store\((.*?)\)', line, re.IGNORECASE)
-                    if storeSearch: 
+                    if storeSearch:
                         resultDef["storeName"] = storeSearch.group(1)
                     storeItemList = line.split(")",1)[1].strip()
                     resultDef['fullStore'] = storeItemList
@@ -183,10 +184,6 @@ def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
                     resultDef["line"] = line
                     resultDef["lineCount"] = lineCount
                     resultDef["type"] = "structural"
-#                elif (upperLine.startswith(u"MATCH")):
-#                    verbose(lineCount,"It's a Match")
-#                elif (upperLine.startswith(u"NOMATCH")):
-#                    verbose(lineCount,"It's a Match")
                 else:
                     resultDef = processKeymanRule(line,lineCount,currentGroup)
                     if resultDef is None:
@@ -197,12 +194,15 @@ def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
                 if keymanFilename not in archive:
                     archive[keymanFilename] = []
                 resultDef["line"] = line
-                resultDef["lineCount"] = lineCount  
+                resultDef["lineCount"] = lineCount
+                passedKeyboard.addCombo(resultDef)
                 archive[keymanFilename].append(resultDef)
     #Expand
-    for line in archive[keymanFilename]:
+    #for line in archive[keymanFilename]:
+    for line in passedKeyboard.getCombos():
+        #Need an iterator 
         if ("dk" in line['type']) and ("index" in line['type']):
-            outputTargetStores = []            
+            outputTargetStores = []
             outputTargetLists = []
             outputLines = []
             inputTargetStores = []
@@ -212,20 +212,20 @@ def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
             # counted items have parentheses
             importantInputs = [i for i in line['inputs'] if ("(" in i)]
             importantOutputs = [i for i in line['outputs'] if ("(" in i)]
-            for item in importantOutputs: #from 
+            for item in importantOutputs: #from
                 if item.upper().startswith("INDEX"):
                     splitIndex = re.split(r'\(|\)|,',item)
                     outputLine = item
-                    outputTargetStore = splitIndex[1]             
-                    outputTargetList = [i['storeItems'] for i in archive[keymanFilename] if ('storeName' in i) and (i['storeName'] == outputTargetStore)]
+                    outputTargetStore = splitIndex[1]
+                    outputTargetList = [i['storeItems'] for i in thisKeyboard.getCombos() if ('storeName' in i) and (i['storeName'] == outputTargetStore)]
                     inputTargetStore = importantInputs[int(splitIndex[2])-1][4:-1]
                     inputLine = importantInputs[int(splitIndex[2])-1]
-                    inputTargetList = [i['storeItems'] for i in archive[keymanFilename] if ('storeName' in i) and (i['storeName'] == inputTargetStore)]
+                    inputTargetList = [i['storeItems'] for i in thisKeyboard.getCombos() if ('storeName' in i) and (i['storeName'] == inputTargetStore)]
                     if (len(inputTargetList) < 1) or len(outputTargetList) < 1:
                         print('This group is Broken')
                     if len(inputTargetList[0]) != len(outputTargetList[0]):
                         print(inputTargetStore, " and ", outputTargetStore, " are not the same length!")
-                    outputTargetStores.append(outputTargetStore)            
+                    outputTargetStores.append(outputTargetStore)
                     outputTargetLists.append(outputTargetList[0]) #was [0]
                     inputTargetStores.append(inputTargetStore)
                     inputTargetLists.append(inputTargetList[0])
@@ -245,7 +245,7 @@ def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
                         tempDef = copy.deepcopy(line)
                         inputCounter = 0
                         copyInputs = copy.deepcopy(tempDef['inputs'])
-                        for tempInput in copyInputs:        
+                        for tempInput in copyInputs:
                             if inputTargetStores[0].upper() in tempInput.upper():
                                 copyInputs[inputCounter] = unwrappedInputTargetLists[storeItemCounter]
                                 tempDef['inputs'] = copyInputs
@@ -257,7 +257,7 @@ def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
                                 copyOutputs[outputCounter] = unwrappedOutputTargetLists[storeItemCounter]
                                 tempDef['outputs'] = copyOutputs
                             outputCounter += 1
-                        
+
                         tempDef['type'] = "rule.generated"
                         tempDef['sourceLine'] = tempDef['line']
                         if isinstance(tempDef['outputs'], list):
@@ -280,6 +280,7 @@ def parseKeyman(keymanFilename, generateDeadkeys = False, scan = False):
                         tempDef.pop('isExpandable',None)
                         storeItemCounter += 1
                         lineCount += 1
+                        passedKeyboard.addCombo(tempDef)
                         archive[keymanFilename].append(tempDef)
             else:
                 print('This is too complex')
@@ -292,7 +293,7 @@ def processKeymanRule(line,lineCount,currentGroup):
     put = line.split(" > ")
     if (len(put) != 2) :
        print("Unusual number of >'s")
-    else: 
+    else:
         pattern = re.compile(u"(index\(\w+) *, +")
         if (re.search(pattern,put[1])):
             put[1] = re.sub(pattern,r'\1,',put[1])
@@ -303,13 +304,11 @@ def processKeymanRule(line,lineCount,currentGroup):
             for result in results:
                 beforeString = result
                 result = result.replace(" ", "---")
-                if (result != beforeString): 
+                if (result != beforeString):
                     put[0] = put[0].replace(beforeString, result)
         inputs = put[0].split(" ")
         outputs = put[1].split(" ")
         return buildCombo(line,inputs,outputs,lineCount)
-
-
 
 
 def buildCombo(line,inputs,outputs, lineCount):
@@ -334,7 +333,6 @@ def buildCombo(line,inputs,outputs, lineCount):
         elif (inputUpper.startswith(u"ANY(")):
             verbose(lineCount,"It's an any.")
             thisCombo['inputs'].append(input)
-   
         elif (inputUpper.startswith(u"GROUP")):
             verbose(lineCount,"It's a Group")
             thisCombo['inputs'].append(input)
@@ -359,8 +357,8 @@ def buildCombo(line,inputs,outputs, lineCount):
             verbose(lineCount,"It's a Unicode ID")
             thisCombo['inputs'].append(input.upper())
         elif (input.startswith(u"[")):
-            keyCombo = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False, 
-                        "isRALT" : False, "isLALT" : False, "isALT" : False, 
+            keyCombo = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False,
+                        "isRALT" : False, "isLALT" : False, "isALT" : False,
                         "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False,
                         "isKey" : ""}
             verbose(lineCount,"It's a keypress")
@@ -371,7 +369,7 @@ def buildCombo(line,inputs,outputs, lineCount):
                 isSHIFT = True
                 keyCombo['isSHIFT'] = True
                 inputUpper = inputUpper.replace("SHIFT","").strip()
-                tempProps['containsSHIFT'] = True 
+                tempProps['containsSHIFT'] = True
             if "NCAPS" in inputUpper:
                 keyCombo['isNCAPS'] = True
                 inputUpper = inputUpper.replace("NCAPS","").strip()
@@ -414,8 +412,9 @@ def buildCombo(line,inputs,outputs, lineCount):
             if filenameToParse not in kbProps:
                 kbProps[filenameToParse] = {}
             kbProps[filenameToParse].update(tempProps)
+            #TODO, remove one of these
             thisCombo['inputs'].append(keyCombo)
-            
+
 
 
             #Split at --- and process
@@ -487,6 +486,51 @@ def prod(iterable):
     def add(x,y): return x*y
     functools.reduce(add, iterable)
 
+class keyboardDefinition():
+    filename = ""
+    keymanComboList = []
+    idx = 0
+    variableList = []
+    def __init__(self,inFilename):
+        self.idx = 0
+        self.filename = inFilename
+    def setKeyboardName(self,filenameToParse):
+        self.filename = filenameToParse
+    def getKeyboardName(self):
+        return self.filename
+    def addCombo(self, keyCombo):
+        y = [v['inputs'] for v in self.keymanComboList if 'inputs' in v ]
+        if ('inputs' in keyCombo) and (keyCombo['inputs'] in y):
+            print("A combo with these inputs already exists in", self.filename)
+            pprint(keyCombo['inputs'])
+        else:           
+            self.keymanComboList.append(keyCombo)
+            self.idx = 0
+            # Resetting index, because len(comboList) has changed.
+            return True
+    def getNextCombo(self):
+        thisElem = self.keymanComboList[idx]
+        self.idx = (self.idx + 1) % len(self.keymanComboList)
+        return thisElem
+    def getComboLen(self):
+        return len(self.keymanComboList)
+    def getCombo(index):
+        thisElem = self.keymanComboList[index]
+        return thisElem
+    def getCombos(self):
+        return self.keymanComboList
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.package_obj.cleanup()
+    def __del__(self):
+        #del self.keymanComboList
+        self.keymanComboList = []
+        self.idx = 0
+        #del self.variableList
+        self.variableList = []
+        self.filename = ""
+        #print(self.filename, 'deleted')
+
+
 class bumpindex:
     import itertools
     Array = []
@@ -497,11 +541,11 @@ class bumpindex:
         index = 0
         Array = [inputTargetList, outputTargetList]
         loopNum = repeatcount
-        
+
         #TODO finish this
     def bump(group):
         if cycleCounter == 1:
-            
+
             ReturnA = Array[1,index]
             totalCounter += 1
             index += 1
@@ -509,7 +553,7 @@ class bumpindex:
             ReturnA = Array[1,counter]
             counter += 1
         #in i
-        return 
+        return
 
 def generateCombos(line,importantInputs, inputTargetStores, inputTargetLists, inputLists, importantOutputs, outputTargetStores, outputTargetLists, outputLists):
     #for i in inputTargetLists[0]:
@@ -523,7 +567,7 @@ def generateCombos(line,importantInputs, inputTargetStores, inputTargetLists, in
             loopCount = loopCount * len(lister)
             depth += 1
     changeArray = []
-    
+
     for inputItem in inputTargetLists[0]:
 
         outputItem = outputTargetLists[0]
@@ -542,10 +586,10 @@ def generateCombos(line,importantInputs, inputTargetStores, inputTargetLists, in
 
     #DeterminePairs
     #get length of each pair
-def inferCaps(filenameToParse):
+def inferCaps(thisKeyboard, filenameToParse):
     from itertools import groupby
     from operator import itemgetter
-    keyboard = archive[filenameToParse]
+    keyboard = thisKeyboard.getCombos()
     SortedCombosOutput = sorted(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
     f = open(filenameToParse + '_InferredCaps.txt', 'w', encoding="utf-8")
     stringList = []
@@ -557,7 +601,7 @@ def inferCaps(filenameToParse):
     stringList = list(set(stringList))
     f.writelines(sorted(stringList))
     f.close
-        
+
 
 def CheckCondition(group):
     FoundSimple = False
@@ -597,15 +641,15 @@ def CheckCondition(group):
         return True, input["isKey"]
 
 
-def getKeyValues(filenameToParse):
+def getKeyValues(passedKeyboard, filenameToParse):
     from itertools import groupby
     from operator import itemgetter
-    keyboard = archive[filenameToParse]
+    keyboard = thisKeyboard.getCombos()
     SortedCombosKey = sorted(keyboard, key=lambda k: ("baseKey" not in k, k.get("baseKey", None),"baseOutput" not in k, k.get("baseOutput", None)))
     SortedCombosOutput = sorted(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
     #groupedCombosOutput = groupby(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
     f = open(filenameToParse + '_SortedCombos.txt', 'w', encoding="utf-8")
-    #f.write(foo.encode('utf8'))    
+    #f.write(foo.encode('utf8'))
     for key, group in groupby(SortedCombosOutput, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None))):
         for thing in group:
             if 'baseOutput' in thing:
@@ -619,11 +663,11 @@ def getKeyValues(filenameToParse):
         f.write("\n")
     f.close()
     # https://stackoverflow.com/questions/29051573/python-filter-list-of-dictionaries-based-on-key-value
-    
-def missingCombo(filenameToParse):
+
+def missingCombo(passedKeyboard, filenameToParse):
     from itertools import groupby
     from operator import itemgetter
-    keyboard = archive[filenameToParse]
+    keyboard = thisKeyboard.getCombos()
     SortedCombosKey = sorted(keyboard, key=lambda k: ("baseKey" not in k, k.get("baseKey", None),"baseOutput" not in k, k.get("baseOutput", None)))
     f = open(filenameToParse + '_InferredCaps.txt', 'w', encoding="utf-8")
     stringList = []
@@ -634,7 +678,7 @@ def missingCombo(filenameToParse):
     flags2_NCAPS =          [False,   True,   False,  False,  False,  False,  False,  False,  False]
     flags3_NCAPS_SHIFT =    [True,    True,   False,  False,  False,  False,  False,  False,  False]
     flags4_CAPS =           [False,   False,  True,   False,  False,  False,  False,  False,  False]
-    flags5_CAPS_SHIFT =     [True,    False,  True,   False,  False,  False,  False,  False,  False] 
+    flags5_CAPS_SHIFT =     [True,    False,  True,   False,  False,  False,  False,  False,  False]
     flags6_NCAPS_RALT =     [False,   True,   False,  True,   False,  False,  False,  False,  False]
     flags7_NCAPS_SHIFT_RALT=[True,    True,   False,  True,   False,  False,  False,  False,  False]
     flags8_RALT_CAPS =      [False,   False,  True,   True,   False,  False,  False,  False,  False]
@@ -651,10 +695,10 @@ def missingCombo(filenameToParse):
         needs7 = False
         needs8 = False
         needs9 = False
-        if ("containsSHIFT" in kbProps[filenameToParse]) and ("containsNCAPS" not in kbProps[filenameToParse]) and ("containsCAPS" not in kbProps[filenameToParse]):            
+        if ("containsSHIFT" in kbProps[filenameToParse]) and ("containsNCAPS" not in kbProps[filenameToParse]) and ("containsCAPS" not in kbProps[filenameToParse]):
             needs0 = True
             needs1 = True
-        elif ("containsSHIFT" in kbProps[filenameToParse]) and ("containsNCAPS" in kbProps[filenameToParse]) and ("containsCAPS" in kbProps[filenameToParse]):            
+        elif ("containsSHIFT" in kbProps[filenameToParse]) and ("containsNCAPS" in kbProps[filenameToParse]) and ("containsCAPS" in kbProps[filenameToParse]):
             needs2 = True
             needs3 = True
             needs4 = True
@@ -723,18 +767,18 @@ def missingCombo(filenameToParse):
         f.writelines(sorted(stringList))
         f.close
 
-def analyze(filenameToParse):
-    inferCaps(filenameToParse)
-    missingCombo(filenameToParse)
-    getKeyValues(filenameToParse)
-    writeKeyboardGist(filenameToParse)
+def analyzeKB(passedKeyboard, filenameToParse):
+    inferCaps(passedKeyboard, filenameToParse)
+    missingCombo(passedKeyboard, filenameToParse)
+    getKeyValues(passedKeyboard, filenameToParse)
+    writeKeyboardGist(passedKeyboard, filenameToParse)
 
 def printToJson(filenameToParse):
     jsonName = filenameToParse + ".json"
     with open(jsonName, 'w') as fp:
         json.dump({filenameToParse : archive[filenameToParse]}, fp, indent=4)
 
-def writeKeyboardGist(filenameToParse, layout = 'US102'):
+def writeKeyboardGist(passedKeyboard, filenameToParse, layout = 'US102'):
     #Current Supported Layouts ar US102, and AZERTY
     thisKBProps = kbProps[filenameToParse]
     header =   {
@@ -780,7 +824,7 @@ def rowGenerator(row, layout):
         if key['keyman'] == "K_BKSLASH":
             rowList.append({"w": 1.5})
         if 0==0:
-            for combo in [a for a in archive[filenameToParse] if (('baseKey' in a) and (a['baseKey'] == key['keyman']))]:
+            for combo in [a for a in thisKeyboard.getCombos() if (('baseKey' in a) and (a['baseKey'] == key['keyman']))]:
                 if ("rule" in combo['type']) and ("touch" not in combo['type']) and ("deadEnd" not in combo['type']) and ("dk" not in combo['type']):
                     if "inputs" in combo:
                         for item in combo['inputs']:
@@ -794,7 +838,7 @@ def rowGenerator(row, layout):
                                     for outItem in combo['outputs']:
                                         if "U+" in outItem:
                                             if outItem.startswith("U+030") or outItem.startswith("U+031") or outItem.startswith("U+032") or outItem.startswith("U+033") or outItem.startswith("U+034") or outItem.startswith("U+035") or outItem.startswith("U+036") or outItem.startswith("U+1D"):
-                                                currentKey['bottomLeft'] = chr(int("25CC", 16)) 
+                                                currentKey['bottomLeft'] = chr(int("25CC", 16))
                                                 #TODO Add empty circle, do 4 times
                                             if 'bottomLeft' not in currentKey:
                                                 currentKey['bottomLeft'] = chr(int(outItem.strip().upper()[-4:], 16))
@@ -824,7 +868,7 @@ def rowGenerator(row, layout):
                                     for outItem in combo['outputs']:
                                         if "U+" in outItem:
                                             if outItem.startswith("U+030") or outItem.startswith("U+031") or outItem.startswith("U+032") or outItem.startswith("U+033") or outItem.startswith("U+034") or outItem.startswith("U+035") or outItem.startswith("U+036") or outItem.startswith("U+1D"):
-                                                currentKey['topRight'] = chr(int("25CC", 16)) 
+                                                currentKey['topRight'] = chr(int("25CC", 16))
                                             if 'topRight' not in currentKey:
                                                 currentKey['topRight'] = chr(int(outItem.strip().upper()[-4:], 16))
                                             else:
@@ -850,18 +894,25 @@ def rowGenerator(row, layout):
             else:
                 keyString = currentKey['topLeft'] + u"\n" + currentKey['bottomLeft'] + u"\n" + currentKey['topRight'] + u"\n" + currentKey['bottomRight'] + u"\n"
                 rowList.append(keyString)
-    return rowList        
+    return rowList
 
-
+keyboardRepo = {}
 filenameToParse = "sil_cameroon_qwerty.kmn"
-parseKB(filenameToParse, True)
-analyze(filenameToParse)
-
+thisKeyboard = keyboardDefinition(filenameToParse)
+parseKB(thisKeyboard, filenameToParse, True)
+analyzeKB(thisKeyboard, filenameToParse)
+keyboardRepo[filenameToParse] = copy.deepcopy(thisKeyboard)
 printToJson(filenameToParse)
 
+#del thisKeyboard
+thisKeyboard.__del__()
+
 filenameToParse = "sil_cameroon_azerty.kmn"
-parseKB(filenameToParse, True)
-analyze(filenameToParse)
+thisKeyboard = keyboardDefinition(filenameToParse)
+thisKeyboard.keymanComboList = []
+parseKB(thisKeyboard, filenameToParse, True)
+analyzeKB(thisKeyboard, filenameToParse)
+keyboardRepo[filenameToParse] = thisKeyboard
 printToJson(filenameToParse)
 
 print("Finished")
