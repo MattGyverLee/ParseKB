@@ -1,0 +1,761 @@
+
+
+
+
+	[K_SPACE]	➜	' '	SPACE
+	[Shift]	[K_SPACE]	➜	' '	SPACE
+
+	[Shift]	[K_1]	➜	'!'	EXCLAMATION MARK
+
+	[Shift]	[AltGr]	[K_QUOTE]	➜	'"'	QUOTATION MARK
+	[CAM Key]	̂	➜	'"'	QUOTATION MARK
+
+	[Shift]	[K_3]	➜	'#'	NUMBER SIGN
+
+	[Shift]	[K_4]	➜	'$'	DOLLAR SIGN
+
+	[Shift]	[K_5]	➜	'%'	PERCENT SIGN
+
+	[Shift]	[K_7]	➜	'&'	AMPERSAND
+
+	[AltGr]	[K_QUOTE]	➜	'''	APOSTROPHE
+	[CAM Key]	̀	➜	'''	APOSTROPHE
+
+	[Shift]	[K_9]	➜	'('	LEFT PARENTHESIS
+
+	[Shift]	[K_0]	➜	')'	RIGHT PARENTHESIS
+
+	[Shift]	[K_8]	➜	'*'	ASTERISK
+
+	[Shift]	[K_EQUAL]	➜	'+'	PLUS SIGN
+
+	[K_COMMA]	➜	','	COMMA
+
+	[K_HYPHEN]	➜	'-'	HYPHEN-MINUS
+
+	[K_PERIOD]	➜	'.'	FULL STOP
+
+	[K_SLASH]	➜	'/'	SOLIDUS
+
+	[K_0]	➜	'0'	DIGIT ZERO
+
+	[K_1]	➜	'1'	DIGIT ONE
+
+	[K_2]	➜	'2'	DIGIT TWO
+
+	[K_3]	➜	'3'	DIGIT THREE
+
+	[K_4]	➜	'4'	DIGIT FOUR
+
+	[K_5]	➜	'5'	DIGIT FIVE
+
+	[K_6]	➜	'6'	DIGIT SIX
+
+	[K_7]	➜	'7'	DIGIT SEVEN
+
+	[K_8]	➜	'8'	DIGIT EIGHT
+
+	[K_9]	➜	'9'	DIGIT NINE
+
+	[Shift]	[K_COLON]	➜	':'	COLON
+	[Shift]	[AltGr]	[K_COLON]	➜	':'	COLON
+
+	[AltGr]	[K_COLON]	➜	';'	SEMICOLON
+	platform('hardware')	[CAM Key]	[CAM Key]	➜	';'	SEMICOLON
+	[CAM Key]	 	➜	';'	SEMICOLON
+
+	[Shift]	[K_COMMA]	➜	'<'	LESS-THAN SIGN
+
+	[CAM Key]	=	➜	'='	EQUALS SIGN
+	=	=	➜	'='	EQUALS SIGN
+	=	 	➜	'='	EQUALS SIGN
+
+	[Shift]	[K_PERIOD]	➜	'>'	GREATER-THAN SIGN
+
+	[Shift]	[K_SLASH]	➜	'?'	QUESTION MARK
+
+	[Shift]	[K_2]	➜	'@'	COMMERCIAL AT
+
+	[Shift]	[K_A]	➜	'A'	LATIN CAPITAL LETTER A
+
+	[Shift]	[K_B]	➜	'B'	LATIN CAPITAL LETTER B
+
+	[Shift]	[K_C]	➜	'C'	LATIN CAPITAL LETTER C
+
+	[Shift]	[K_D]	➜	'D'	LATIN CAPITAL LETTER D
+
+	[Shift]	[K_E]	➜	'E'	LATIN CAPITAL LETTER E
+
+	[Shift]	[K_F]	➜	'F'	LATIN CAPITAL LETTER F
+
+
+	[Shift]	[K_G]	➜	'G'	LATIN CAPITAL LETTER G
+
+	[Shift]	[K_H]	➜	'H'	LATIN CAPITAL LETTER H
+
+	[Shift]	[K_I]	➜	'I'	LATIN CAPITAL LETTER I
+
+	[Shift]	[K_J]	➜	'J'	LATIN CAPITAL LETTER J
+
+	[Shift]	[K_K]	➜	'K'	LATIN CAPITAL LETTER K
+
+	[Shift]	[K_L]	➜	'L'	LATIN CAPITAL LETTER L
+
+	[Shift]	[K_M]	➜	'M'	LATIN CAPITAL LETTER M
+
+	[Shift]	[K_N]	➜	'N'	LATIN CAPITAL LETTER N
+
+	[Shift]	[K_O]	➜	'O'	LATIN CAPITAL LETTER O
+
+	[Shift]	[K_P]	➜	'P'	LATIN CAPITAL LETTER P
+
+	[Shift]	[K_Q]	➜	'Q'	LATIN CAPITAL LETTER Q
+
+	[Shift]	[K_R]	➜	'R'	LATIN CAPITAL LETTER R
+
+	[Shift]	[K_S]	➜	'S'	LATIN CAPITAL LETTER S
+
+	[Shift]	[K_T]	➜	'T'	LATIN CAPITAL LETTER T
+
+	[Shift]	[K_U]	➜	'U'	LATIN CAPITAL LETTER U
+
+	[Shift]	[K_V]	➜	'V'	LATIN CAPITAL LETTER V
+
+	[Shift]	[K_W]	➜	'W'	LATIN CAPITAL LETTER W
+
+	[Shift]	[K_X]	➜	'X'	LATIN CAPITAL LETTER X
+
+	[Shift]	[K_Y]	➜	'Y'	LATIN CAPITAL LETTER Y
+
+	[Shift]	[K_Z]	➜	'Z'	LATIN CAPITAL LETTER Z
+
+	[AltGr]	[K_LBRKT]	➜	'['	LEFT SQUARE BRACKET
+	[CAM Key]	́	➜	'['	LEFT SQUARE BRACKET
+
+	[K_BKSLASH]	➜	'\'	REVERSE SOLIDUS
+	[K_OE2]	➜	'\'	REVERSE SOLIDUS
+	[AltGr]	[K_OE2]	➜	'\'	REVERSE SOLIDUS
+
+	[AltGr]	[K_RBRKT]	➜	']'	RIGHT SQUARE BRACKET
+	[CAM Key]	̧	➜	']'	RIGHT SQUARE BRACKET
+
+	[Shift]	[K_6]	➜	'^'	CIRCUMFLEX ACCENT
+
+	[Shift]	[K_HYPHEN]	➜	'_'	LOW LINE
+
+	[AltGr]	[K_BKQUOTE]	➜	'`'	GRAVE ACCENT
+	[CAM Key]	̍	➜	'`'	GRAVE ACCENT
+
+	[K_A]	➜	'a'	LATIN SMALL LETTER A
+
+	[K_B]	➜	'b'	LATIN SMALL LETTER B
+
+	[K_C]	➜	'c'	LATIN SMALL LETTER C
+
+	[K_D]	➜	'd'	LATIN SMALL LETTER D
+
+	[K_E]	➜	'e'	LATIN SMALL LETTER E
+
+	[K_F]	➜	'f'	LATIN SMALL LETTER F
+
+	[K_G]	➜	'g'	LATIN SMALL LETTER G
+
+	[K_H]	➜	'h'	LATIN SMALL LETTER H
+
+	[K_I]	➜	'i'	LATIN SMALL LETTER I
+
+	[K_J]	➜	'j'	LATIN SMALL LETTER J
+
+	[K_K]	➜	'k'	LATIN SMALL LETTER K
+
+	[K_L]	➜	'l'	LATIN SMALL LETTER L
+
+	[K_M]	➜	'm'	LATIN SMALL LETTER M
+
+	[K_N]	➜	'n'	LATIN SMALL LETTER N
+
+	[K_O]	➜	'o'	LATIN SMALL LETTER O
+
+	[K_P]	➜	'p'	LATIN SMALL LETTER P
+
+	[K_Q]	➜	'q'	LATIN SMALL LETTER Q
+
+	[K_R]	➜	'r'	LATIN SMALL LETTER R
+
+	[K_S]	➜	's'	LATIN SMALL LETTER S
+
+	[K_T]	➜	't'	LATIN SMALL LETTER T
+
+	[K_U]	➜	'u'	LATIN SMALL LETTER U
+
+	[K_V]	➜	'v'	LATIN SMALL LETTER V
+
+	[K_W]	➜	'w'	LATIN SMALL LETTER W
+
+	[K_X]	➜	'x'	LATIN SMALL LETTER X
+
+	[K_Y]	➜	'y'	LATIN SMALL LETTER Y
+
+	[K_Z]	➜	'z'	LATIN SMALL LETTER Z
+
+	[Shift]	[AltGr]	[K_LBRKT]	➜	'{'	LEFT CURLY BRACKET
+	[CAM Key]	̌	➜	'{'	LEFT CURLY BRACKET
+
+	[Shift]	[K_BKSLASH]	➜	'|'	VERTICAL LINE
+	[Shift]	[K_OE2]	➜	'|'	VERTICAL LINE
+	[Shift]	[AltGr]	[K_OE2]	➜	'|'	VERTICAL LINE
+
+	[Shift]	[AltGr]	[K_RBRKT]	➜	'}'	RIGHT CURLY BRACKET
+	[CAM Key]	̈	➜	'}'	RIGHT CURLY BRACKET
+
+	[Shift]	[AltGr]	[K_BKQUOTE]	➜	'~'	TILDE
+	[CAM Key]	̃	➜	'~'	TILDE
+	=	̃	➜	'~'	TILDE
+
+	[Left Control]	[K_SPACE]	➜	' '	NO-BREAK SPACE
+	[Right Control]	[K_SPACE]	➜	' '	NO-BREAK SPACE
+
+	[Shift]	[AltGr]	[K_C]	➜	'©'	COPYRIGHT SIGN
+	[CAM Key]	C	➜	'©'	COPYRIGHT SIGN
+
+	[Shift]	[AltGr]	[K_COMMA]	➜	'«'	LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+	[CAM Key]	<	➜	'«'	LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+
+	[Shift]	[AltGr]	[K_R]	➜	'®'	REGISTERED SIGN
+	[CAM Key]	R	➜	'®'	REGISTERED SIGN
+
+	[Shift]	[AltGr]	[K_EQUAL]	➜	'±'	PLUS-MINUS SIGN
+	[CAM Key]	+	➜	'±'	PLUS-MINUS SIGN
+
+	=	̧	➜	'¸'	CEDILLA
+
+	[Shift]	[AltGr]	[K_PERIOD]	➜	'»'	RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
+	[CAM Key]	>	➜	'»'	RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
+
+	[AltGr]	[K_1]	➜	'¼'	VULGAR FRACTION ONE QUARTER
+	[CAM Key]	1	➜	'¼'	VULGAR FRACTION ONE QUARTER
+
+	[AltGr]	[K_2]	➜	'½'	VULGAR FRACTION ONE HALF
+	[CAM Key]	2	➜	'½'	VULGAR FRACTION ONE HALF
+
+	[AltGr]	[K_3]	➜	'¾'	VULGAR FRACTION THREE QUARTERS
+	[CAM Key]	3	➜	'¾'	VULGAR FRACTION THREE QUARTERS
+
+	[Shift]	[AltGr]	[K_F]	➜	'Æ'	LATIN CAPITAL LETTER AE
+	[CAM Key]	F	➜	'Æ'	LATIN CAPITAL LETTER AE
+
+	[Shift]	[AltGr]	[K_8]	➜	'×'	MULTIPLICATION SIGN
+	[CAM Key]	*	➜	'×'	MULTIPLICATION SIGN
+
+	[Shift]	[AltGr]	[K_P]	➜	'Ø'	LATIN CAPITAL LETTER O WITH STROKE
+	[CAM Key]	P	➜	'Ø'	LATIN CAPITAL LETTER O WITH STROKE
+
+	[AltGr]	[K_F]	➜	'æ'	LATIN SMALL LETTER AE
+	[CAM Key]	f	➜	'æ'	LATIN SMALL LETTER AE
+
+	[AltGr]	[K_SLASH]	➜	'÷'	DIVISION SIGN
+	[CAM Key]	/	➜	'÷'	DIVISION SIGN
+
+	[AltGr]	[K_P]	➜	'ø'	LATIN SMALL LETTER O WITH STROKE
+	[CAM Key]	p	➜	'ø'	LATIN SMALL LETTER O WITH STROKE
+
+	[Shift]	[AltGr]	[K_N]	➜	'Ŋ'	LATIN CAPITAL LETTER ENG
+	[CAM Key]	N	➜	'Ŋ'	LATIN CAPITAL LETTER ENG
+
+	[AltGr]	[K_N]	➜	'ŋ'	LATIN SMALL LETTER ENG
+	[CAM Key]	n	➜	'ŋ'	LATIN SMALL LETTER ENG
+
+	[Shift]	[AltGr]	[K_T]	➜	'Œ'	LATIN CAPITAL LIGATURE OE
+	[CAM Key]	T	➜	'Œ'	LATIN CAPITAL LIGATURE OE
+
+	[AltGr]	[K_T]	➜	'œ'	LATIN SMALL LIGATURE OE
+	[CAM Key]	t	➜	'œ'	LATIN SMALL LIGATURE OE
+
+	[Shift]	[AltGr]	[K_B]	➜	'Ɓ'	LATIN CAPITAL LETTER B WITH HOOK
+	[CAM Key]	B	➜	'Ɓ'	LATIN CAPITAL LETTER B WITH HOOK
+
+	[Shift]	[AltGr]	[K_O]	➜	'Ɔ'	LATIN CAPITAL LETTER OPEN O
+	[CAM Key]	O	➜	'Ɔ'	LATIN CAPITAL LETTER OPEN O
+
+	[Shift]	[AltGr]	[K_D]	➜	'Ɗ'	LATIN CAPITAL LETTER D WITH HOOK
+	[CAM Key]	D	➜	'Ɗ'	LATIN CAPITAL LETTER D WITH HOOK
+
+	[Shift]	[AltGr]	[K_E]	➜	'Ə'	LATIN CAPITAL LETTER SCHWA
+	[CAM Key]	E	➜	'Ə'	LATIN CAPITAL LETTER SCHWA
+
+	[Shift]	[AltGr]	[K_A]	➜	'Ɛ'	LATIN CAPITAL LETTER OPEN E
+	[CAM Key]	A	➜	'Ɛ'	LATIN CAPITAL LETTER OPEN E
+
+	[Shift]	[AltGr]	[K_I]	➜	'Ɨ'	LATIN CAPITAL LETTER I WITH STROKE
+	[CAM Key]	I	➜	'Ɨ'	LATIN CAPITAL LETTER I WITH STROKE
+
+	[Shift]	[AltGr]	[K_Y]	➜	'Ƴ'	LATIN CAPITAL LETTER Y WITH HOOK
+	[CAM Key]	Y	➜	'Ƴ'	LATIN CAPITAL LETTER Y WITH HOOK
+
+	[AltGr]	[K_Y]	➜	'ƴ'	LATIN SMALL LETTER Y WITH HOOK
+	[CAM Key]	y	➜	'ƴ'	LATIN SMALL LETTER Y WITH HOOK
+
+	[Shift]	[AltGr]	[K_U]	➜	'Ʉ'	LATIN CAPITAL LETTER U BAR
+	[CAM Key]	U	➜	'Ʉ'	LATIN CAPITAL LETTER U BAR
+
+	[AltGr]	[K_B]	➜	'ɓ'	LATIN SMALL LETTER B WITH HOOK
+	[CAM Key]	b	➜	'ɓ'	LATIN SMALL LETTER B WITH HOOK
+
+	[AltGr]	[K_O]	➜	'ɔ'	LATIN SMALL LETTER OPEN O
+	[CAM Key]	o	➜	'ɔ'	LATIN SMALL LETTER OPEN O
+
+	[AltGr]	[K_D]	➜	'ɗ'	LATIN SMALL LETTER D WITH HOOK
+	[CAM Key]	d	➜	'ɗ'	LATIN SMALL LETTER D WITH HOOK
+
+	[AltGr]	[K_E]	➜	'ə'	LATIN SMALL LETTER SCHWA
+	[CAM Key]	e	➜	'ə'	LATIN SMALL LETTER SCHWA
+
+	[AltGr]	[K_A]	➜	'ɛ'	LATIN SMALL LETTER OPEN E
+	[CAM Key]	a	➜	'ɛ'	LATIN SMALL LETTER OPEN E
+
+	[AltGr]	[K_I]	➜	'ɨ'	LATIN SMALL LETTER I WITH STROKE
+	[CAM Key]	i	➜	'ɨ'	LATIN SMALL LETTER I WITH STROKE
+
+	[AltGr]	[K_U]	➜	'ʉ'	LATIN SMALL LETTER U BAR
+	[CAM Key]	u	➜	'ʉ'	LATIN SMALL LETTER U BAR
+
+	[AltGr]	[K_G]	➜	'ʼ'	MODIFIER LETTER APOSTROPHE
+	[CAM Key]	g	➜	'ʼ'	MODIFIER LETTER APOSTROPHE
+
+	=	̂	➜	'ˆ'	MODIFIER LETTER CIRCUMFLEX ACCENT
+
+	=	̌	➜	'ˇ'	CARON
+
+	=	̍	➜	'ˈ'	MODIFIER LETTER VERTICAL LINE
+
+	=	̄	➜	'ˉ'	MODIFIER LETTER MACRON
+
+	=	́	➜	'ˊ'	MODIFIER LETTER ACUTE ACCENT
+
+	=	̀	➜	'ˋ'	MODIFIER LETTER GRAVE ACCENT
+
+	[K_QUOTE]	➜	'◌̀'	COMBINING GRAVE ACCENT
+
+	[K_LBRKT]	➜	'◌́'	COMBINING ACUTE ACCENT
+
+	[Shift]	[K_QUOTE]	➜	'◌̂'	COMBINING CIRCUMFLEX ACCENT
+
+	[Shift]	[K_BKQUOTE]	➜	'◌̃'	COMBINING TILDE
+
+	[AltGr]	[K_HYPHEN]	➜	'◌̄'	COMBINING MACRON
+	[CAM Key]	-	➜	'◌̄'	COMBINING MACRON
+
+	[Shift]	[K_RBRKT]	➜	'◌̈'	COMBINING DIAERESIS
+
+	[Shift]	[K_LBRKT]	➜	'◌̌'	COMBINING CARON
+
+	[K_BKQUOTE]	➜	'◌̍'	COMBINING VERTICAL LINE ABOVE
+
+	[Shift]	[AltGr]	[K_J]	➜	'◌̣'	COMBINING DOT BELOW
+	[CAM Key]	J	➜	'◌̣'	COMBINING DOT BELOW
+
+	[AltGr]	[K_C]	➜	'◌̧'	COMBINING CEDILLA
+	[K_RBRKT]	➜	'◌̧'	COMBINING CEDILLA
+	[CAM Key]	c	➜	'◌̧'	COMBINING CEDILLA
+
+	[AltGr]	[K_J]	➜	'◌̰'	COMBINING TILDE BELOW
+	[CAM Key]	j	➜	'◌̰'	COMBINING TILDE BELOW
+
+	[AltGr]	[K_H]	➜	'α'	GREEK SMALL LETTER ALPHA
+	[CAM Key]	h	➜	'α'	GREEK SMALL LETTER ALPHA
+
+	[Shift]	[AltGr]	[K_L]	➜	'◌᷄'	COMBINING MACRON-ACUTE
+	[CAM Key]	L	➜	'◌᷄'	COMBINING MACRON-ACUTE
+
+	[AltGr]	[K_K]	➜	'◌᷅'	COMBINING GRAVE-MACRON
+	[CAM Key]	k	➜	'◌᷅'	COMBINING GRAVE-MACRON
+
+	[AltGr]	[K_L]	➜	'◌᷆'	COMBINING MACRON-GRAVE
+	[CAM Key]	l	➜	'◌᷆'	COMBINING MACRON-GRAVE
+
+	[Shift]	[AltGr]	[K_K]	➜	'◌᷇'	COMBINING ACUTE-MACRON
+	[CAM Key]	K	➜	'◌᷇'	COMBINING ACUTE-MACRON
+
+	[Shift]	[AltGr]	[K_W]	➜	'Ẅ'	LATIN CAPITAL LETTER W WITH DIAERESIS
+	[CAM Key]	W	➜	'Ẅ'	LATIN CAPITAL LETTER W WITH DIAERESIS
+
+	[AltGr]	[K_W]	➜	'ẅ'	LATIN SMALL LETTER W WITH DIAERESIS
+	[CAM Key]	w	➜	'ẅ'	LATIN SMALL LETTER W WITH DIAERESIS
+
+	[Shift]	[AltGr]	[K_Q]	➜	'–'	EN DASH
+	[CAM Key]	Q	➜	'–'	EN DASH
+
+	[AltGr]	[K_Q]	➜	'—'	EM DASH
+	[CAM Key]	q	➜	'—'	EM DASH
+
+	[AltGr]	[K_9]	➜	'‘'	LEFT SINGLE QUOTATION MARK
+	[CAM Key]	9	➜	'‘'	LEFT SINGLE QUOTATION MARK
+
+	[AltGr]	[K_0]	➜	'’'	RIGHT SINGLE QUOTATION MARK
+	[CAM Key]	0	➜	'’'	RIGHT SINGLE QUOTATION MARK
+
+	[Shift]	[AltGr]	[K_9]	➜	'“'	LEFT DOUBLE QUOTATION MARK
+	[CAM Key]	(	➜	'“'	LEFT DOUBLE QUOTATION MARK
+
+	[Shift]	[AltGr]	[K_0]	➜	'”'	RIGHT DOUBLE QUOTATION MARK
+	[CAM Key]	)	➜	'”'	RIGHT DOUBLE QUOTATION MARK
+
+	[Shift]	[AltGr]	[K_Z]	➜	'†'	DAGGER
+	[CAM Key]	Z	➜	'†'	DAGGER
+
+	[AltGr]	[K_Z]	➜	'…'	HORIZONTAL ELLIPSIS
+	[CAM Key]	z	➜	'…'	HORIZONTAL ELLIPSIS
+
+	[AltGr]	[K_COMMA]	➜	'‹'	SINGLE LEFT-POINTING ANGLE QUOTATION MARK
+	[CAM Key]	,	➜	'‹'	SINGLE LEFT-POINTING ANGLE QUOTATION MARK
+
+	[AltGr]	[K_PERIOD]	➜	'›'	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK
+	[CAM Key]	.	➜	'›'	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK
+
+	[Shift]	[AltGr]	[K_4]	➜	'€'	EURO SIGN
+	[CAM Key]	$	➜	'€'	EURO SIGN
+
+	[Shift]	[AltGr]	[K_M]	➜	'™'	TRADE MARK SIGN
+	[CAM Key]	M	➜	'™'	TRADE MARK SIGN
+
+	[AltGr]	[K_R]	➜	'◌'	DOTTED CIRCLE
+	[CAM Key]	r	➜	'◌'	DOTTED CIRCLE
+
+	[Shift]	[AltGr]	[K_H]	➜	'Ɑ'	LATIN CAPITAL LETTER ALPHA
+	[CAM Key]	H	➜	'Ɑ'	LATIN CAPITAL LETTER ALPHA
+
+	[Shift]	[AltGr]	[K_G]	➜	'Ꞌ'	LATIN CAPITAL LETTER SALTILLO
+	[Shift]	[AltGr]	[K_V]	➜	'Ꞌ'	LATIN CAPITAL LETTER SALTILLO
+	[CAM Key]	G	➜	'Ꞌ'	LATIN CAPITAL LETTER SALTILLO
+	[CAM Key]	V	➜	'Ꞌ'	LATIN CAPITAL LETTER SALTILLO
+
+	[AltGr]	[K_V]	➜	'ꞌ'	LATIN SMALL LETTER SALTILLO
+	[CAM Key]	v	➜	'ꞌ'	LATIN SMALL LETTER SALTILLO
+
+
+
+	[K_COLON]	➜	dk(003b)
+
+	[K_EQUAL]	➜	dk(003d)
+
+
+
+
+
+
+########
+Close Punctuation
+########
+	[Shift]	[K_0]	➜	')'	RIGHT PARENTHESIS
+	[AltGr]	[K_RBRKT]	➜	']'	RIGHT SQUARE BRACKET
+	[CAM Key]	̧	➜	']'	RIGHT SQUARE BRACKET
+	[Shift]	[AltGr]	[K_RBRKT]	➜	'}'	RIGHT CURLY BRACKET
+	[CAM Key]	̈	➜	'}'	RIGHT CURLY BRACKET
+########
+Connector Punctuation
+########
+	[Shift]	[K_HYPHEN]	➜	'_'	LOW LINE
+########
+Currency Symbol
+########
+	[Shift]	[K_4]	➜	'$'	DOLLAR SIGN
+	[Shift]	[AltGr]	[K_4]	➜	'€'	EURO SIGN
+	[CAM Key]	$	➜	'€'	EURO SIGN
+########
+Dash Punctuation
+########
+	[K_HYPHEN]	➜	'-'	HYPHEN-MINUS
+	[Shift]	[AltGr]	[K_Q]	➜	'–'	EN DASH
+	[CAM Key]	Q	➜	'–'	EN DASH
+	[AltGr]	[K_Q]	➜	'—'	EM DASH
+	[CAM Key]	q	➜	'—'	EM DASH
+########
+Deadkey
+########
+	[K_COLON]	➜	dk(003b)
+	[K_EQUAL]	➜	dk(003d)
+########
+Decimal Number
+########
+	[K_0]	➜	'0'	DIGIT ZERO
+	[K_1]	➜	'1'	DIGIT ONE
+	[K_2]	➜	'2'	DIGIT TWO
+	[K_3]	➜	'3'	DIGIT THREE
+	[K_4]	➜	'4'	DIGIT FOUR
+	[K_5]	➜	'5'	DIGIT FIVE
+	[K_6]	➜	'6'	DIGIT SIX
+	[K_7]	➜	'7'	DIGIT SEVEN
+	[K_8]	➜	'8'	DIGIT EIGHT
+	[K_9]	➜	'9'	DIGIT NINE
+########
+Final Punctuation
+########
+	[Shift]	[AltGr]	[K_PERIOD]	➜	'»'	RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
+	[CAM Key]	>	➜	'»'	RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
+	[AltGr]	[K_0]	➜	'’'	RIGHT SINGLE QUOTATION MARK
+	[CAM Key]	0	➜	'’'	RIGHT SINGLE QUOTATION MARK
+	[Shift]	[AltGr]	[K_0]	➜	'”'	RIGHT DOUBLE QUOTATION MARK
+	[CAM Key]	)	➜	'”'	RIGHT DOUBLE QUOTATION MARK
+	[AltGr]	[K_PERIOD]	➜	'›'	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK
+	[CAM Key]	.	➜	'›'	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK
+########
+Initial Punctuation
+########
+	[Shift]	[AltGr]	[K_COMMA]	➜	'«'	LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+	[CAM Key]	<	➜	'«'	LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+	[AltGr]	[K_9]	➜	'‘'	LEFT SINGLE QUOTATION MARK
+	[CAM Key]	9	➜	'‘'	LEFT SINGLE QUOTATION MARK
+	[Shift]	[AltGr]	[K_9]	➜	'“'	LEFT DOUBLE QUOTATION MARK
+	[CAM Key]	(	➜	'“'	LEFT DOUBLE QUOTATION MARK
+	[AltGr]	[K_COMMA]	➜	'‹'	SINGLE LEFT-POINTING ANGLE QUOTATION MARK
+	[CAM Key]	,	➜	'‹'	SINGLE LEFT-POINTING ANGLE QUOTATION MARK
+########
+Lowercase Letter
+########
+	[K_A]	➜	'a'	LATIN SMALL LETTER A
+	[K_B]	➜	'b'	LATIN SMALL LETTER B
+	[K_C]	➜	'c'	LATIN SMALL LETTER C
+	[K_D]	➜	'd'	LATIN SMALL LETTER D
+	[K_E]	➜	'e'	LATIN SMALL LETTER E
+	[K_F]	➜	'f'	LATIN SMALL LETTER F
+	[K_G]	➜	'g'	LATIN SMALL LETTER G
+	[K_H]	➜	'h'	LATIN SMALL LETTER H
+	[K_I]	➜	'i'	LATIN SMALL LETTER I
+	[K_J]	➜	'j'	LATIN SMALL LETTER J
+	[K_K]	➜	'k'	LATIN SMALL LETTER K
+	[K_L]	➜	'l'	LATIN SMALL LETTER L
+	[K_M]	➜	'm'	LATIN SMALL LETTER M
+	[K_N]	➜	'n'	LATIN SMALL LETTER N
+	[K_O]	➜	'o'	LATIN SMALL LETTER O
+	[K_P]	➜	'p'	LATIN SMALL LETTER P
+	[K_Q]	➜	'q'	LATIN SMALL LETTER Q
+	[K_R]	➜	'r'	LATIN SMALL LETTER R
+	[K_S]	➜	's'	LATIN SMALL LETTER S
+	[K_T]	➜	't'	LATIN SMALL LETTER T
+	[K_U]	➜	'u'	LATIN SMALL LETTER U
+	[K_V]	➜	'v'	LATIN SMALL LETTER V
+	[K_W]	➜	'w'	LATIN SMALL LETTER W
+	[K_X]	➜	'x'	LATIN SMALL LETTER X
+	[K_Y]	➜	'y'	LATIN SMALL LETTER Y
+	[K_Z]	➜	'z'	LATIN SMALL LETTER Z
+	[AltGr]	[K_F]	➜	'æ'	LATIN SMALL LETTER AE
+	[CAM Key]	f	➜	'æ'	LATIN SMALL LETTER AE
+	[AltGr]	[K_P]	➜	'ø'	LATIN SMALL LETTER O WITH STROKE
+	[CAM Key]	p	➜	'ø'	LATIN SMALL LETTER O WITH STROKE
+	[AltGr]	[K_N]	➜	'ŋ'	LATIN SMALL LETTER ENG
+	[CAM Key]	n	➜	'ŋ'	LATIN SMALL LETTER ENG
+	[AltGr]	[K_T]	➜	'œ'	LATIN SMALL LIGATURE OE
+	[CAM Key]	t	➜	'œ'	LATIN SMALL LIGATURE OE
+	[AltGr]	[K_Y]	➜	'ƴ'	LATIN SMALL LETTER Y WITH HOOK
+	[CAM Key]	y	➜	'ƴ'	LATIN SMALL LETTER Y WITH HOOK
+	[AltGr]	[K_B]	➜	'ɓ'	LATIN SMALL LETTER B WITH HOOK
+	[CAM Key]	b	➜	'ɓ'	LATIN SMALL LETTER B WITH HOOK
+	[AltGr]	[K_O]	➜	'ɔ'	LATIN SMALL LETTER OPEN O
+	[CAM Key]	o	➜	'ɔ'	LATIN SMALL LETTER OPEN O
+	[AltGr]	[K_D]	➜	'ɗ'	LATIN SMALL LETTER D WITH HOOK
+	[CAM Key]	d	➜	'ɗ'	LATIN SMALL LETTER D WITH HOOK
+	[AltGr]	[K_E]	➜	'ə'	LATIN SMALL LETTER SCHWA
+	[CAM Key]	e	➜	'ə'	LATIN SMALL LETTER SCHWA
+	[AltGr]	[K_A]	➜	'ɛ'	LATIN SMALL LETTER OPEN E
+	[CAM Key]	a	➜	'ɛ'	LATIN SMALL LETTER OPEN E
+	[AltGr]	[K_I]	➜	'ɨ'	LATIN SMALL LETTER I WITH STROKE
+	[CAM Key]	i	➜	'ɨ'	LATIN SMALL LETTER I WITH STROKE
+	[AltGr]	[K_U]	➜	'ʉ'	LATIN SMALL LETTER U BAR
+	[CAM Key]	u	➜	'ʉ'	LATIN SMALL LETTER U BAR
+	[AltGr]	[K_H]	➜	'α'	GREEK SMALL LETTER ALPHA
+	[CAM Key]	h	➜	'α'	GREEK SMALL LETTER ALPHA
+	[AltGr]	[K_W]	➜	'ẅ'	LATIN SMALL LETTER W WITH DIAERESIS
+	[CAM Key]	w	➜	'ẅ'	LATIN SMALL LETTER W WITH DIAERESIS
+	[AltGr]	[K_V]	➜	'ꞌ'	LATIN SMALL LETTER SALTILLO
+	[CAM Key]	v	➜	'ꞌ'	LATIN SMALL LETTER SALTILLO
+########
+Math Symbol
+########
+	[Shift]	[K_EQUAL]	➜	'+'	PLUS SIGN
+	[Shift]	[K_COMMA]	➜	'<'	LESS-THAN SIGN
+	[CAM Key]	=	➜	'='	EQUALS SIGN
+	=	=	➜	'='	EQUALS SIGN
+	=	 	➜	'='	EQUALS SIGN
+	[Shift]	[K_PERIOD]	➜	'>'	GREATER-THAN SIGN
+	[Shift]	[K_BKSLASH]	➜	'|'	VERTICAL LINE
+	[Shift]	[K_OE2]	➜	'|'	VERTICAL LINE
+	[Shift]	[AltGr]	[K_OE2]	➜	'|'	VERTICAL LINE
+	[Shift]	[AltGr]	[K_BKQUOTE]	➜	'~'	TILDE
+	[CAM Key]	̃	➜	'~'	TILDE
+	=	̃	➜	'~'	TILDE
+	[Shift]	[AltGr]	[K_EQUAL]	➜	'±'	PLUS-MINUS SIGN
+	[CAM Key]	+	➜	'±'	PLUS-MINUS SIGN
+	[Shift]	[AltGr]	[K_8]	➜	'×'	MULTIPLICATION SIGN
+	[CAM Key]	*	➜	'×'	MULTIPLICATION SIGN
+	[AltGr]	[K_SLASH]	➜	'÷'	DIVISION SIGN
+	[CAM Key]	/	➜	'÷'	DIVISION SIGN
+########
+Modifier Letter
+########
+	[AltGr]	[K_G]	➜	'ʼ'	MODIFIER LETTER APOSTROPHE
+	[CAM Key]	g	➜	'ʼ'	MODIFIER LETTER APOSTROPHE
+	=	̂	➜	'ˆ'	MODIFIER LETTER CIRCUMFLEX ACCENT
+	=	̌	➜	'ˇ'	CARON
+	=	̍	➜	'ˈ'	MODIFIER LETTER VERTICAL LINE
+	=	̄	➜	'ˉ'	MODIFIER LETTER MACRON
+	=	́	➜	'ˊ'	MODIFIER LETTER ACUTE ACCENT
+	=	̀	➜	'ˋ'	MODIFIER LETTER GRAVE ACCENT
+########
+Modifier Symbol
+########
+	[Shift]	[K_6]	➜	'^'	CIRCUMFLEX ACCENT
+	[AltGr]	[K_BKQUOTE]	➜	'`'	GRAVE ACCENT
+	[CAM Key]	̍	➜	'`'	GRAVE ACCENT
+	=	̧	➜	'¸'	CEDILLA
+########
+Nonspacing Mark
+########
+	[K_QUOTE]	➜	'◌̀'	COMBINING GRAVE ACCENT
+	[K_LBRKT]	➜	'◌́'	COMBINING ACUTE ACCENT
+	[Shift]	[K_QUOTE]	➜	'◌̂'	COMBINING CIRCUMFLEX ACCENT
+	[Shift]	[K_BKQUOTE]	➜	'◌̃'	COMBINING TILDE
+	[AltGr]	[K_HYPHEN]	➜	'◌̄'	COMBINING MACRON
+	[CAM Key]	-	➜	'◌̄'	COMBINING MACRON
+	[Shift]	[K_RBRKT]	➜	'◌̈'	COMBINING DIAERESIS
+	[Shift]	[K_LBRKT]	➜	'◌̌'	COMBINING CARON
+	[K_BKQUOTE]	➜	'◌̍'	COMBINING VERTICAL LINE ABOVE
+	[Shift]	[AltGr]	[K_J]	➜	'◌̣'	COMBINING DOT BELOW
+	[CAM Key]	J	➜	'◌̣'	COMBINING DOT BELOW
+	[AltGr]	[K_C]	➜	'◌̧'	COMBINING CEDILLA
+	[K_RBRKT]	➜	'◌̧'	COMBINING CEDILLA
+	[CAM Key]	c	➜	'◌̧'	COMBINING CEDILLA
+	[AltGr]	[K_J]	➜	'◌̰'	COMBINING TILDE BELOW
+	[CAM Key]	j	➜	'◌̰'	COMBINING TILDE BELOW
+	[Shift]	[AltGr]	[K_L]	➜	'◌᷄'	COMBINING MACRON-ACUTE
+	[CAM Key]	L	➜	'◌᷄'	COMBINING MACRON-ACUTE
+	[AltGr]	[K_K]	➜	'◌᷅'	COMBINING GRAVE-MACRON
+	[CAM Key]	k	➜	'◌᷅'	COMBINING GRAVE-MACRON
+	[AltGr]	[K_L]	➜	'◌᷆'	COMBINING MACRON-GRAVE
+	[CAM Key]	l	➜	'◌᷆'	COMBINING MACRON-GRAVE
+	[Shift]	[AltGr]	[K_K]	➜	'◌᷇'	COMBINING ACUTE-MACRON
+	[CAM Key]	K	➜	'◌᷇'	COMBINING ACUTE-MACRON
+########
+Open Punctuation
+########
+	[Shift]	[K_9]	➜	'('	LEFT PARENTHESIS
+	[AltGr]	[K_LBRKT]	➜	'['	LEFT SQUARE BRACKET
+	[CAM Key]	́	➜	'['	LEFT SQUARE BRACKET
+	[Shift]	[AltGr]	[K_LBRKT]	➜	'{'	LEFT CURLY BRACKET
+	[CAM Key]	̌	➜	'{'	LEFT CURLY BRACKET
+########
+Other Number
+########
+	[AltGr]	[K_1]	➜	'¼'	VULGAR FRACTION ONE QUARTER
+	[CAM Key]	1	➜	'¼'	VULGAR FRACTION ONE QUARTER
+	[AltGr]	[K_2]	➜	'½'	VULGAR FRACTION ONE HALF
+	[CAM Key]	2	➜	'½'	VULGAR FRACTION ONE HALF
+	[AltGr]	[K_3]	➜	'¾'	VULGAR FRACTION THREE QUARTERS
+	[CAM Key]	3	➜	'¾'	VULGAR FRACTION THREE QUARTERS
+########
+Other Punctuation
+########
+	[Shift]	[K_1]	➜	'!'	EXCLAMATION MARK
+	[Shift]	[AltGr]	[K_QUOTE]	➜	'"'	QUOTATION MARK
+	[CAM Key]	̂	➜	'"'	QUOTATION MARK
+	[Shift]	[K_3]	➜	'#'	NUMBER SIGN
+	[Shift]	[K_5]	➜	'%'	PERCENT SIGN
+	[Shift]	[K_7]	➜	'&'	AMPERSAND
+	[AltGr]	[K_QUOTE]	➜	'''	APOSTROPHE
+	[CAM Key]	̀	➜	'''	APOSTROPHE
+	[Shift]	[K_8]	➜	'*'	ASTERISK
+	[K_COMMA]	➜	','	COMMA
+	[K_PERIOD]	➜	'.'	FULL STOP
+	[K_SLASH]	➜	'/'	SOLIDUS
+	[Shift]	[K_COLON]	➜	':'	COLON
+	[Shift]	[AltGr]	[K_COLON]	➜	':'	COLON
+	[AltGr]	[K_COLON]	➜	';'	SEMICOLON
+	platform('hardware')	[CAM Key]	[CAM Key]	➜	';'	SEMICOLON
+	[CAM Key]	 	➜	';'	SEMICOLON
+	[Shift]	[K_SLASH]	➜	'?'	QUESTION MARK
+	[Shift]	[K_2]	➜	'@'	COMMERCIAL AT
+	[K_BKSLASH]	➜	'\'	REVERSE SOLIDUS
+	[K_OE2]	➜	'\'	REVERSE SOLIDUS
+	[AltGr]	[K_OE2]	➜	'\'	REVERSE SOLIDUS
+	[Shift]	[AltGr]	[K_Z]	➜	'†'	DAGGER
+	[CAM Key]	Z	➜	'†'	DAGGER
+	[AltGr]	[K_Z]	➜	'…'	HORIZONTAL ELLIPSIS
+	[CAM Key]	z	➜	'…'	HORIZONTAL ELLIPSIS
+########
+Other Symbol
+########
+	[Shift]	[AltGr]	[K_C]	➜	'©'	COPYRIGHT SIGN
+	[CAM Key]	C	➜	'©'	COPYRIGHT SIGN
+	[Shift]	[AltGr]	[K_R]	➜	'®'	REGISTERED SIGN
+	[CAM Key]	R	➜	'®'	REGISTERED SIGN
+	[Shift]	[AltGr]	[K_M]	➜	'™'	TRADE MARK SIGN
+	[CAM Key]	M	➜	'™'	TRADE MARK SIGN
+	[AltGr]	[K_R]	➜	'◌'	DOTTED CIRCLE
+	[CAM Key]	r	➜	'◌'	DOTTED CIRCLE
+########
+Space Separator
+########
+	[K_SPACE]	➜	' '	SPACE
+	[Shift]	[K_SPACE]	➜	' '	SPACE
+	[Left Control]	[K_SPACE]	➜	' '	NO-BREAK SPACE
+	[Right Control]	[K_SPACE]	➜	' '	NO-BREAK SPACE
+########
+Uppercase Letter
+########
+	[Shift]	[K_A]	➜	'A'	LATIN CAPITAL LETTER A
+	[Shift]	[K_B]	➜	'B'	LATIN CAPITAL LETTER B
+	[Shift]	[K_C]	➜	'C'	LATIN CAPITAL LETTER C
+	[Shift]	[K_D]	➜	'D'	LATIN CAPITAL LETTER D
+	[Shift]	[K_E]	➜	'E'	LATIN CAPITAL LETTER E
+	[Shift]	[K_F]	➜	'F'	LATIN CAPITAL LETTER F
+	[Shift]	[K_G]	➜	'G'	LATIN CAPITAL LETTER G
+	[Shift]	[K_H]	➜	'H'	LATIN CAPITAL LETTER H
+	[Shift]	[K_I]	➜	'I'	LATIN CAPITAL LETTER I
+	[Shift]	[K_J]	➜	'J'	LATIN CAPITAL LETTER J
+	[Shift]	[K_K]	➜	'K'	LATIN CAPITAL LETTER K
+	[Shift]	[K_L]	➜	'L'	LATIN CAPITAL LETTER L
+	[Shift]	[K_M]	➜	'M'	LATIN CAPITAL LETTER M
+	[Shift]	[K_N]	➜	'N'	LATIN CAPITAL LETTER N
+	[Shift]	[K_O]	➜	'O'	LATIN CAPITAL LETTER O
+	[Shift]	[K_P]	➜	'P'	LATIN CAPITAL LETTER P
+	[Shift]	[K_Q]	➜	'Q'	LATIN CAPITAL LETTER Q
+	[Shift]	[K_R]	➜	'R'	LATIN CAPITAL LETTER R
+	[Shift]	[K_S]	➜	'S'	LATIN CAPITAL LETTER S
+	[Shift]	[K_T]	➜	'T'	LATIN CAPITAL LETTER T
+	[Shift]	[K_U]	➜	'U'	LATIN CAPITAL LETTER U
+	[Shift]	[K_V]	➜	'V'	LATIN CAPITAL LETTER V
+	[Shift]	[K_W]	➜	'W'	LATIN CAPITAL LETTER W
+	[Shift]	[K_X]	➜	'X'	LATIN CAPITAL LETTER X
+	[Shift]	[K_Y]	➜	'Y'	LATIN CAPITAL LETTER Y
+	[Shift]	[K_Z]	➜	'Z'	LATIN CAPITAL LETTER Z
+	[Shift]	[AltGr]	[K_F]	➜	'Æ'	LATIN CAPITAL LETTER AE
+	[CAM Key]	F	➜	'Æ'	LATIN CAPITAL LETTER AE
+	[Shift]	[AltGr]	[K_P]	➜	'Ø'	LATIN CAPITAL LETTER O WITH STROKE
+	[CAM Key]	P	➜	'Ø'	LATIN CAPITAL LETTER O WITH STROKE
+	[Shift]	[AltGr]	[K_N]	➜	'Ŋ'	LATIN CAPITAL LETTER ENG
+	[CAM Key]	N	➜	'Ŋ'	LATIN CAPITAL LETTER ENG
+	[Shift]	[AltGr]	[K_T]	➜	'Œ'	LATIN CAPITAL LIGATURE OE
+	[CAM Key]	T	➜	'Œ'	LATIN CAPITAL LIGATURE OE
+	[Shift]	[AltGr]	[K_B]	➜	'Ɓ'	LATIN CAPITAL LETTER B WITH HOOK
+	[CAM Key]	B	➜	'Ɓ'	LATIN CAPITAL LETTER B WITH HOOK
+	[Shift]	[AltGr]	[K_O]	➜	'Ɔ'	LATIN CAPITAL LETTER OPEN O
+	[CAM Key]	O	➜	'Ɔ'	LATIN CAPITAL LETTER OPEN O
+	[Shift]	[AltGr]	[K_D]	➜	'Ɗ'	LATIN CAPITAL LETTER D WITH HOOK
+	[CAM Key]	D	➜	'Ɗ'	LATIN CAPITAL LETTER D WITH HOOK
+	[Shift]	[AltGr]	[K_E]	➜	'Ə'	LATIN CAPITAL LETTER SCHWA
+	[CAM Key]	E	➜	'Ə'	LATIN CAPITAL LETTER SCHWA
+	[Shift]	[AltGr]	[K_A]	➜	'Ɛ'	LATIN CAPITAL LETTER OPEN E
+	[CAM Key]	A	➜	'Ɛ'	LATIN CAPITAL LETTER OPEN E
+	[Shift]	[AltGr]	[K_I]	➜	'Ɨ'	LATIN CAPITAL LETTER I WITH STROKE
+	[CAM Key]	I	➜	'Ɨ'	LATIN CAPITAL LETTER I WITH STROKE
+	[Shift]	[AltGr]	[K_Y]	➜	'Ƴ'	LATIN CAPITAL LETTER Y WITH HOOK
+	[CAM Key]	Y	➜	'Ƴ'	LATIN CAPITAL LETTER Y WITH HOOK
+	[Shift]	[AltGr]	[K_U]	➜	'Ʉ'	LATIN CAPITAL LETTER U BAR
+	[CAM Key]	U	➜	'Ʉ'	LATIN CAPITAL LETTER U BAR
+	[Shift]	[AltGr]	[K_W]	➜	'Ẅ'	LATIN CAPITAL LETTER W WITH DIAERESIS
+	[CAM Key]	W	➜	'Ẅ'	LATIN CAPITAL LETTER W WITH DIAERESIS
+	[Shift]	[AltGr]	[K_H]	➜	'Ɑ'	LATIN CAPITAL LETTER ALPHA
+	[CAM Key]	H	➜	'Ɑ'	LATIN CAPITAL LETTER ALPHA
+	[Shift]	[AltGr]	[K_G]	➜	'Ꞌ'	LATIN CAPITAL LETTER SALTILLO
+	[Shift]	[AltGr]	[K_V]	➜	'Ꞌ'	LATIN CAPITAL LETTER SALTILLO
+	[CAM Key]	G	➜	'Ꞌ'	LATIN CAPITAL LETTER SALTILLO
+	[CAM Key]	V	➜	'Ꞌ'	LATIN CAPITAL LETTER SALTILLO

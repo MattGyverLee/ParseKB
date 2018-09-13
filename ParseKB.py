@@ -362,7 +362,7 @@ def buildCombo(line,inputs,outputs, lineCount):
                         "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False,
                         "isKey" : ""}
             verbose(lineCount,"It's a keypress")
-            keyCombo['fullKey'] = inputUpper
+            keyCombo['fullKey'] = inputUpper.replace("---", " ")
             inputUpper = inputUpper[1:-1]
             tempProps = {}
             if "SHIFT" in inputUpper:
@@ -582,7 +582,7 @@ def generateCombos(line,importantInputs, inputTargetStores, inputTargetLists, in
             #next item
 
             #Repeat
-    print("w")
+    
 
     #DeterminePairs
     #get length of each pair
@@ -640,6 +640,269 @@ def CheckCondition(group):
     if FoundRaltSimple and FoundCapsShiftRalt:
         return True, input["isKey"]
 
+def printKeyList(code = False, human = True, inFilter = [], deadkeyNames = []):
+    w = []
+    letter = ""
+    category = ""
+    from itertools import groupby
+    from operator import itemgetter
+    keyboard = thisKeyboard.getCombos()
+    SortedCombosOutputs = sorted(keyboard, key=lambda k: ("outputs" not in k, k.get("outputs", None)))
+    #SortedCombosOutput = sorted(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
+    #groupedCombosOutput = groupby(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
+    f = open(filenameToParse + '_Table.txt', 'w', encoding="utf-8")
+    #f.write(foo.encode('utf8'))
+    for key, group in groupby(SortedCombosOutputs, key=lambda k: ("outputs" not in k, k.get("outputs", None))):
+        for thing in group:
+            getDescrip = ""
+            #Labels are only needed if both are enabled.
+            if code: 
+                stringtoWrite = "User:"
+            else:
+                stringtoWrite = ""
+            if human: 
+                codedString = "Code:"
+            else:
+                codedString = ""
+            if 'inputs' in thing:
+                for input in thing['inputs']:
+                    if isinstance(input, dict):
+                        if input['isCAPS']:
+                            stringtoWrite = stringtoWrite + "\t" + "[Caps]"
+                        if input['isSHIFT']:
+                            stringtoWrite = stringtoWrite + "\t" + "[Shift]"
+                        if input['isALT']:
+                            stringtoWrite = stringtoWrite + "\t" + "[Alt]"
+                        if input['isRALT']:
+                            stringtoWrite = stringtoWrite + "\t" + "[AltGr]"
+                        if input['isLALT']:
+                            stringtoWrite = stringtoWrite + "\t" + "[Left Alt]"
+                        if input['isCTRL']:
+                            stringtoWrite = stringtoWrite + "\t" + "[Ctrl]"
+                        if input['isRCTRL']:
+                            stringtoWrite = stringtoWrite + "\t" + "[Right Control]"
+                        if input['isLCTRL']:
+                            stringtoWrite = stringtoWrite + "\t" + "[Left Control]"
+                        stringtoWrite = stringtoWrite + "\t[" + input['isKey'] + "]"
+                        codedString = codedString + "\t" + input['fullKey']
+                    else:
+                        if input.startswith("dk"):
+                            if (input.upper() == "DK(003B)") or (input.upper() == "DK(0021)"):
+                                stringtoWrite = stringtoWrite + "\t" + "[CAM Key]"
+                                codedString = codedString + "\t" + input
+                            else:
+                                letterCode = input.strip().upper()[3:-1]
+                                letter = chr(int(letterCode, 16))
+                                stringtoWrite = stringtoWrite + "\t" + letter
+                                codedString = codedString + "\t" + input
+                        elif input.startswith("U+"):
+                            letterCode = input.strip().upper()[2:]
+                            letter = chr(int(letterCode, 16))
+                            stringtoWrite = stringtoWrite + "\t" + letter
+                            codedString = codedString + "\t" + input
+                        elif input.startswith("+"):
+                            x = ""
+                        else:
+                            stringtoWrite = stringtoWrite + "\t" + input
+                            codedString = codedString + "\t" + input
+            stringtoWrite = stringtoWrite + "\t➜"
+            codedString = codedString + "\t➜"
+            if 'outputs' in thing:
+                for output in thing['outputs']:
+                    if output.startswith("dk"):
+                        for theKey in deadkeyNames:
+                            if output.upper() == theKey[0].upper():
+                                category = "Deadkey"
+                        stringtoWrite = stringtoWrite + "\t" + output
+                        codedString = codedString + "\t" + output
+                    elif output.startswith("U+"):
+                        getDescrip = output
+                        letterCode = output.strip().upper()[2:]
+                        letter = chr(int(letterCode, 16))
+                        if output.startswith("U+030") or output.startswith("U+031") or output.startswith("U+032") or output.startswith("U+033") or output.startswith("U+034") or output.startswith("U+035") or output.startswith("U+036") or output.startswith("U+1D"):
+                            stringtoWrite = stringtoWrite + "\t'" + chr(int("25CC", 16)) + letter + "'"
+                            codedString = codedString + "\t" + output
+                        else:
+                            stringtoWrite = stringtoWrite + "\t'" + letter + "'"
+                            codedString = codedString + "\t" + output
+                    else:
+                        stringtoWrite = stringtoWrite + "\t" + output
+                        codedString = codedString + "\t" + output
+            for item in inFilter:
+                if (item.upper() in stringtoWrite.upper()) or (item.upper() in codedString.upper()):
+                    codedString = ""
+                    stringtoWrite = ""
+            if ('inputs' not in thing) or ('outputs' not in thing):
+                codedString = ""
+                stringtoWrite = ""
+            if codedString != "" and code:
+                codedString = codedString + "\t" + str(thing['lineCount'])
+                if getDescrip in UnicodeArchive:
+                    thisOutput = UnicodeArchive[getDescrip]
+                    #if category == '':
+                    category = thisOutput['Category-Long']
+                w.append([codedString, category, letter])
+                f.write(codedString + "\n")
+            if stringtoWrite != "" and human:
+                if getDescrip in UnicodeArchive:
+                    thisOutput = UnicodeArchive[getDescrip]
+                    if thisOutput["Name"] != "":
+                        stringtoWrite = stringtoWrite + "\t" + thisOutput['Name']
+                    if getDescrip in UnicodeArchive:
+                        thisOutput = UnicodeArchive[getDescrip]
+                        #if category == '':
+                        category = thisOutput['Category-Long']
+                w.append([stringtoWrite, category, letter])
+                f.write(stringtoWrite + "\n")
+        f.write("\n")
+    #combosWithoutDups = RemoveDups(w)
+    #SortedCombos = sorted(combosWithoutDups, key=lambda k: (k[1], k[2]))
+    SortedCombos = sorted(w, key=lambda k: (k[1], k[2]))
+    
+    for key, group in groupby(SortedCombos, key=lambda k: (k[1])):
+        f.write("########\n" + key + "\n########\n")
+        for thing in group:
+            f.write(thing[0] + "\n")
+    f.close()
+    print("Coded")
+
+def RemoveDups(duplicate): 
+    final_list = [] 
+    for num in duplicate: 
+        if num not in final_list: 
+            final_list.append(num) 
+    return final_list 
+
+def importUnicode():
+    CodePoint = {}
+    u = open('Unicode/UnicodeData.txt', 'r', encoding="utf-8")
+    for line in u:
+        if "\n" in line:
+            line = line[:-2]
+        elements = line.split(';')
+
+        CodepointProps = {}
+        if elements[1] != '':
+            CodepointProps['Name'] = elements[1]
+        if elements[2] != '':
+            CodepointProps['Category'] = elements[2]
+            cat = elements[2]
+            if cat == "Lu":
+                CodepointProps['Category-Long'] = "Uppercase Letter"
+                CodepointProps['Category-Descrip'] = "an uppercase letter"
+            if cat == "Ll":
+                CodepointProps['Category-Long'] = "Lowercase Letter"
+                CodepointProps['Category-Descrip'] = "a lowercase letter"
+            if cat == "Lt":
+                CodepointProps['Category-Long'] = "Titlecase Letter"
+                CodepointProps['Category-Descrip'] = "a digraphic character, with first part uppercase"
+            if cat == "Lm":
+                CodepointProps['Category-Long'] = "Modifier Letter"
+                CodepointProps['Category-Descrip'] = "a modifier letter"
+            if cat == "Lo":
+                CodepointProps['Category-Long'] = "Other Letter"
+                CodepointProps['Category-Descrip'] = "other letters, including syllables and ideographs"
+            if cat == "Mn":
+                CodepointProps['Category-Long'] = "Nonspacing Mark"
+                CodepointProps['Category-Descrip'] = "a nonspacing combining mark (zero advance width)"
+            if cat == "Mc":
+                CodepointProps['Category-Long'] = "Spacing Mark"
+                CodepointProps['Category-Descrip'] = "a spacing combining mark (positive advance width)"
+            if cat == "Me":
+                CodepointProps['Category-Long'] = "Enclosing Mark"
+                CodepointProps['Category-Descrip'] = "an enclosing combining mark"
+            if cat == "Nd":
+                CodepointProps['Category-Long'] = "Decimal Number"
+                CodepointProps['Category-Descrip'] = "a decimal digit"
+            if cat == "Nl":
+                CodepointProps['Category-Long'] = "Letter Number"
+                CodepointProps['Category-Descrip'] = "a letterlike numeric character"
+            if cat == "No":
+                CodepointProps['Category-Long'] = "Other Number"
+                CodepointProps['Category-Descrip'] = "a numeric character of other type"
+            if cat == "Pc":
+                CodepointProps['Category-Long'] = "Connector Punctuation"
+                CodepointProps['Category-Descrip'] = "a connecting punctuation mark, like a tie"
+            if cat == "Pd":
+                CodepointProps['Category-Long'] = "Dash Punctuation"
+                CodepointProps['Category-Descrip'] = "a dash or hyphen punctuation mark"
+            if cat == "Ps":
+                CodepointProps['Category-Long'] = "Open Punctuation"
+                CodepointProps['Category-Descrip'] = "an opening punctuation mark (of a pair)"
+            if cat == "Pe":
+                CodepointProps['Category-Long'] = "Close Punctuation"
+                CodepointProps['Category-Descrip'] = "a closing punctuation mark (of a pair)"
+            if cat == "Pi":
+                CodepointProps['Category-Long'] = "Initial Punctuation"
+                CodepointProps['Category-Descrip'] = "an initial quotation mark"
+            if cat == "Pf":
+                CodepointProps['Category-Long'] = "Final Punctuation"
+                CodepointProps['Category-Descrip'] = "a final quotation mark"
+            if cat == "Po":
+                CodepointProps['Category-Long'] = "Other Punctuation"
+                CodepointProps['Category-Descrip'] = "a punctuation mark of other type"
+            if cat == "Sm":
+                CodepointProps['Category-Long'] = "Math Symbol"
+                CodepointProps['Category-Descrip'] = "a symbol of mathematical use"
+            if cat == "Sc":
+                CodepointProps['Category-Long'] = "Currency Symbol"
+                CodepointProps['Category-Descrip'] = "a currency sign"
+            if cat == "Sk":
+                CodepointProps['Category-Long'] = "Modifier Symbol"
+                CodepointProps['Category-Descrip'] = "a non-letterlike modifier symbol"
+            if cat == "So":
+                CodepointProps['Category-Long'] = "Other Symbol"
+                CodepointProps['Category-Descrip'] = "a symbol of other type"
+            if cat == "Zs":
+                CodepointProps['Category-Long'] = "Space Separator"
+                CodepointProps['Category-Descrip'] = "a space character (of various non-zero widths)"
+            if cat == "Zl":
+                CodepointProps['Category-Long'] = "Line Separator"
+                CodepointProps['Category-Descrip'] = "U+2028 LINE SEPARATOR only"
+            if cat == "Zp":
+                CodepointProps['Category-Long'] = "Paragraph Separator"
+                CodepointProps['Category-Descrip'] = "U+2029 PARAGRAPH SEPARATOR only"
+            if cat == "Cc":
+                CodepointProps['Category-Long'] = "Control"
+                CodepointProps['Category-Descrip'] = "a C0 or C1 control code"
+            if cat == "Cf":
+                CodepointProps['Category-Long'] = "Format"
+                CodepointProps['Category-Descrip'] = "a format control character"
+            if cat == "Cs":
+                CodepointProps['Category-Long'] = "Surrogate"
+                CodepointProps['Category-Descrip'] = "a surrogate code point"
+            if cat == "Co":
+                CodepointProps['Category-Long'] = "Private Use"
+                CodepointProps['Category-Descrip'] = "a private-use character"
+        if elements[3] != '':
+            CodepointProps['Combining Class'] = elements[3]
+        if elements[4] != '':
+            CodepointProps['Bidi Class'] = elements[4]
+        if elements[5] != '':
+            CodepointProps['Decomp Mapping'] = elements[5]
+        if elements[6] != '':
+            CodepointProps['Decimal Value'] = elements[6]
+        if elements[7] != '':
+            CodepointProps['Digit Value'] = elements[7]
+        if elements[8] != '':
+            CodepointProps['Numeric Value'] = elements[8]
+        if elements[9] != '' and elements[9] != "N":
+            CodepointProps['Bidi Mirrored'] = elements[9]
+        if elements[10] != '' and elements[10] != "NULL":
+            CodepointProps['Unicode 1 Name'] = elements[10]
+        if elements[11] != '':
+            CodepointProps['Comment'] = elements[11]
+        if elements[12] != '':
+            CodepointProps['Uppercase'] = elements[12]
+        if elements[13] != '':
+            CodepointProps['Lowercase'] = elements[13]
+        #if (elements[14] is not Null) and (elements[14] != ''):
+        #    CodepointProps['Titlecase'] = elements[14]
+        codeName = "U+" + elements[0]
+        CodePoint[codeName] = CodepointProps 
+        #print("Yo")
+    return CodePoint
+    # https://github.com/jessetane/unicode-database-parser/blob/master/defs.json
 
 def getKeyValues(passedKeyboard, filenameToParse):
     from itertools import groupby
@@ -767,10 +1030,11 @@ def missingCombo(passedKeyboard, filenameToParse):
         f.writelines(sorted(stringList))
         f.close
 
-def analyzeKB(passedKeyboard, filenameToParse):
+def analyzeKB(passedKeyboard, filenameToParse, infilter, deadkeyNames):
     inferCaps(passedKeyboard, filenameToParse)
     missingCombo(passedKeyboard, filenameToParse)
     getKeyValues(passedKeyboard, filenameToParse)
+    printKeyList(False, True, infilter, deadkeyNames)
     writeKeyboardGist(passedKeyboard, filenameToParse)
 
 def printToJson(filenameToParse):
@@ -897,10 +1161,13 @@ def rowGenerator(row, layout):
     return rowList
 
 keyboardRepo = {}
+filters = ["BEEP", "ANY(", "USE(", "NUL", "CONTEXT", "T_", "[Caps]"]
+deadkeyNames = [['dk(003B)', "Cam Key"],['dk(0021)', "Cam Key"]]
+UnicodeArchive = importUnicode()
 filenameToParse = "sil_cameroon_qwerty.kmn"
 thisKeyboard = keyboardDefinition(filenameToParse)
 parseKB(thisKeyboard, filenameToParse, True)
-analyzeKB(thisKeyboard, filenameToParse)
+analyzeKB(thisKeyboard, filenameToParse, filters, deadkeyNames)
 keyboardRepo[filenameToParse] = copy.deepcopy(thisKeyboard)
 printToJson(filenameToParse)
 
@@ -911,7 +1178,7 @@ filenameToParse = "sil_cameroon_azerty.kmn"
 thisKeyboard = keyboardDefinition(filenameToParse)
 thisKeyboard.keymanComboList = []
 parseKB(thisKeyboard, filenameToParse, True)
-analyzeKB(thisKeyboard, filenameToParse)
+analyzeKB(thisKeyboard, filenameToParse, filters, deadkeyNames)
 keyboardRepo[filenameToParse] = thisKeyboard
 printToJson(filenameToParse)
 
