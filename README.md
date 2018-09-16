@@ -12,7 +12,9 @@ This tool indends to provides several functions not currently provided by curren
 4. :black_square_button: Converting Keyman keyboards to Mac .keyLayout format.
 5. :black_square_button: Converting Keyman keyboards to Linux XKB (https://www.freedesktop.org/wiki/Software/XKeyboardConfig/) format.
 6. :white_check_mark: Exporting to Keyboard-Layout-Creator format for easy documentation. (Contents can be pasted into the tool at http://www.keyboard-layout-editor.com/ .)
+    * :black_square_button: Adapting this to different physical keyboards
 7. :white_check_mark: Exporting a Full Command list for Documentation
+    * :black_square_button: Adapting this to different Physical Keyboards
 8. :black_square_button: Exporting a json markup of all analyzed data.
 9. :black_square_button: Comparing Keyman Keyboards
 10. :white_check_mark: Accessing Unicode Properties as needed
