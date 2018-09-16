@@ -1,5 +1,5 @@
 # ParseKB
-This tool indends to provides several functions:
+This tool indends to provides several functions not currently provided by current tools:
 1. Analyzing Keyman keyboards for inconsistencies
     * :white_check_mark: Looks for missing combinations that might cause inconsistent output. 
     * :white_check_mark: Grouping Keys for visual inspection.
