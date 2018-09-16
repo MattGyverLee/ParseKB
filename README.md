@@ -16,3 +16,11 @@ This tool indends to provides several functions not currently provided by curren
 8. :black_square_button: Exporting a json markup of all analyzed data.
 9. :black_square_button: Comparing Keyman Keyboards
 10. :white_check_mark: Accessing Unicode Properties as needed
+
+# Assumptions:
+* Keyman Keyboards:
+  * Deadkey Names use dk(0061) format.
+
+# Requirements:
+* Python 3
+* Source Keyboard Files
