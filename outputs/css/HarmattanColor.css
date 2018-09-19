@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css?family=Harmattan');
+.camkey {
+  display: inline-block;
+  background:linear-gradient(to right, green 33%, red 33% , red 66%, yellow 66%);
+  /* text-shadow: 0 0 5px #ffffff; */
+  font-size: .6em;
+  border: 1px;
+  border-color: #000000;
+}
+
+.pub {
+    /* display: none; */
+    opacity: .4;
+    color: purple;
+    /* text-shadow: none; */
+    background: none;
+    font-family: 'Harmattan';
+}
+
+
+.dk {
+  display: inline-block;
+  /* background: grey; */
+  text-shadow: 0 0 5px #ffffff;
+  font-family: 'Harmattan';
+}
+.return {
+  text-shadow: none;
+
+  font-size: 14pt;
+  margin-left: -14px;
+  margin-top: 10px;
+  font-family: 'Harmattan';
+} 
+.keylabel0 { /* TOP LEFT */
+  font-size: 12pt;
+  text-shadow: 0 0 5px #d6cf04; 
+  font-family: 'Harmattan';
+  margin-left: 1px;
+}
+.keylabel6 { /* BOTTOM LEFT */
+  font-size: 14pt;
+  margin-top: -2px;
+  font-family: 'Harmattan';
+  margin-left: 1px;
+}
+.keylabel2 { /* TOP RIGHT */
+  font-size: 12pt;
+  text-shadow: 0 0 5px #00ff00;
+  font-family: 'Harmattan';
+}
+.keylabel8 { /* BOTTOM RIGHT */
+  font-size: 12pt;
+  margin-top: -2px;
+  text-shadow: 0 0 5px #185adb;  /*  #8cb1fa*/
+  font-family: 'Harmattan';
+}

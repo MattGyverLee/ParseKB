@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css?family=Andika');
+.camkey {
+  display: inline-block;
+  background:linear-gradient(to right, green 33%, red 33% , red 66%, yellow 66%);
+  font-size: .6em;
+  border: 1px;
+  border-color: #000000;
+}
+
+.pub {
+    /* display: none; */
+    opacity: .4;
+    background: none;
+    font-family: 'Andika';
+}
+
+.fr {
+    /* display: none; */
+    opacity: .4;
+    font-size: .8em;
+    font-weight: 400;
+    background: none;
+    font-family: 'Andika';
+}
+
+.dk {
+  display: inline-block;
+  /* background: grey; */
+  font-family: 'Andika';
+}
+.return {
+  font-weight: 600;
+  font-size: 14pt;
+  margin-left: -14px;
+  margin-top: 10px;
+  font-family: 'Andika';
+} 
+.keylabel0 { /* TOP LEFT */
+  font-size: 12pt;
+  font-weight: 400;
+  font-family: 'Andika';
+  margin-left: 1px;
+}
+.keylabel6 { /* BOTTOM LEFT */
+  font-weight: 600;
+  font-size: 14pt;
+  margin-top: -2px;
+  font-family: 'Andika';
+  margin-left: 1px;
+}
+.keylabel2 { /* TOP RIGHT */
+  font-size: 12pt;
+  font-weight: 400;
+  font-family: 'Andika';
+}
+.keylabel8 { /* BOTTOM RIGHT */
+  font-size: 12pt;
+  font-weight: 400;
+  margin-top: -2px;
+  font-family: 'Andika';
+}

@@ -1,0 +1,72 @@
+/*@import url('https://fonts.googleapis.com/css?family=Andika');*/
+@import url('https://fonts.googleapis.com/css?family=Harmattan');
+.camkey {
+  display: inline-block;
+  background:linear-gradient(to right, green 33%, red 33% , red 66%, yellow 66%);
+  /* text-shadow: 0 0 5px #ffffff; */
+  font-size: .6em;
+  border: 1px;
+  border-color: #000000;
+}
+
+.pub {
+    /* display: none; */
+    opacity: .4;
+    color: purple;
+    /* text-shadow: none; */
+    background: none;
+    font-family: 'Andika';
+}
+
+.fr {
+    /* display: none; */
+    opacity: .4;
+    font-size: .8em;
+    font-weight: 400;
+    color:red;
+    /* text-shadow: none; */
+    background: none;
+    font-family: 'Andika';
+}
+
+.dk {
+  display: inline-block;
+  /* background: grey; */
+  text-shadow: 0 0 5px #ffffff;
+  font-family: 'Andika';
+}
+.return {
+  text-shadow: none;
+  font-weight: 600;
+  font-size: 14pt;
+  margin-left: -14px;
+  margin-top: 10px;
+  font-family: 'Andika';
+} 
+.keylabel0 { /* TOP LEFT */
+  font-size: 12pt;
+  font-weight: 400;
+  text-shadow: 0 0 5px #d6cf04; 
+  font-family: 'Andika';
+  margin-left: 1px;
+}
+.keylabel6 { /* BOTTOM LEFT */
+  font-weight: 600;
+  font-size: 14pt;
+  margin-top: -2px;
+  font-family: 'Andika';
+  margin-left: 1px;
+}
+.keylabel2 { /* TOP RIGHT */
+  font-size: 12pt;
+  font-weight: 400;
+  text-shadow: 0 0 5px #00ff00;
+  font-family: 'Andika';
+}
+.keylabel8 { /* BOTTOM RIGHT */
+  font-size: 12pt;
+  font-weight: 400;
+  margin-top: -2px;
+  text-shadow: 0 0 5px #185adb;  /*  #8cb1fa*/
+  font-family: 'Andika';
+}
