@@ -10,7 +10,7 @@ from operator import itemgetter
 #ToDo: Parse Stores like strings
 #Do Comparison
 #expand Any's
-
+combiners = ["Mn", "Me", "Mc"]
 isVerbose = False
 kbProps = {}
 kbLinks = [
@@ -51,7 +51,7 @@ kbLinks = [
         {"linux": "AC09", "scancode": "26", "microsoft": "L", "caps": True, "keyman": "K_L", 'row': 2},
         {"linux": "AC10", "scancode": "27", "microsoft": "OEM_1", "caps": False, "keyman": "K_COLON", 'row': 2},
         {"linux": "AC11", "scancode": "28", "microsoft": "OEM_7", "caps": False, "keyman": "K_QUOTE", 'row': 2},
-        {"linux": "K102", "scancode": "56", "microsoft": "OEM_102", "caps": False, "keyman": "K_oE2", 'row': 3},
+        {"linux": "K102", "scancode": "56", "microsoft": "OEM_102", "caps": False, "keyman": "K_OE2", 'row': 3},
         {"linux": "AB01", "scancode": "2c", "microsoft": "Z", "caps": True, "keyman": "K_Z", 'row': 3},
         {"linux": "AB02", "scancode": "2d", "microsoft": "X", "caps": True, "keyman": "K_X", 'row': 3},
         {"linux": "AB03", "scancode": "2e", "microsoft": "C", "caps": True, "keyman": "K_C", 'row': 3},
@@ -71,12 +71,14 @@ def parseKB(passedKeyboard, filenameToParse, expand = False):
         passedKeyboard.setNative("MSKLC")
         parseMSK(passedKeyboard, filenameToParse)
         GenerateKMRules(passedKeyboard)
+        if not filenameToParse.startswith("KLC/"):
+            printKMN(passedKeyboard)
     elif (filenameToParse[-4:] == ".kmn"):
         passedKeyboard.setNative("Keyman")
         parseKeyman(passedKeyboard, filenameToParse, expand)
 
 def parseMSK(passedKeyboard, mskFilename):
-    print("Parsing MS")
+    print("Parsing Microsoft Keyboard")
     KbMetaInfo = dict()
     KBShiftStates = dict()
     KBCodes = dict()
@@ -180,19 +182,20 @@ def parseMSK(passedKeyboard, mskFilename):
                         k = line.split("\t")
                         index = 0
                         vk = k[0]
-                        id = k[1]
+                        order = ""
                         #find o in list, get column, output all
                         relevantLine = passedKeyboard.getMSKeyDef(vk, "MSKLC")
                         for bit in k:
                             if index == 0:
                                 vk = bit
                             elif index == 1:
-                                id = bit
+                                order = bit
                             elif bit.startswith("//"):
                                 relevantLine['Names'].append(bit)
                             elif bit != "":
                                 if len(bit) == 4:
-                                    column = passedKeyboard.getColumnBySSID(id)
+                                    #problem hereXXX
+                                    column = passedKeyboard.getColumnByOrder(order)
                                     targetKey = [x for x in relevantLine['Keys'] if x['Column'] == column][0]
                                     if 'Code' in targetKey:
                                         targetKey['Code'].append(bit.upper())
@@ -283,7 +286,7 @@ def parseMSK(passedKeyboard, mskFilename):
                         iLevels = iLevels + 1
                        
     infile.close()
-    print("ScannedMSK")
+    print("Finished Parsing Microsoft Keyboard")
 
 def GenerateKMRules(passedKeyboard):
     if passedKeyboard.NativeFormat == "MSKLC":
@@ -607,6 +610,14 @@ def getCrossPlatformKeycode(key,inputPlatfrom,outputPlatform):
         finally:
             if outputPlatform == "Keyman":
                 return relevantLine['keyman']
+    if inputPlatfrom == "Keyman":
+        try:
+            relevantLine = [x for x in kbLinks if x['keyman'] == key][0]
+        except:
+            print('Keyman Key Unrecognized')
+        finally:
+            if outputPlatform == "MSKLC":
+                return relevantLine['scancode']
 def verbose(lineNumber, inputString):
     if isVerbose:
         print(lineNumber, ": ", inputString)
@@ -776,6 +787,8 @@ def parseKeyman(passedKeyboard, keymanFilename, generateDeadkeys = False):
                             if inputTargetStores[0].upper() in tempInput.upper():
                                 copyInputs[inputCounter] = unwrappedInputTargetLists[storeItemCounter]
                                 tempDef['inputs'] = copyInputs
+                                ###Find Combo on BaseKB
+                                tempDef['DKInput'] = "TargetKB"
                             inputCounter += 1
                         outputCounter = 0
                         copyOutputs = copy.deepcopy(tempDef['outputs'])
@@ -812,6 +825,32 @@ def parseKeyman(passedKeyboard, keymanFilename, generateDeadkeys = False):
             else:
                 print('This is too complex')
                 #numRounds = len(inputTargetLists)
+    #Interpret Target of Deadkeys
+    #Waited until all lines were expanded.
+    linesWithDK = passedKeyboard.getCombosWithPrelimDeadkey()
+    dkInputCounter = 0
+    for line in linesWithDK:
+        if 'inputs' in line:
+            precedingDK = False
+            dkInputCounter = 0
+            for input in line['inputs']:
+
+                if input.startswith("dk("):
+                    precedingDK = True
+                elif input.startswith("U+") and precedingDK:
+                    listing = passedKeyboard.getCombosByOutput(input)
+                    newListing = findSimplest(listing)
+                    if newListing[1] != False:
+                        #input = copy.deepcopy(newListing[1])
+                        passedKeyboard.updateInput(line['lineCount'],dkInputCounter,newListing[1])
+                        line['DKInput'] = "Combo"
+                    precedingDK = False
+                else:
+                    precedingDK = False
+                    print("What did I find?")
+                dkInputCounter += 1
+
+
 
 def processKeymanRule(line,lineCount,currentGroup, passedkeyboard):
     rule = {}
@@ -890,6 +929,7 @@ def buildCombo(line,inputs,outputs, lineCount, passedKeyboard):
                         "isKey" : ""}
             verbose(lineCount,"It's a keypress")
             keyCombo['fullKey'] = inputUpper.replace("---", " ")
+            thisCombo['comboFullKey'] = inputUpper.replace("---", " ")
             inputUpper = inputUpper[1:-1]
             tempProps = {}
             if "SHIFT" in inputUpper:
@@ -967,6 +1007,7 @@ def buildCombo(line,inputs,outputs, lineCount, passedKeyboard):
             thisCombo['outputs'].append(output)
             if "dk" not in thisCombo["type"]:
                 thisCombo["type"] = thisCombo["type"] + ".dk"
+            thisCombo['baseOutput'] = outputUpper
         elif (outputUpper.startswith(u"GROUP")):
             verbose(lineCount,"It's a Group")
             thisCombo['outputs'].append(outputUpper)
@@ -988,11 +1029,13 @@ def buildCombo(line,inputs,outputs, lineCount, passedKeyboard):
             thisCombo['outputs'].append(outputUpper)
             if "deadEnd" not in thisCombo["type"]:
                 thisCombo['type'] = thisCombo["type"] + ".deadEnd"
+            thisCombo['baseOutput'] = outputUpper
         elif (outputUpper.startswith(u"NUL")):
             verbose(lineCount,"It's a NUL")
             thisCombo['outputs'].append(outputUpper)
             if "deadEnd" not in thisCombo["type"]:
                 thisCombo['type'] = thisCombo["type"] + ".deadEnd"
+            thisCombo['baseOutput'] = outputUpper
         elif (outputUpper.startswith(u"CONTEXT")):
             verbose(lineCount,"It's a Context")
             thisCombo['outputs'].append(outputUpper)
@@ -1010,6 +1053,7 @@ def buildCombo(line,inputs,outputs, lineCount, passedKeyboard):
                 thisCombo['outputs'].append(u'U+%04x'%ord(char))
         else:
             print(output)
+        
     return thisCombo
 
 def prod(iterable):
@@ -1049,8 +1093,7 @@ class keyboardDefinition():
                 key = [x for x in self.MSKLineList if x['VK'] == virt_key][0]
             except:
                 return false
-            finally:
-                return key
+        return key
     def setVariable(self, inVariable):
         if inVariable not in self.variableList:
             self.variableList.append(inVariable)
@@ -1061,8 +1104,50 @@ class keyboardDefinition():
              column = [x['Column'] for x in self.MSKStateList if x['SSID'] == ssid][0]
         except:
             return False
-        finally:
-            return column
+        return column
+    def checkAttainabilityOfInput(self,input):
+        attainable = False
+
+        if isinstance(input, dict):
+            verbose(0,"Dict")
+            attainable = True
+        elif input.upper().startswith("ANY"):
+            verbose(0,"Any")
+            attainable = True
+            #TODO check if store exists
+        elif input.upper().startswith("PLATFORM"):
+            verbose(0,"Platform")
+            attainable = True
+        elif input.upper().startswith("MATCH"):
+            verbose(0,"match")
+            attainable = True
+        elif input.upper().startswith("GROUP"):
+            verbose(0,"Group")
+            attainable = True
+        elif input.upper().startswith("BEGIN"):
+            verbose(0,"Begin")
+            attainable = True
+        elif input.upper().startswith("UNICODE"):
+            verbose(0,"Unicode")
+            attainable = True
+        elif input.upper().startswith("+"):
+            verbose(0,"Plus")
+            attainable = True
+        else:
+            listing = self.getCombosByOutput(input)
+            if len(listing) == 0:
+                print("Deadkey input " + input + " unattainable on " + passedKeyboard.getKeyboardName() + ". This rule will never fire.")
+            else:
+                attainable = True
+        return attainable
+
+    def getColumnByOrder(self, ssid):
+        try:
+             row = self.MSKStateList[int(ssid)]
+             column = row['Column']
+        except:
+            column = False
+        return column
     def getKeyboardName(self):
         return self.filename
     def addCombo(self, keyCombo):
@@ -1087,11 +1172,50 @@ class keyboardDefinition():
         return thisElem
     def getComboLen(self):
         return len(self.keymanComboList)
-    def getCombo(index):
+    def getCombosbyKey(self,key,platform = "KM"):
+        if platform == "KM":
+            relevantLines = [x for x in self.keymanComboList if 'baseKey' in x and x['baseKey'] == key]
+        if platform == "MS":
+            print("I'm confused.")
+        return relevantLines
+    def getCombosbyFullKey(self,fullKey,platform = "KM"):
+        if platform == "KM":
+            relevantLines = [x for x in self.keymanComboList if 'comboFullKey' in x and x['comboFullKey'] == fullKey]
+        if platform == "MS":
+            print("I'm confused.")
+        return relevantLines
+    def getCombobyNum(self,index):
         thisElem = self.keymanComboList[index]
         return thisElem
+    def getCombosByOutput(self,output):
+        relevantLines = [x for x in self.keymanComboList if 'baseOutput' in x and x['baseOutput'].upper() == output.upper()]
+        return relevantLines
+    def getSimpleCombosByOutput(self,output):
+        relevantLines = [x for x in self.keymanComboList if 'baseOutput' in x and x['baseOutput'].upper() == output.upper()]
+        relevantLines = [x for x in relevantLines if 'type' in x 
+                and "generated" not in x['type'] 
+                and "store" not in x['type'] 
+                and "comment" not in x['type'] 
+                and "structural" not in x['type'] 
+                and "goTo" not in x['type']
+                and "dk" not in x['type']
+                and not x['baseKey'].startswith("T_")]
+        return relevantLines
+    def getCombosWithPrelimDeadkey(self):
+        relevantLines = [x for x in self.keymanComboList if 'DKInput' in x and x['DKInput'] == "TargetKB"]
+        return relevantLines
     def getCombos(self):
         return self.keymanComboList
+    def getSimpleCombos(self):
+        keyboard = [x for x in self.keymanComboList if 'type' in x 
+                and "generated" not in x['type'] 
+                and "store" not in x['type'] 
+                and "comment" not in x['type'] 
+                and "structural" not in x['type'] 
+                and "goTo" not in x['type']
+                and "dk" not in x['type']
+                and not x['baseKey'].startswith("T_")]
+        return keyboard
     def getVariable(self, varName):
         # Make this stable)
         response = [x[varName] for x in self.variableList if varName in x]
@@ -1099,6 +1223,26 @@ class keyboardDefinition():
             return response[0]
         else:
             return False
+    def getPrettyName(self):
+        if self.getVariable('&NAME') != False:
+            kbName = self.getVariable('&NAME')
+        elif self.getVariable('name') != False:
+            kbName = self.getVariable('KBName')
+        else:
+            kbName = "Unknown"
+        return kbName
+    def updateInput(self,lineCount,inputIndex,newInput):
+        result = False
+        for line in self.keymanComboList:
+            if line['lineCount'] == lineCount:
+                if 'inputs' in line and len(line['inputs']) >= (inputIndex + 1):
+                    line['originalInputs'] = copy.deepcopy(line['inputs'])
+                    line['inputs'][inputIndex] = copy.deepcopy(newInput)
+                    line['line'] = generateLine(line)
+                    result = True
+                else:
+                    result = False
+        return result
     def __exit__(self, exc_type, exc_value, traceback):
         self.package_obj.cleanup()
     def __del__(self):
@@ -1219,20 +1363,28 @@ def CheckCondition(group):
     if FoundRaltSimple and FoundCapsShiftRalt:
         return True, input["isKey"]
 
-def printKeyList(passedKeyboard, code = False, human = True, inFilter = [], deadkeyNames = []):
+def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inFilter = [], deadkeyNames = []):
     w = []
     letter = ""
     category = ""
+    filenameToParse="KLC/" + baseKB + ".klc"
+    baseKeyboard = keyboardDefinition(filenameToParse)
+    parseKB(baseKeyboard, filenameToParse, True)
     from itertools import groupby
     from operator import itemgetter
     keyboard = passedKeyboard.getCombos()
     SortedCombosOutputs = sorted(keyboard, key=lambda k: ("outputs" not in k, k.get("outputs", None)))
     #SortedCombosOutput = sorted(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
     #groupedCombosOutput = groupby(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
-    f = open("outputs/" + passedKeyboard.getKeyboardName() + '_Table.txt', 'w', encoding="utf-8")
+    f = open("outputs/" + passedKeyboard.getKeyboardName() + "_" + baseKB + "_" +  '_Table.txt', 'w', encoding="utf-8")
     #f.write(foo.encode('utf8'))
+    f.write("########\n" + "All Combos Sorted by Output" + "\n########\n")
     for key, group in groupby(SortedCombosOutputs, key=lambda k: ("outputs" not in k, k.get("outputs", None))):
+        printKey = True
         for thing in group:
+            if printKey:
+                f.write("##" + str(key[1]) + "##\n")
+                printKey = False
             getDescrip = ""
             #Labels are only needed if both are enabled.
             if code: 
@@ -1245,68 +1397,146 @@ def printKeyList(passedKeyboard, code = False, human = True, inFilter = [], dead
                 codedString = ""
             if 'inputs' in thing:
                 for input in thing['inputs']:
+                    #########
+                    isPossibile = passedKeyboard.checkAttainabilityOfInput(input)
+                    if not isPossibile:
+                        pause                
+                    localizedKey = "" 
                     if isinstance(input, dict):
                         if input['isCAPS']:
-                            stringtoWrite = stringtoWrite + "\t" + "[Caps]"
+                            stringtoWrite = stringtoWrite + " " + "[Caps]"
                         if input['isSHIFT']:
-                            stringtoWrite = stringtoWrite + "\t" + "[Shift]"
+                            stringtoWrite = stringtoWrite + " " + "[Shift]"
                         if input['isALT']:
-                            stringtoWrite = stringtoWrite + "\t" + "[Alt]"
+                            stringtoWrite = stringtoWrite + " " + "[Alt]"
                         if input['isRALT']:
-                            stringtoWrite = stringtoWrite + "\t" + "[AltGr]"
+                            stringtoWrite = stringtoWrite + " " + "[AltGr]"
                         if input['isLALT']:
-                            stringtoWrite = stringtoWrite + "\t" + "[Left Alt]"
+                            stringtoWrite = stringtoWrite + " " + "[Left Alt]"
                         if input['isCTRL']:
-                            stringtoWrite = stringtoWrite + "\t" + "[Ctrl]"
+                            stringtoWrite = stringtoWrite + " " + "[Ctrl]"
                         if input['isRCTRL']:
-                            stringtoWrite = stringtoWrite + "\t" + "[Right Control]"
+                            stringtoWrite = stringtoWrite + " " + "[Right Control]"
                         if input['isLCTRL']:
-                            stringtoWrite = stringtoWrite + "\t" + "[Left Control]"
-                        stringtoWrite = stringtoWrite + "\t[" + input['isKey'] + "]"
-                        codedString = codedString + "\t" + input['fullKey']
+                            stringtoWrite = stringtoWrite + " " + "[Left Control]"
+                        
+                        relevantLines = baseKeyboard.getCombosbyKey(input['isKey'],"KM")
+                        if input['isSHIFT']:
+                            for line in relevantLines:
+                                inputs = line["inputs"]
+                                for input in inputs:
+                                    if "fullKey" in input and input['fullKey'] == "[NCAPS SHIFT " + input['isKey'] + "]":
+                                        if 'outputs' in line:
+                                            for output in line['outputs']:
+                                                if "DK(" not in output.upper() and output.upper() not in ["BEEP","NUL"] :
+                                                    letterCode = output.strip().upper()[2:]
+                                                    letter = chr(int(letterCode, 16))
+                                                    localizedKey += letter
+                        else:
+                            for line in relevantLines:
+                                inputs = line["inputs"]
+                                for input in inputs:
+                                    if "fullKey" in input and input['fullKey'] == "[NCAPS " + input['isKey'] + "]":
+                                        if 'outputs' in line:
+                                            for output in line['outputs']:
+                                                if "DK(" not in output.upper() and output.upper() not in ["BEEP","NUL"]:
+                                                    letterCode = output.strip().upper()[2:]
+                                                    letter = chr(int(letterCode, 16))
+                                                    localizedKey += letter
+                        if localizedKey == "":
+                            stringtoWrite = stringtoWrite + " [" + input['isKey'] + "]"
+                        else:
+                            if stringtoWrite == "": 
+                                stringtoWrite = stringtoWrite + "'" + localizedKey + "'"
+                            else:
+                                stringtoWrite = stringtoWrite.replace("  "," ")
+                                stringtoWrite = stringtoWrite + " + '" + localizedKey + "'"
+                        codedString = codedString + " " + input['fullKey']
+
                     else:
                         if input.startswith("dk"):
                             if (input.upper() == "DK(003B)") or (input.upper() == "DK(0021)"):
-                                stringtoWrite = stringtoWrite + "\t" + "[CAM Key]"
-                                codedString = codedString + "\t" + input
+                                stringtoWrite = stringtoWrite + " " + "[CAM Key]"
+                                codedString = codedString + " " + input
                             else:
                                 letterCode = input.strip().upper()[3:-1]
                                 letter = chr(int(letterCode, 16))
-                                stringtoWrite = stringtoWrite + "\t" + letter
-                                codedString = codedString + "\t" + input
+                                stringtoWrite = stringtoWrite + " '" + letter + "'"
+                                codedString = codedString + " " + input
                         elif input.startswith("U+"):
-                            letterCode = input.strip().upper()[2:]
-                            letter = chr(int(letterCode, 16))
-                            stringtoWrite = stringtoWrite + "\t" + letter
-                            codedString = codedString + "\t" + input
-                        elif input.startswith("+"):
-                            x = ""
+                            #Convert back to key:
+                                listing = passedKeyboard.getCombosByOutput(input)
+                                if len(listing) == 0:
+                                    pause
+                                newListing = findSimplest(listing)
+                                relevantLines = passedKeyboard.getCombosbyFullKey(newListing,"KM")
+                                printableNewListing = newListing[2].replace("NCAPS ","")
+                                #relevantLines1 = baseKeyboard.getCombosbyKey(input['isKey'],"KM")
+                            
+                                if "SHIFT" in printableNewListing:
+                                    for line in relevantLines:
+                                        inputs = line["inputs"]
+                                        for input in inputs:
+                                            if "fullKey" in input and input['fullKey'] == "[NCAPS SHIFT " + input['isKey'] + "]":
+                                                if 'outputs' in line:
+                                                    for output in line['outputs']:
+                                                        letterCode = output.strip().upper()[2:]
+                                                        letter = chr(int(letterCode, 16))
+                                                        localizedKey += letter
+                                else:
+                                    for line in relevantLines:
+                                        inputs = line["inputs"]
+                                        for input in inputs:
+                                            if "fullKey" in input and input['fullKey'] == "[NCAPS " + input['isKey'] + "]":
+                                                if 'outputs' in line:
+                                                    for output in line['outputs']:
+                                                        letterCode = output.strip().upper()[2:]
+                                                        letter = chr(int(letterCode, 16))
+                                                        localizedKey += letter
+                                #stringtoWrite = stringtoWrite + " + '" + letter + "'"
+
+                        elif input == "+":
+                            verbose(0, "Plussish")
                         else:
-                            stringtoWrite = stringtoWrite + "\t" + input
-                            codedString = codedString + "\t" + input
-            stringtoWrite = stringtoWrite + "\t➜"
-            codedString = codedString + "\t➜"
+                            stringtoWrite = stringtoWrite + " '" + input + "'"
+                            codedString = codedString + " " + input
+
+            stringtoWrite = stringtoWrite.replace("' ' ", "[Space] ")
+            stringtoWrite = stringtoWrite.replace(" ' '", " [Space]")
+            if localizedKey != "":
+                if stringtoWrite == "' '":
+                    stringtoWrite = '[Space]'
+                stringtoWrite = stringtoWrite.replace("[Shift] +","")
+                stringtoWrite = stringtoWrite.replace("[Shift] +","")
+                stringtoWrite = stringtoWrite.replace("[Shift] ","")
+                stringtoWrite = stringtoWrite.replace("[Shift]","")
+            stringtoWrite = stringtoWrite + "\t➜\t"
+            codedString = codedString + "\t➜\t"
+            ###########
             if 'outputs' in thing:
                 for output in thing['outputs']:
                     if output.startswith("dk"):
                         for theKey in deadkeyNames:
                             if output.upper() == theKey[0].upper():
                                 category = "Deadkey"
-                        stringtoWrite = stringtoWrite + "\t" + output
-                        codedString = codedString + "\t" + output
+                        stringtoWrite = stringtoWrite + " " + output
+                        codedString = codedString + " " + output
                     elif output.startswith("U+"):
-                        getDescrip = output
+                        getDescrip = output.upper()
                         letterCode = output.strip().upper()[2:]
-                        letter = chr(int(letterCode[3:], 16))
-                        if output.startswith("U+030") or output.startswith("U+031") or output.startswith("U+032") or output.startswith("U+033") or output.startswith("U+034") or output.startswith("U+035") or output.startswith("U+036") or output.startswith("U+1D"):
-                            stringtoWrite = stringtoWrite + "\t'" + chr(int("25CC", 16)) + letter + "'"
-                            codedString = codedString + "\t" + output
+                        letter = chr(int(letterCode, 16))
+                        if len(output) > 6:
+                            pause
+                        ThisChar = UnicodeArchive[output.upper()]
+                        if ThisChar['Category']  in combiners:
+                            stringtoWrite = stringtoWrite + " '" + chr(int("25CC", 16)) + letter + "'"
+                            codedString = codedString + " " + output
                         else:
-                            stringtoWrite = stringtoWrite + "\t'" + letter + "'"
-                            codedString = codedString + "\t" + output
+                            stringtoWrite = stringtoWrite + " '" + letter + "'"
+                            codedString = codedString + " " + output
                     else:
-                        stringtoWrite = stringtoWrite + "\t" + output
-                        codedString = codedString + "\t" + output
+                        stringtoWrite = stringtoWrite + " " + output
+                        codedString = codedString + " " + output
             for item in inFilter:
                 if (item.upper() in stringtoWrite.upper()) or (item.upper() in codedString.upper()):
                     codedString = ""
@@ -1323,27 +1553,120 @@ def printKeyList(passedKeyboard, code = False, human = True, inFilter = [], dead
                 w.append([codedString, category, letter])
                 f.write(codedString + "\n")
             if stringtoWrite != "" and human:
-                if getDescrip in UnicodeArchive:
-                    thisOutput = UnicodeArchive[getDescrip]
+                stringtoWrite = stringtoWrite + "\t"
+                if getDescrip.upper() in UnicodeArchive:
+                    thisOutput = UnicodeArchive[getDescrip.upper()]
                     if thisOutput["Name"] != "":
-                        stringtoWrite = stringtoWrite + "\t" + thisOutput['Name']
+                        stringtoWrite = stringtoWrite + thisOutput['Name'] + " (" + getDescrip + ")"
+                    else:
+                        print(thisOutput)
                     if getDescrip in UnicodeArchive:
-                        thisOutput = UnicodeArchive[getDescrip]
+                        thisOutput = UnicodeArchive[getDescrip.upper()]
                         #if category == '':
                         category = thisOutput['Category-Long']
+                else:
+                    print(getDescrip)
                 w.append([stringtoWrite, category, letter])
                 f.write(stringtoWrite + "\n")
-        f.write("\n")
+        #f.write("\n")
     #combosWithoutDups = RemoveDups(w)
     #SortedCombos = sorted(combosWithoutDups, key=lambda k: (k[1], k[2]))
-    SortedCombos = sorted(w, key=lambda k: (k[1], k[2]))
-    
+    SortedCombos = sorted(w, key=lambda k: (k[1], k[2]))    
     for key, group in groupby(SortedCombos, key=lambda k: (k[1])):
         f.write("########\n" + key + "\n########\n")
         for thing in group:
             f.write(thing[0] + "\n")
     f.close()
+    htm = open("outputs/" + passedKeyboard.getKeyboardName() + "_" + baseKB + "_" + '_Table.html', 'w', encoding="utf-8")
+    h = []
+    h.append("<html><body>\n")
+    h.append("<h1>Combinations for " + passedKeyboard.getPrettyName() + " based on physical " + baseKB + " keyboard.</h1>\n")
+    for key, group in groupby(SortedCombos, key=lambda k: (k[1])):
+        h.append("<h2>" + key + "</h2>\n")
+        h.append("<table border='1px'>\n")
+        for thing in group:
+            h.append("<tr>\n")
+            splitter = thing[0].split("\t")
+            for element in splitter:
+                if element == splitter[0]:
+                    regex = re.compile(r"\[K_(.*?)\]", re.IGNORECASE)
+                    h.append("<td><span class='input'>" + element + "</span></td>\n")
+                if element == splitter[1]:
+                    h.append("<td><span class='arrow'>" + element + "</span></td>\n")
+                if element == splitter[2]:
+                    h.append("<td><span class='output'>" + element + "</span></td>\n")
+                if element == splitter[3]:
+                    h.append("<td><span class='descrip'>" + element + "</span></td>\n")
+            h.append("</tr>\n")
+        h.append("</table>\n")
+    h.append("</body></html>")
+    htm.writelines(h)
+    htm.close()
     print("Coded")
+
+def findSimplest(list):
+    chosenFullKey = False
+    chosenInput = False
+    chosenLine = False
+    for line in list:
+        notSimple = []
+        if line['baseKey'].startswith("T_"):
+            Found = False
+        else:
+            if "inputs" in line:
+                for input in line['inputs']:
+                    if isinstance(input, str):
+                        if input.upper().startswith("ANY("):
+                            notSimple.append("any")
+                        if input.upper().startswith("DK("):
+                            notSimple.append("dk")
+                        if input.upper().startswith("PLATFORM("):
+                            notSimple.append("platform")
+                    elif isinstance(input, dict):
+                        if input["isCAPS"]:
+                            notSimple.append("caps")
+                        if chosenFullKey == False:
+                            if len(notSimple) == 0:
+                                chosenFullKey = input['fullKey']
+                                chosenLine = line
+                                chosenInput = input
+                        else:
+                            if len(input['fullKey']) < len(chosenFullKey) and len(notSimple) == 0:
+                                chosenFullKey = input['fullKey']
+                                chosenLine = line
+                                chosenInput = input
+    if chosenInput == False:
+        for line in list:
+            notSimple = []
+            if line['baseKey'].startswith("T_"):
+                Found = False
+            else:
+                if "inputs" in line:
+                    for input in line['inputs']:
+                        if isinstance(input, str):
+                            if input.upper().startswith("ANY("):
+                                notSimple.append("any")
+                            if input.upper().startswith("PLATFORM("):
+                                notSimple.append("platform")
+                        elif isinstance(input, dict):
+                            if input["isCAPS"]:
+                                notSimple.append("caps")
+                            if chosenFullKey == False:
+                                if len(notSimple) == 0:
+                                    chosenFullKey = input['fullKey']
+                                    chosenLine = line
+                                    chosenInput = input
+                            else:
+                                if len(input['fullKey']) < len(chosenFullKey) and len(notSimple) == 0:
+                                    chosenFullKey = input['fullKey']
+                                    chosenLine = line
+                                    chosenInput = input
+    if chosenInput == False:
+        print(list)
+    return chosenLine, chosenInput, chosenFullKey
+                    
+
+
 
 def RemoveDups(duplicate): 
     final_list = [] 
@@ -1382,7 +1705,8 @@ def importUnicode():
                 CodepointProps['Category-Long'] = "Other Letter"
                 CodepointProps['Category-Descrip'] = "other letters, including syllables and ideographs"
             if cat == "Mn":
-                CodepointProps['Category-Long'] = "Nonspacing Mark"
+                #CodepointProps['Category-Long'] = "Nonspacing Mark"
+                CodepointProps['Category-Long'] = "Diacritic"
                 CodepointProps['Category-Descrip'] = "a nonspacing combining mark (zero advance width)"
             if cat == "Mc":
                 CodepointProps['Category-Long'] = "Spacing Mark"
@@ -1509,7 +1833,10 @@ def outputKeyValues(passedKeyboard):
 def missingCombo(passedKeyboard):
     from itertools import groupby
     from operator import itemgetter
-    keyboard = passedKeyboard.getCombos()
+    #keyboard = passedKeyboard.getCombos()
+    keyboard = passedKeyboard.getSimpleCombos()
+    
+
     SortedCombosKey = sorted(keyboard, key=lambda k: ("baseKey" not in k, k.get("baseKey", None),"baseOutput" not in k, k.get("baseOutput", None)))
     f = open("outputs/" + passedKeyboard.getKeyboardName() + '_InferredCaps.txt', 'w', encoding="utf-8")
     stringList = []
@@ -1614,19 +1941,12 @@ def missingCombo(passedKeyboard):
         f.writelines(sorted(stringList))
         f.close
 
-def analyzeKB(passedKeyboard, infilter, deadkeyNames):
-    inferCaps(passedKeyboard)
-    missingCombo(passedKeyboard)
-    outputKeyValues(passedKeyboard)
-    printKeyList(passedKeyboard, False, True, infilter, deadkeyNames)
-    writeKeyboardGist(passedKeyboard,True)
-
 def printToJson(filenameToParse):
     jsonName = filenameToParse + ".json"
     with open("outputs/" + jsonName, 'w') as fp:
         json.dump({filenameToParse : archive[filenameToParse]}, fp, indent=4)
 
-def writeKeyboardGist(passedKeyboard, color=True, layout = "" ):
+def writeKeyboardGist(passedKeyboard, color=True, layout = "en-us"):
     #Current Supported Layouts ar US102, and AZERTY
     #see http://kbdlayout.info/ for layout hints.
     #thisKBProps = passedKeyboard
@@ -1639,52 +1959,48 @@ def writeKeyboardGist(passedKeyboard, color=True, layout = "" ):
         normalColor = "#cccccc"
         shiftColor = "#cccccc"
         altGrColor = "#cccccc"
-    if layout == "":
-        print(passedKeyboard.getKeyboardName())
-        print("1. US QWERTY")
-        print("2. French AZERTY")
-        c = "c"
-        w = "w"
-        x = "x"
-        w = "w"
-        h = "h"
-        a = "a"
-        w2 = "w2"
-        h2 = "h2"
-        x2 = "x2"
-        name = input("Pick a Physical Layout?")
-        if name == "1":
-            layout = "US102"
-            keyList = [
-                ["K_BKQUOTE","K_1","K_2","K_3","K_4","K_5","K_6","K_7","K_8","K_9","K_0","K_HYPHEN","K_EQUAL",[{w: 2 }, "\nBkspce"]],
-                [[{w: 1.5 },"\nTab"],"K_Q","K_W","K_E","K_R","K_T","K_Y","K_U","K_I","K_O","K_P","K_LBRKT","K_RBRKT",{w: 1.5},"K_BKSLASH"],
-                [[{w: 1.75 }, "\nCaps Lock"],"K_A","K_S","K_D","K_F","K_G","K_H","K_J","K_K","K_L","K_COLON","K_QUOTE",[{w: 2.25}, "\nEnter"]],
-                [[{c:shiftColor, w: 2.25},"\nShift"],{c: normalColor},"K_Z","K_X","K_C","K_V","K_B","K_N","K_M","K_COMMA","K_PERIOD","K_SLASH",[{c:shiftColor,w: 2.75},"\nShift"]],
-                [[{c: normalColor, w: 1.25},"\nCtrl"],[{w: 1.25},"\nWin"],[{w: 1.25},"\nAlt"],[{a: 7,w: 6.25},""],[{c: altGrColor,a: 4,w: 1.25},"\nAlt"],[{c: normalColor,w: 1.25},"\nWin"],[{w: 1.25},"\nMenu"],[{w: 1.25},"\nCtrl"]]
-                ]
-            #{c:"#d6cf04",w:1.25},"\nShift",{c:"#cccccc"}
-        elif name == "2":
-            layout = "FR-FR"
-           
-            keyList = [
-                ["K_BKQUOTE","K_1","K_2","K_3","K_4","K_5","K_6","K_7","K_8","K_9","K_0","K_HYPHEN","K_EQUAL",[{w: 2 }, "\nBkspce"]],
-                [[{w: 1.5 },"\nTab"],"K_Q","K_W","K_E","K_R","K_T","K_Y","K_U","K_I","K_O","K_P","K_LBRKT","K_RBRKT",[{x:0.25,w:1.25,h:2,w2:1.5,h2:1,x2:-0.25},'<span class="return">Return</span>']],
-                [[{w: 1.75 }, "\nCaps Lock"],"K_A","K_S","K_D","K_F","K_G","K_H","K_J","K_K","K_L","K_COLON","K_QUOTE","K_BKSLASH"],
-                [[{c:shiftColor,w: 1.25},"\nShift"],{c:normalColor},"K_oE2","K_Z","K_X","K_C","K_V","K_B","K_N","K_M","K_COMMA","K_PERIOD","K_SLASH",[{c:shiftColor,w: 2.75},"\nShift"]],
-                [[{c:normalColor,w: 1.25},"\nCtrl"],[{w: 1.25},"\nWin"],[{w: 1.25},"\nAlt"],{w: 6.25},"K_SPACE", [{c: altGrColor,w: 1.25},"\nAltGR"],[{c: normalColor,w: 1.25},"\nWin"],[{w: 1.25},"\nMenu"],[{w: 1.25},"\nCtrl"]]
-                ]
-            #[[{"r":1,"y":-4.25,"x":13.8,"a":5,"w":1.25,"h":2,"h2":1,"x2":-0.25},"<span class=\"return\">Return</span>"]]
-        else:
-            print("I don't know that layout!")
-    if passedKeyboard.getVariable('&NAME') != False:
-        kbName = passedKeyboard.getVariable('&NAME')
-    elif passedKeyboard.getVariable('name') != False:
-        kbName = passedKeyboard.getVariable('KBName')
+    c = "c"
+    w = "w"
+    x = "x"
+    w = "w"
+    h = "h"
+    a = "a"
+    w2 = "w2"
+    h2 = "h2"
+    x2 = "x2"
+    #based on https://keyshorts.com/blogs/blog/44712961-how-to-identify-laptop-keyboard-localization
+    if layout in ["en-us", "ar-101", "ko", "he-is", "ru", "th", "nl-nl", "it-it", "el-el", "pl-pl"]:
+        type = "ANSI104"
+        keyList = [
+            ["K_BKQUOTE","K_1","K_2","K_3","K_4","K_5","K_6","K_7","K_8","K_9","K_0","K_HYPHEN","K_EQUAL",[{w: 2 }, "\nBkspce"]],
+            [[{w: 1.5 },"\nTab"],"K_Q","K_W","K_E","K_R","K_T","K_Y","K_U","K_I","K_O","K_P","K_LBRKT","K_RBRKT",{w: 1.5},"K_BKSLASH"],
+            [[{w: 1.75 }, "\nCaps Lock"],"K_A","K_S","K_D","K_F","K_G","K_H","K_J","K_K","K_L","K_COLON","K_QUOTE",[{w: 2.25}, "\nEnter"]],
+            [[{c:shiftColor, w: 2.25},"\nShift"],{c: normalColor},"K_Z","K_X","K_C","K_V","K_B","K_N","K_M","K_COMMA","K_PERIOD","K_SLASH",[{c:shiftColor,w: 2.75},"\nShift"]],
+            [[{c: normalColor, w: 1.25},"\nCtrl"],[{w: 1.25},"\nWin"],[{w: 1.25},"\nAlt"],[{a: 7,w: 6.25},""],[{c: altGrColor,a: 4,w: 1.25},"\nAlt"],[{c: normalColor,w: 1.25},"\nWin"],[{w: 1.25},"\nMenu"],[{w: 1.25},"\nCtrl"]]
+          ]
+    elif layout in ["en-uk","fr-fr","fr-ch","de-ch","de-de","ar-102","ar-102az"]:
+        type = "ISO105"
+        keyList = [
+            ["K_BKQUOTE","K_1","K_2","K_3","K_4","K_5","K_6","K_7","K_8","K_9","K_0","K_HYPHEN","K_EQUAL",[{w: 2 }, "\nBkspce"]],
+            [[{w: 1.5 },"\nTab"],"K_Q","K_W","K_E","K_R","K_T","K_Y","K_U","K_I","K_O","K_P","K_LBRKT","K_RBRKT",[{x:0.25,w:1.25,h:2,w2:1.5,h2:1,x2:-0.25},'<span class="return">Return</span>']],
+            [[{w: 1.75 }, "\nCaps Lock"],"K_A","K_S","K_D","K_F","K_G","K_H","K_J","K_K","K_L","K_COLON","K_QUOTE","K_BKSLASH"],
+            [[{c:shiftColor,w: 1.25},"\nShift"],{c:normalColor},"K_oE2","K_Z","K_X","K_C","K_V","K_B","K_N","K_M","K_COMMA","K_PERIOD","K_SLASH",[{c:shiftColor,w: 2.75},"\nShift"]],
+            [[{c:normalColor,w: 1.25},"\nCtrl"],[{w: 1.25},"\nWin"],[{w: 1.25},"\nAlt"],{w: 6.25},"K_SPACE", [{c: altGrColor,w: 1.25},"\nAltGR"],[{c: normalColor,w: 1.25},"\nWin"],[{w: 1.25},"\nMenu"],[{w: 1.25},"\nCtrl"]]
+            ]
     else:
-        kbName = "Unknown"
+        print("I don't know that physical layout yet! Trying ISO 105.")
+        type = "ISO105"
+        keyList = [
+            ["K_BKQUOTE","K_1","K_2","K_3","K_4","K_5","K_6","K_7","K_8","K_9","K_0","K_HYPHEN","K_EQUAL",[{w: 2 }, "\nBkspce"]],
+            [[{w: 1.5 },"\nTab"],"K_Q","K_W","K_E","K_R","K_T","K_Y","K_U","K_I","K_O","K_P","K_LBRKT","K_RBRKT",[{x:0.25,w:1.25,h:2,w2:1.5,h2:1,x2:-0.25},'<span class="return">Return</span>']],
+            [[{w: 1.75 }, "\nCaps Lock"],"K_A","K_S","K_D","K_F","K_G","K_H","K_J","K_K","K_L","K_COLON","K_QUOTE","K_BKSLASH"],
+            [[{c:shiftColor,w: 1.25},"\nShift"],{c:normalColor},"K_oE2","K_Z","K_X","K_C","K_V","K_B","K_N","K_M","K_COMMA","K_PERIOD","K_SLASH",[{c:shiftColor,w: 2.75},"\nShift"]],
+            [[{c:normalColor,w: 1.25},"\nCtrl"],[{w: 1.25},"\nWin"],[{w: 1.25},"\nAlt"],{w: 6.25},"K_SPACE", [{c: altGrColor,w: 1.25},"\nAltGR"],[{c: normalColor,w: 1.25},"\nWin"],[{w: 1.25},"\nMenu"],[{w: 1.25},"\nCtrl"]]
+            ]
+
     header =   {
     "backcolor": "#ffffff",
-    "name": kbName,
+    "name": passedKeyboard.getPrettyName() + "based on " + layout,
     "author": passedKeyboard.getVariable('&COPYRIGHT'),
     "background": {
       "name": "Carbon fibre 5",
@@ -1713,7 +2029,6 @@ def rowGenerator(keyList, passedKeyboard):
     flags5_RALT =           [False,  False,  False,  True,   False,  False,  False,  False,  False]
     flags6_NCAPS_RALT =     [False,  True,   False,  True,   False,  False,  False,  False,  False]
     flags7_NCAPS_SHIFT_RALT=[True,   True,   False,  True,   False,  False,  False,  False,  False]
-    combiners = ["Mn", "Me", "Mc", "Sk"]
     #for key in expectedResult:
     for inkey in keyList:
         preString = ""
@@ -1737,7 +2052,7 @@ def rowGenerator(keyList, passedKeyboard):
         currentKey['bottomRight'] = u""
         currentKey['topRight'] = u""
         if 0==0:
-            for combo in [a for a in passedKeyboard.getCombos() if (('baseKey' in a) and (a['baseKey'] == key))]:
+            for combo in [a for a in passedKeyboard.getSimpleCombos() if (('baseKey' in a) and (a['baseKey'] == key))]:
                 if ("rule" in combo['type']) and ("touch" not in combo['type']) and ("deadEnd" not in combo['type']) and ("dk" not in combo['type']):
                     if "inputs" in combo:
                         for item in combo['inputs']:
@@ -1815,10 +2130,59 @@ def rowGenerator(keyList, passedKeyboard):
             rowList.append(keyString)
     return rowList
 
+def findAllUnattainableInputs(passedKeyboard):
+    for line in passedKeyboard.getCombos():
+        if 'inputs' in line:
+            for input in line['inputs']:
+                if isinstance(input, str) and input.upper() not in ["MATCH","UNICODE","BEGIN"]:
+                    if input.upper().startswith("ANY"):
+                        verbose(line['lineCount'],"Any")
+                        #check if store exists
+                    elif input.upper().startswith("PLATFORM"):
+                        verbose(line['lineCount'],"Platform")
+                    elif input.upper().startswith("GROUP"):
+                        verbose(line['lineCount'],"Group")
+                    elif input.upper().startswith("+"):
+                        verbose(line['lineCount'],"Plus")
+                    else:
+                        listing = passedKeyboard.getCombosByOutput(input)
+                        if len(listing) == 0:
+                            print("Input " + input + " from " + line['line'] + " unattainable on " + passedKeyboard.getKeyboardName() + ". This rule will never fire.")
+                            #TODO this is missing something
+
+
+def analyzeKB(passedKeyboard):
+    findAllUnattainableInputs(passedKeyboard)
+    inferCaps(passedKeyboard)
+    missingCombo(passedKeyboard)
+    outputKeyValues(passedKeyboard)
+
+def documentKB(passedKeyboard, infilter, deadkeyNames, layout="en-us"):
+    printKeyList(passedKeyboard, False, True, layout, infilter, deadkeyNames)
+    writeKeyboardGist(passedKeyboard,True, layout)
+
+
 keyboardRepo = {}
 filters = ["BEEP", "ANY(", "USE(", "NUL", "CONTEXT", "T_", "[Caps]"]
 deadkeyNames = [['dk(003B)', "Cam Key"],['dk(0021)', "Cam Key"]]
 UnicodeArchive = importUnicode()
+
+#fileList = ["sil_cameroon_qwerty.kmn","FUBHAUASAZ.klc","FUBHAUASQW.klc","FUBRSQW.klc","FUBRSAZ.klc"]
+fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk"]),
+            ("sil_cameroon_azerty.kmn",["fr-fr","fr-ch","en-us"]),
+            ("FUBHAUASAZ.klc",["fr-fr","ar-101","ar-102az"]),
+            ("FUBHAUASQW.klc",["en-us","en-uk","ar-101"]),
+            ("FUBRSQW.klc",["en-us","en-uk","ar-101"]),
+            ("FUBRSAZ.klc",["fr-fr","ar-102az","ar-101"])]
+for filenameToParse, layouts in fileList:
+#filenameToParse = "sil_cameroon_azerty.kmn"
+    thisKeyboard = keyboardDefinition(filenameToParse)
+    #thisKeyboard.keymanComboList = []
+    parseKB(thisKeyboard, filenameToParse, True)
+    analyzeKB(thisKeyboard)
+    for layout in layouts:
+        documentKB(thisKeyboard, filters, deadkeyNames, layout)
+    keyboardRepo[filenameToParse] = thisKeyboard
 
 #filenameToParse = "sil_cameroon_qwerty.kmn"
 #keyboardRepo[filenameToParse] = keyboardDefinition(filenameToParse)
@@ -1846,15 +2210,7 @@ UnicodeArchive = importUnicode()
 #keyboardRepo[filenameToParse] = thisKeyboard
 #printToJson(thisKeyboard)
 
-FileList = ["FUBHAUASAZ.klc","FUBHAUASQW.klc","FUBRSQW.klc","FUBRSAZ.klc"]
-for filenameToParse in FileList:
-#filenameToParse = "sil_cameroon_azerty.kmn"
-    thisKeyboard = keyboardDefinition(filenameToParse)
-    thisKeyboard.keymanComboList = []
-    parseKB(thisKeyboard, filenameToParse, True)
-    printKMN(thisKeyboard)
-    analyzeKB(thisKeyboard, filters, deadkeyNames)
-    keyboardRepo[filenameToParse] = thisKeyboard
+
 
 
 print("Finished")
