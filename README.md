@@ -1,7 +1,7 @@
 # ParseKB
 This tool indends to provides several functions not currently provided by current tools:
 
-1. Analyzing Keyman (https://www.Keyman.com) keyboards for inconsistencies
+1. Analyzes Keyman (https://www.Keyman.com) keyboards for inconsistencies
     * :white_check_mark: Looks for missing combinations that might cause inconsistent output.
     * :white_check_mark: Looks for inputs that cannot be obtained on the current keyboard.
     * :white_check_mark: Groups keys for visual inspection.
@@ -14,7 +14,7 @@ This tool indends to provides several functions not currently provided by curren
 3. :black_square_button: Converts Keyman keyboards to Microsoft's MSKLC format.
 4. :black_square_button: Converts Keyman keyboards to Mac .keyLayout format.
 5. :black_square_button: Converts Keyman keyboards to Linux XKB (https://www.freedesktop.org/wiki/Software/XKeyboardConfig/) format.
-6. :white_check_mark: Exporting to Keyboard-Layout-Creator format for easy documentation. (Contents can be pasted into the tool at http://www.keyboard-layout-editor.com/ .)
+6. :white_check_mark: Exports to Keyboard-Layout-Creator format for easy visual documentation. (Contents can be pasted into the tool at http://www.keyboard-layout-editor.com/ .)
     * :white_check_mark: Adapts this output to different physical keyboards
 7. :white_check_mark: Exports a Full Command list for Documentation
     * :white_check_mark: Adapts this to different Physical Keyboards (i.e. What are the combinations if someone uses your keyboard on a British physical keyboard.
