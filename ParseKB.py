@@ -355,6 +355,7 @@ def GenerateKMRules(passedKeyboard):
                 KMKeyDef['isKey'] = KeymanKeyCode
                 fullKeyString += " " + KeymanKeyCode +']'
                 KMKeyDef['fullKey'] = fullKeyString
+                currentCombo['comboFullKey'] = fullKeyString
                 currentCombo['inputs'].append(KMKeyDef)
                 
                 #Handle Outputs here
@@ -1136,7 +1137,7 @@ class keyboardDefinition():
         else:
             listing = self.getCombosByOutput(input)
             if len(listing) == 0:
-                print("Deadkey input " + input + " unattainable on " + passedKeyboard.getKeyboardName() + ". This rule will never fire.")
+                print("Deadkey input " + input + " unattainable on " + self.getKeyboardName() + ". This rule will never fire.")
             else:
                 attainable = True
         return attainable
@@ -1397,10 +1398,6 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                 codedString = ""
             if 'inputs' in thing:
                 for input in thing['inputs']:
-                    #########
-                    isPossibile = passedKeyboard.checkAttainabilityOfInput(input)
-                    if not isPossibile:
-                        pause                
                     localizedKey = "" 
                     if isinstance(input, dict):
                         if input['isCAPS']:
@@ -1465,35 +1462,38 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                                 codedString = codedString + " " + input
                         elif input.startswith("U+"):
                             #Convert back to key:
+                                if thing["lineCount"] == 508:
+                                    print("temp")
                                 listing = passedKeyboard.getCombosByOutput(input)
                                 if len(listing) == 0:
                                     pause
                                 newListing = findSimplest(listing)
-                                relevantLines = passedKeyboard.getCombosbyFullKey(newListing,"KM")
+                                relevantLines = passedKeyboard.getCombosbyFullKey(newListing[2],"KM")
                                 printableNewListing = newListing[2].replace("NCAPS ","")
-                                #relevantLines1 = baseKeyboard.getCombosbyKey(input['isKey'],"KM")
+                               
                             
                                 if "SHIFT" in printableNewListing:
-                                    for line in relevantLines:
-                                        inputs = line["inputs"]
-                                        for input in inputs:
-                                            if "fullKey" in input and input['fullKey'] == "[NCAPS SHIFT " + input['isKey'] + "]":
-                                                if 'outputs' in line:
-                                                    for output in line['outputs']:
-                                                        letterCode = output.strip().upper()[2:]
-                                                        letter = chr(int(letterCode, 16))
-                                                        localizedKey += letter
-                                else:
-                                    for line in relevantLines:
-                                        inputs = line["inputs"]
-                                        for input in inputs:
-                                            if "fullKey" in input and input['fullKey'] == "[NCAPS " + input['isKey'] + "]":
-                                                if 'outputs' in line:
-                                                    for output in line['outputs']:
-                                                        letterCode = output.strip().upper()[2:]
-                                                        letter = chr(int(letterCode, 16))
-                                                        localizedKey += letter
-                                #stringtoWrite = stringtoWrite + " + '" + letter + "'"
+                                    currentLine = newListing[0]
+                                    inputs = currentLine["inputs"]
+                                    for input in inputs:
+                                        if "fullKey" in input and input['fullKey'] == "[NCAPS SHIFT " + input['isKey'] + "]":
+                                            if 'outputs' in currentLine:
+                                                for output in currentLine['outputs']:
+                                                    letterCode = output.strip().upper()[2:]
+                                                    letter = chr(int(letterCode, 16))
+                                                    localizedKey += letter
+                                                    #top one looks right
+                                else:                                 
+                                    currentLine = newListing[0]
+                                    inputs = currentLine["inputs"]                    
+                                    for input in inputs:
+                                        if "fullKey" in input and input['fullKey'] == "[NCAPS " + input['isKey'] + "]":
+                                            if 'outputs' in currentLine:
+                                                for output in currentLine['outputs']:
+                                                    letterCode = output.strip().upper()[2:]
+                                                    letter = chr(int(letterCode, 16))
+                                                    localizedKey += letter
+                                stringtoWrite = stringtoWrite + " + '" + letter + "'"
 
                         elif input == "+":
                             verbose(0, "Plussish")
@@ -2174,6 +2174,7 @@ fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk"]),
             ("FUBHAUASQW.klc",["en-us","en-uk","ar-101"]),
             ("FUBRSQW.klc",["en-us","en-uk","ar-101"]),
             ("FUBRSAZ.klc",["fr-fr","ar-102az","ar-101"])]
+fileList = [("FUBRSAZ.klc",["fr-fr","ar-102az","ar-101"])]
 for filenameToParse, layouts in fileList:
 #filenameToParse = "sil_cameroon_azerty.kmn"
     thisKeyboard = keyboardDefinition(filenameToParse)
