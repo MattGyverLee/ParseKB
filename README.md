@@ -6,7 +6,7 @@ This tool indends to provides several functions not currently provided by curren
     * :white_check_mark: Looks for inputs that cannot be obtained on the current keyboard.
     * :white_check_mark: Groups keys for visual inspection.
     * :white_check_mark: Finds duplicate or conflicting rules. 
-    * :black_square_button: Inferring how Caps affect each key to find inconsistencies.
+    * :black_square_button: Inferrs how Caps affect each key to find inconsistencies.
 2. :white_check_mark: Converts MSKLC (https://www.microsoft.com/en-us/download/details.aspx?id=22339) keyboards to Keyman format. (MSK provides a ready source of predefined majority language keyboards.)  
     * :white_check_mark: Handles Deadkeys
     * :white_check_mark: Handles Ligatures
