@@ -5,7 +5,6 @@ import copy
 import functools
 from pprint import pprint
 from itertools import groupby
-from operator import itemgetter
 
 #ToDo: Parse Stores like strings
 #Do Comparison
@@ -90,200 +89,197 @@ def parseMSK(passedKeyboard, mskFilename):
     lineCount = 0
     currentDeadKey = ""
     infile = open(mskFilename, mode='r', encoding='utf-16')
+    iLevels = 0
+    iKBCode = 0
     for line in infile:
         lineCount = lineCount + 1
-        if (mskFilename[-4:] == ".klc"):
-            iLevels = 0
-            iKBCode = 0
-            for line in infile:
-                lineCount = lineCount + 1
-                if (line =='\n') or (line.startswith("//")):
-                    thing = 0
-                else:
-                    line = line[:-1]
-                    if line.startswith("KBD"):
-                        r = line.split("\t")
-                        KbMetaInfo = {'KBID':r[1],'KBName':r[2]}
-                        passedKeyboard.setVariable({'KBID':r[1]})
-                        passedKeyboard.setVariable({'KBName':r[2]})                    
-                    elif line.startswith("COPYRIGHT"):
-                        r = line.split("\t")
-                        KbMetaInfo.update({'Copyright':r[1]})
-                        passedKeyboard.setVariable({'Copyright':r[1]})
-                    elif line.startswith("COMPANY"):
-                        r = line.split("\t")
-                        KbMetaInfo.update({'Company':r[1]})
-                        passedKeyboard.setVariable({'Company':r[1]})
-                    elif line.startswith("LOCALENAME"):
-                        r = line.split("\t")
-                        KbMetaInfo.update({'Locale':r[1]})
-                        passedKeyboard.setVariable({'Locale':r[1]})
-                    elif line.startswith("LOCALEID"):
-                        r = line.split("\t")
-                        KbMetaInfo.update({'LocaleID':r[1]})
-                        passedKeyboard.setVariable({'LocaleID':r[1]})
-                    elif line.startswith("VERSION"):
-                        r = line.split("\t")
-                        KbMetaInfo.update({'Version':r[1]})
-                        passedKeyboard.setVariable({'Version':r[1]})
-                    elif line.startswith("//SC"):
-                        r = line.split("\t")
-                        for bit in r:
-                            if r.index(bit) > 3:
-                                passedKeyboard.addMSKIndex(bit)
-                        #TODO Solve this:
+        if (line =='\n') or (line.startswith("//")):
+            thing = 0
+        else:
+            line = line[:-1]
+            if line.startswith("KBD"):
+                r = line.split("\t")
+                KbMetaInfo = {'KBID':r[1],'KBName':r[2]}
+                passedKeyboard.setVariable({'KBID':r[1]})
+                passedKeyboard.setVariable({'KBName':r[2]})                    
+            elif line.startswith("COPYRIGHT"):
+                r = line.split("\t")
+                KbMetaInfo.update({'Copyright':r[1]})
+                passedKeyboard.setVariable({'Copyright':r[1]})
+            elif line.startswith("COMPANY"):
+                r = line.split("\t")
+                KbMetaInfo.update({'Company':r[1]})
+                passedKeyboard.setVariable({'Company':r[1]})
+            elif line.startswith("LOCALENAME"):
+                r = line.split("\t")
+                KbMetaInfo.update({'Locale':r[1]})
+                passedKeyboard.setVariable({'Locale':r[1]})
+            elif line.startswith("LOCALEID"):
+                r = line.split("\t")
+                KbMetaInfo.update({'LocaleID':r[1]})
+                passedKeyboard.setVariable({'LocaleID':r[1]})
+            elif line.startswith("VERSION"):
+                r = line.split("\t")
+                KbMetaInfo.update({'Version':r[1]})
+                passedKeyboard.setVariable({'Version':r[1]})
+            elif line.startswith("//SC"):
+                r = line.split("\t")
+                for bit in r:
+                    if r.index(bit) > 3:
+                        passedKeyboard.addMSKIndex(bit)
+                #TODO Solve this:
 
-                    ##Set Modes
-                    elif line.startswith("DESCRIPTIONS"):
-                        Mode = 'Descriptions'
-                        #Add parse
-                    elif line.startswith("KEYNAME"):
-                        Mode = 'Keyname'
-                    elif line.startswith("LIGATURE"):
-                        Mode = 'Ligature'
-                        #Add parse
-                    elif line.startswith("DEADKEY"):
-                        Mode = 'DeadKey'
-                        r = line.split("\t")
-                        currentDeadKey = r[1]
-                    elif line.startswith("SHIFTSTATE"):
-                        Mode = "ShiftState" 
-                    elif line.startswith("LAYOUT"):
-                        Mode = "Layout"
-                    elif line.startswith("LANGUAGENAMES"):
-                        Mode = "LanguageNames"
-                    elif line.startswith("ENDKB"):
-                        Mode = "Done"
-                    elif Mode == "DeadKey":
-                        r = line.split("\t")
-                        result = []
-                        #for letter in bit:
-                        #    result['Code'].append(u'%04x'%ord(letter))
-                        passedKeyboard.addMSKDeadkey({'DK':currentDeadKey, "Key":r[0],"Result":r[1]})
-                        iDK += 1
+            ##Set Modes
+            elif line.startswith("DESCRIPTIONS"):
+                Mode = 'Descriptions'
+                #Add parse
+            elif line.startswith("KEYNAME"):
+                Mode = 'Keyname'
+            elif line.startswith("LIGATURE"):
+                Mode = 'Ligature'
+                #Add parse
+            elif line.startswith("DEADKEY"):
+                Mode = 'DeadKey'
+                r = line.split("\t")
+                currentDeadKey = r[1]
+            elif line.startswith("SHIFTSTATE"):
+                Mode = "ShiftState" 
+            elif line.startswith("LAYOUT"):
+                Mode = "Layout"
+            elif line.startswith("LANGUAGENAMES"):
+                Mode = "LanguageNames"
+            elif line.startswith("ENDKB"):
+                Mode = "Done"
+            elif Mode == "DeadKey":
+                r = line.split("\t")
+                result = []
+                #for letter in bit:
+                #    result['Code'].append(u'%04x'%ord(letter))
+                passedKeyboard.addMSKDeadkey({'DK':currentDeadKey, "Key":r[0],"Result":r[1]})
+                iDK += 1
                         
 
-                    elif Mode == "Keyname":
-                        #Do cool stuff
-                        boo = 0
-                    elif Mode == "Descriptions":
-                        #Do cool stuff
-                        line = line.replace("\t\t","\t")
-                        k = line.split("\t")
-                        passedKeyboard.setVariable({"Name":k[1]})
-                    elif Mode == "LanguageNames":
-                        #Do cool stuff
-                        line = line.replace("\t\t","\t")
-                        k = line.split("\t")
-                        passedKeyboard.setVariable({"WinLanguageID":k[0]})
-                        passedKeyboard.setVariable({"WinLanguageName":k[1]})
-                    elif Mode == 'Ligature':
-                        line = line.replace("\t\t","\t")
-                        k = line.split("\t")
-                        index = 0
-                        vk = k[0]
-                        order = ""
-                        #find o in list, get column, output all
-                        relevantLine = passedKeyboard.getMSKeyDef(vk, "MSKLC")
-                        for bit in k:
-                            if index == 0:
-                                vk = bit
-                            elif index == 1:
-                                order = bit
-                            elif bit.startswith("//"):
-                                relevantLine['Names'].append(bit)
-                            elif bit != "":
-                                if len(bit) == 4:
-                                    #problem hereXXX
-                                    column = passedKeyboard.getColumnByOrder(order)
-                                    targetKey = [x for x in relevantLine['Keys'] if x['Column'] == column][0]
-                                    if 'Code' in targetKey:
-                                        targetKey['Code'].append(bit.upper())
-                                    else:
-                                        targetKey['Code'] = [bit.upper()]
-                                else:
-                                    Print("What is this?")
-                            index += 1
+            elif Mode == "Keyname":
+                #Do cool stuff
+                boo = 0
+            elif Mode == "Descriptions":
+                #Do cool stuff
+                line = line.replace("\t\t","\t")
+                k = line.split("\t")
+                passedKeyboard.setVariable({"Name":k[1]})
+            elif Mode == "LanguageNames":
+                #Do cool stuff
+                line = line.replace("\t\t","\t")
+                k = line.split("\t")
+                passedKeyboard.setVariable({"WinLanguageID":k[0]})
+                passedKeyboard.setVariable({"WinLanguageName":k[1]})
+            elif Mode == 'Ligature':
+                line = line.replace("\t\t","\t")
+                k = line.split("\t")
+                index = 0
+                vk = k[0]
+                order = ""
+                #find o in list, get column, output all
+                relevantLine = passedKeyboard.getMSKeyDef(vk, "MSKLC")
+                for bit in k:
+                    if index == 0:
+                        vk = bit
+                    elif index == 1:
+                        order = bit
+                    elif bit.startswith("//"):
+                        relevantLine['Names'].append(bit)
+                    elif bit != "":
+                        if len(bit) == 4:
+                            #problem hereXXX
+                            column = passedKeyboard.getColumnByOrder(order)
+                            targetKey = [x for x in relevantLine['Keys'] if x['Column'] == column][0]
+                            if 'Code' in targetKey:
+                                targetKey['Code'].append(bit.upper())
+                            else:
+                                targetKey['Code'] = [bit.upper()]
+                        else:
+                            Print("What is this?")
+                    index += 1
                             
 
-                    ## Read Modes
-                    elif Mode == "Layout" and not line.startswith("//SC"): #todo remove startswith
-                        line = line.replace("\t\t","\t")
-                        k = line.split("\t")
-                        MSKLine = {}
-                        index = 0
-                        for bit in k:
+            ## Read Modes
+            elif Mode == "Layout" and not line.startswith("//SC"): #todo remove startswith
+                line = line.replace("\t\t","\t")
+                k = line.split("\t")
+                MSKLine = {}
+                index = 0
+                for bit in k:
 
-                            if index == 0:
-                                MSKLine['SC'] = bit
-                            elif index == 1:
-                                MSKLine['VK'] = bit
-                            elif index == 2:
-                                MSKLine['CAPS'] = bool(int(bit))
-                            elif bit.startswith("//"):
-                                MSKLine['Names'] = bit[3:].split(', ')
-                            elif index > 2:
-                                currentKey = {}
-                                currentKey['Column'] = index+1
-                                if len(bit) == 4:
-                                    currentKey['Code'] = [bit]
-                                    currentKey['Glyph'] = chr(int(bit,16))
-                                elif bit == "%%":
-                                    currentKey['Lig'] = True
-                                elif len(bit) == 5:
-                                    currentKey['DK'] = True
-                                    #TODO Can 2 codes exist? If so, need to move this down.
-                                    currentKey['Code'] = [bit[:-1]]
-                                elif bit == '-1':
-                                    currentKey['Code'] = ["BEEP"]
-                                    #todo appears twice
-                                else:
-                                    currentKey['Glyph'] = bit
-                                    currentKey['Code'] = []
-                                    for letter in bit:
-                                        currentKey['Code'].append(u'%04x'%ord(letter))
-                                if 'Keys' not in MSKLine:
-                                    MSKLine['Keys'] = [currentKey]
-                                else:
-                                    MSKLine['Keys'].append(currentKey)
-                                #CurrentColumn = [c for c in passedKeyboard.MSKSShiftStateList if c['Column'] == column][0]
-                            index += 1
+                    if index == 0:
+                        MSKLine['SC'] = bit
+                    elif index == 1:
+                        MSKLine['VK'] = bit
+                    elif index == 2:
+                        MSKLine['CAPS'] = bool(int(bit))
+                        if MSKLine['CAPS'] == True:
+                            passedKeyboard.setVariable({'containsNCAPS': True})
+                            passedKeyboard.setVariable({'containsCAPS': True})
+                    elif bit.startswith("//"):
+                        MSKLine['Names'] = bit[3:].split(', ')
+                    elif index > 2:
+                        currentKey = {}
+                        currentKey['Column'] = index+1
+                        if len(bit) == 4:
+                            currentKey['Code'] = [bit]
+                            currentKey['Glyph'] = chr(int(bit,16))
+                        elif bit == "%%":
+                            currentKey['Lig'] = True
+                        elif len(bit) == 5:
+                            currentKey['DK'] = True
+                            #TODO Can 2 codes exist? If so, need to move this down.
+                            currentKey['Code'] = [bit[:-1]]
+                        elif bit == '-1':
+                            currentKey['Code'] = ["BEEP"]
+                            #todo appears twice
+                        else:
+                            currentKey['Glyph'] = bit
+                            currentKey['Code'] = []
+                            for letter in bit:
+                                currentKey['Code'].append(u'%04x'%ord(letter))
+                        if 'Keys' not in MSKLine:
+                            MSKLine['Keys'] = [currentKey]
+                        else:
+                            MSKLine['Keys'].append(currentKey)
+                        #CurrentColumn = [c for c in passedKeyboard.MSKSShiftStateList if c['Column'] == column][0]
+                    index += 1
                      
-                        passedKeyboard.addMSKLine(MSKLine)
+                passedKeyboard.addMSKLine(MSKLine)
                             
-                    elif Mode == "ShiftState":
-                        SSScan = re.compile(r'Column (\d+)')
-                        ss = line.split("\t")
-                        Column = int(SSScan.search(ss[1]).group(1))
-                        ShiftRE = re.compile("Shft")
-                        stateIsShifted = False
-                        stateIsCtrled = False
+            elif Mode == "ShiftState":
+                SSScan = re.compile(r'Column (\d+)')
+                ss = line.split("\t")
+                Column = int(SSScan.search(ss[1]).group(1))
+                ShiftRE = re.compile("Shft")
+                stateIsShifted = False
+                stateIsCtrled = False
+                stateIsAlted = False
+                stateIsRAlted = False
+                if ShiftRE.search(line):
+                    stateIsShifted = True
+                    passedKeyboard.setVariable({'containsSHIFT': True})
+                CtrlRE = re.compile("Ctrl")
+                if CtrlRE.search(line):
+                    stateIsCtrled = True
+                AltRE = re.compile("Alt")    
+                if AltRE.search(line):
+                    stateIsAlted = True
+                    if stateIsCtrled and stateIsCtrled:
+                        passedKeyboard.setVariable({'containsRALT': True})
                         stateIsAlted = False
-                        stateIsRAlted = False
-                        if ShiftRE.search(line):
-                            stateIsShifted = True
-                            passedKeyboard.setVariable({'containsSHIFT': True})
-                        CtrlRE = re.compile("Ctrl")
-                        if CtrlRE.search(line):
-                            stateIsCtrled = True
-                        AltRE = re.compile("Alt")    
-                        if AltRE.search(line):
-                            stateIsAlted = True
-                            if stateIsCtrled and stateIsCtrled:
-                                passedKeyboard.setVariable({'containsRALT': True})
-                                stateIsAlted = False
-                                stateIsCtrled = False
-                                stateIsRAlted = True
-                            elif stateIsCtrled:
-                                passedKeyboard.setVariable({'containsCTRL': True})
-                            elif stateIsAlted:
-                                passedKeyboard.setVariable({'containsALT': True})
+                        stateIsCtrled = False
+                        stateIsRAlted = True
+                    elif stateIsCtrled:
+                        passedKeyboard.setVariable({'containsCTRL': True})
+                    elif stateIsAlted:
+                        passedKeyboard.setVariable({'containsALT': True})
 
-
-
-                        #KBShiftStates[ss[0]] = {"SSID":ss[0],"Column":Column,"Shift":stateIsShifted,"Ctrl":stateIsCtrled,"Alt":stateIsAlted, "RALT":stateIsRAlted}
-                        passedKeyboard.addMSKStates({"SSID":ss[0],"Column":Column,"Shift":stateIsShifted,"Ctrl":stateIsCtrled,"Alt":stateIsAlted,"RAlt":stateIsRAlted})
-                        iLevels = iLevels + 1
+                passedKeyboard.addMSKStates({"SSID":ss[0],"Column":Column,"Shift":stateIsShifted,"Ctrl":stateIsCtrled,"Alt":stateIsAlted,"RAlt":stateIsRAlted})
+                iLevels = iLevels + 1
                        
     infile.close()
     print("Finished Parsing Microsoft Keyboard")
@@ -387,7 +383,9 @@ def GenerateKMRules(passedKeyboard):
                             input["isCAPS"] = True
                             input["isNCAPS"] = False
                             input["fullKey"] = generateFullKey(input)
+                            capsCurrentCombo['comboFullKey'] = input["fullKey"]
                     capsCurrentCombo['lineCount'] = comboNum
+                    
                     comboNum += 1
                     capsCurrentCombo['line'] = generateLine(capsCurrentCombo)
                     s = " "
@@ -412,6 +410,7 @@ def GenerateKMRules(passedKeyboard):
                                 input["isCAPS"] = True
                                 input["isSHIFT"] = False
                             input["fullKey"] = generateFullKey(input)
+                            capsCurrentCombo['comboFullKey'] = input["fullKey"]
                     capsCurrentCombo['lineCount'] = comboNum
                     comboNum += 1
                     capsCurrentCombo['line'] = generateLine(capsCurrentCombo)
@@ -1227,7 +1226,11 @@ class keyboardDefinition():
     def getPrettyName(self):
         if self.getVariable('&NAME') != False:
             kbName = self.getVariable('&NAME')
-        elif self.getVariable('name') != False:
+        elif self.getVariable('KBID') != False:
+            kbName = self.getVariable('KBID')
+        elif self.getVariable('Name') != False:
+            kbName = self.getVariable('Name')
+        elif self.getVariable('KbName') != False:
             kbName = self.getVariable('KBName')
         else:
             kbName = "Unknown"
@@ -1372,7 +1375,6 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
     baseKeyboard = keyboardDefinition(filenameToParse)
     parseKB(baseKeyboard, filenameToParse, True)
     from itertools import groupby
-    from operator import itemgetter
     keyboard = passedKeyboard.getCombos()
     SortedCombosOutputs = sorted(keyboard, key=lambda k: ("outputs" not in k, k.get("outputs", None)))
     #SortedCombosOutput = sorted(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
@@ -1466,7 +1468,7 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                                     print("temp")
                                 listing = passedKeyboard.getCombosByOutput(input)
                                 if len(listing) == 0:
-                                    pause
+                                    print("Unattainable input, this will probably crash!")
                                 newListing = findSimplest(listing)
                                 relevantLines = passedKeyboard.getCombosbyFullKey(newListing[2],"KM")
                                 printableNewListing = newListing[2].replace("NCAPS ","")
@@ -1476,7 +1478,7 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                                     currentLine = newListing[0]
                                     inputs = currentLine["inputs"]
                                     for input in inputs:
-                                        if "fullKey" in input and input['fullKey'] == "[NCAPS SHIFT " + input['isKey'] + "]":
+                                        if "fullKey" in input:# and input['fullKey'] == "[NCAPS SHIFT " + input['isKey'] + "]":
                                             if 'outputs' in currentLine:
                                                 for output in currentLine['outputs']:
                                                     letterCode = output.strip().upper()[2:]
@@ -1487,7 +1489,7 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                                     currentLine = newListing[0]
                                     inputs = currentLine["inputs"]                    
                                     for input in inputs:
-                                        if "fullKey" in input and input['fullKey'] == "[NCAPS " + input['isKey'] + "]":
+                                        if "fullKey" in input:# and input['fullKey'] == "[NCAPS " + input['isKey'] + "]":
                                             if 'outputs' in currentLine:
                                                 for output in currentLine['outputs']:
                                                     letterCode = output.strip().upper()[2:]
@@ -1566,6 +1568,7 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                         category = thisOutput['Category-Long']
                 else:
                     print(getDescrip)
+                #stringtoWrite = stringtoWrite.strip("\t]")
                 w.append([stringtoWrite, category, letter])
                 f.write(stringtoWrite + "\n")
         #f.write("\n")
@@ -1595,7 +1598,7 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                     h.append("<td><span class='arrow'>" + element + "</span></td>\n")
                 if element == splitter[2]:
                     h.append("<td><span class='output'>" + element + "</span></td>\n")
-                if element == splitter[3]:
+                if element == splitter[3] and element != "":
                     h.append("<td><span class='descrip'>" + element + "</span></td>\n")
             h.append("</tr>\n")
         h.append("</table>\n")
@@ -1809,7 +1812,6 @@ def importUnicode():
 
 def outputKeyValues(passedKeyboard):
     from itertools import groupby
-    from operator import itemgetter
     keyboard = passedKeyboard.getCombos()
     SortedCombosKey = sorted(keyboard, key=lambda k: ("baseKey" not in k, k.get("baseKey", None),"baseOutput" not in k, k.get("baseOutput", None)))
     SortedCombosOutput = sorted(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
@@ -1832,18 +1834,15 @@ def outputKeyValues(passedKeyboard):
 
 def missingCombo(passedKeyboard):
     from itertools import groupby
-    from operator import itemgetter
     #keyboard = passedKeyboard.getCombos()
     keyboard = passedKeyboard.getSimpleCombos()
-    
-
     SortedCombosKey = sorted(keyboard, key=lambda k: ("baseKey" not in k, k.get("baseKey", None),"baseOutput" not in k, k.get("baseOutput", None)))
     f = open("outputs/" + passedKeyboard.getKeyboardName() + '_InferredCaps.txt', 'w', encoding="utf-8")
     stringList = []
     #https://help.keyman.com/DEVELOPER/language/guide/virtual-keys
-    # Val   =               SHIFT    NCAPS   CAPS    RALT    LALT    ALT     RCTRL   LCTRL   CTRL
+    # Val   =               SHIFT     NCAPS   CAPS    RALT    LALT    ALT     RCTRL   LCTRL   CTRL
     flags0 =                [False,   False,  False,  False,  False,  False,  False,  False,  False]
-    flags1_SHIFT =          [False,   False,  False,  False,  False,  False,  False,  False,  False]
+    flags1_SHIFT =          [True,    False,  False,  False,  False,  False,  False,  False,  False]
     flags2_NCAPS =          [False,   True,   False,  False,  False,  False,  False,  False,  False]
     flags3_NCAPS_SHIFT =    [True,    True,   False,  False,  False,  False,  False,  False,  False]
     flags4_CAPS =           [False,   False,  True,   False,  False,  False,  False,  False,  False]
@@ -1870,8 +1869,6 @@ def missingCombo(passedKeyboard):
             needs1 = True
         #elif ("containsSHIFT" in kbProps[filenameToParse]) and ("containsNCAPS" in kbProps[filenameToParse]) and ("containsCAPS" in kbProps[filenameToParse]):
         elif (passedKeyboard.getVariable('containsSHIFT')) and (passedKeyboard.getVariable('containsNCAPS')) and (passedKeyboard.getVariable('containsCAPS')):
-            needs0 = False
-            needs1 = False
             needs2 = True
             needs3 = True
             needs4 = True
