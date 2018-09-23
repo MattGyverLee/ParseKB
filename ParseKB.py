@@ -453,7 +453,7 @@ def GenerateKMRules(passedKeyboard):
         print('Finished Dk')
 
 def printKMN(passedKeyboard, forcedFilter = []):
-    f = open("outputs/" + passedKeyboard.getKeyboardName() + '.kmn', 'w', encoding="utf-8")
+    f = open("outputs/" + passedKeyboard.getKeyboardName()[:-4] + '.kmn', 'w', encoding="utf-8")
     if passedKeyboard.NativeFormat == "MSKLC":
         f.write("store(&NAME) '"+ passedKeyboard.getVariable('Name') + "'"+"\n")
         f.write("store(&COPYRIGHT) '"+ passedKeyboard.getVariable('Copyright') + "'"+"\n")
@@ -1678,7 +1678,26 @@ def RemoveDups(duplicate):
             final_list.append(num) 
     return final_list 
 
-def importUnicode():
+def importBlocks():
+    print("Importing Unicode block data...")
+    blocks = []
+    u = open('Unicode/Blocks.txt', 'r', encoding="utf-8")
+    for line in u:
+        if not line.startswith("#") and not (line == "\n"):
+            data = re.split('; |\.\.',line)
+            min = int(data[0],16)
+            max = int(data[1],16)
+            minHex = data[0]
+            maxHex = data[1]
+            name = data[2].strip()
+            tempRow = {"min":min,"max":max,"minHex":minHex,"maxHex":maxHex,"name":name}
+            blocks.append(tempRow)
+    print("Finished\n\n")
+    return blocks
+
+
+def importUnicode(blocks):
+    print("Importing Unicode character data...")
     CodePoint = {}
     u = open('Unicode/UnicodeData.txt', 'r', encoding="utf-8")
     for line in u:
@@ -1805,8 +1824,13 @@ def importUnicode():
         #if (elements[14] is not Null) and (elements[14] != ''):
         #    CodepointProps['Titlecase'] = elements[14]
         codeName = "U+" + elements[0]
+        #for line in blocks:
+            #if int(elements[0],16) >= line['min'] and int(elements[0],16) <= line['max']:
+                #CodepointProps['Block'] = line['name']
+                #break
         CodePoint[codeName] = CodepointProps 
         #print("Yo")
+    print("Finished.\n")
     return CodePoint
     # https://github.com/jessetane/unicode-database-parser/blob/master/defs.json
 
@@ -2013,8 +2037,132 @@ def writeKeyboardGist(passedKeyboard, color=True, layout = "en-us"):
     with open("outputs/" + jsonName, 'w', encoding="UTF-8") as fp:
         json.dump(fullKB, fp, indent=4)
 
+def writeKVKS(passedKeyboard):
+    flags0 =                [False,   False,  False,  False,  False,  False,  False,  False,  False]
+    flags1_SHIFT =          [True,    False,  False,  False,  False,  False,  False,  False,  False]
+    flags2_NCAPS =          [False,   True,   False,  False,  False,  False,  False,  False,  False]
+    flags3_NCAPS_SHIFT =    [True,    True,   False,  False,  False,  False,  False,  False,  False]
+    flags4_CAPS =           [False,   False,  True,   False,  False,  False,  False,  False,  False]
+    flags5_CAPS_SHIFT =     [True,    False,  True,   False,  False,  False,  False,  False,  False]
+    flags6_NCAPS_RALT =     [False,   True,   False,  True,   False,  False,  False,  False,  False]
+    flags7_NCAPS_SHIFT_RALT=[True,    True,   False,  True,   False,  False,  False,  False,  False]
+    flags8_RALT_CAPS =      [False,   False,  True,   True,   False,  False,  False,  False,  False]
+    flags9_CAPS_SHIFT_RALT= [True,    False,  True,   True,   False,  False,  False,  False,  False]
+    base = {}
+    S = {}
+    SRA = {}
+    RA = {}
+    for combo in passedKeyboard.getSimpleCombos():
+        if 'inputs' in combo:
+            inputs = combo['inputs']
+            for item in inputs:
+                if isinstance(item,dict):
+                    localizedKey = ""
+                    currentFlags = [item['isSHIFT'],item['isNCAPS'],item['isCAPS'],item['isRALT'],item['isLALT'],item['isALT'],item['isRCTRL'],item['isLCTRL'],item['isCTRL']]
+                    if currentFlags == flags0:
+                        if 'outputs' in combo:
+                            for output in combo['outputs']:
+                                if output.startswith("U+"):
+                                    letterCode = output.strip().upper()[2:]
+                                    letter = chr(int(letterCode, 16))
+                                    localizedKey += letter
+                        localizedKey = sterilizeHTML(localizedKey)
+                        base.update({combo['baseKey']: localizedKey})
+                    if currentFlags == flags1_SHIFT:
+                        if 'outputs' in combo:
+                            for output in combo['outputs']:
+                                if output.startswith("U+"):
+                                    letterCode = output.strip().upper()[2:]
+                                    letter = chr(int(letterCode, 16))
+                                    localizedKey += letter
+                        localizedKey = sterilizeHTML(localizedKey)
+                        S.update({combo['baseKey']: localizedKey})
+                    if currentFlags == flags2_NCAPS:
+                        if 'outputs' in combo:
+                            for output in combo['outputs']:
+                                if output.startswith("U+"):
+                                    letterCode = output.strip().upper()[2:]
+                                    letter = chr(int(letterCode, 16))
+                                    localizedKey += letter
+                        localizedKey = sterilizeHTML(localizedKey)
+                        base.update({combo['baseKey']: localizedKey})
+                    if currentFlags == flags3_NCAPS_SHIFT:
+                        if 'outputs' in combo:
+                            for output in combo['outputs']:
+                                if output.startswith("U+"):
+                                    letterCode = output.strip().upper()[2:]
+                                    letter = chr(int(letterCode, 16))
+                                    localizedKey += letter
+                        localizedKey = sterilizeHTML(localizedKey)
+                        S.update({combo['baseKey']: localizedKey})
+                    if currentFlags == flags6_NCAPS_RALT:
+                        if 'outputs' in combo:
+                            for output in combo['outputs']:
+                                if output.startswith("U+"):
+                                    letterCode = output.strip().upper()[2:]
+                                    letter = chr(int(letterCode, 16))
+                                    localizedKey += letter
+                        localizedKey = sterilizeHTML(localizedKey)
+                        RA.update({combo['baseKey']: localizedKey})
+                    if currentFlags == flags7_NCAPS_SHIFT_RALT:
+                        if 'outputs' in combo:
+                            for output in combo['outputs']:
+                                if output.startswith("U+"):
+                                    letterCode = output.strip().upper()[2:]
+                                    letter = chr(int(letterCode, 16))
+                                    localizedKey += letter
+                        localizedKey = sterilizeHTML(localizedKey)
+                        SRA.update({combo['baseKey']: localizedKey})
+    k = open("outputs/" + passedKeyboard.getKeyboardName()[:-4] + '.kvks', 'w', encoding="utf-8")
+    header = "<?xml version='1.0' encoding='utf-8'?>\n<visualkeyboard>\n  <header>\n    <version>10.0</version>\n    <kbdname>sil_cameroon_azerty</kbdname>\n    <flags>\n      <key102/>\n      <usealtgr/>\n    </flags>\n  </header>\n <encoding name='unicode' fontname='Andika' fontsize='-12'>\n"
+    k.write(header)
+    k.write("<layer shift='RA'>\n")
+    for key in RA:
+        k.write("<key vkey='"+ key +"'>"+ RA[key]+"</key>\n")
+    k.write("</layer>\n")
 
+    k.write("<layer shift='SRA'>\n")
+    for key in SRA:
+        k.write("<key vkey='"+ key +"'>"+ SRA[key]+"</key>\n")
+    k.write("</layer>\n")
 
+    k.write("<layer shift=''>\n")
+    for key in base:
+        k.write("<key vkey='"+ key +"'>"+ base[key]+"</key>\n")
+    k.write("</layer>\n")
+
+    k.write("<layer shift='S'>\n")
+    for key in S:
+        k.write("<key vkey='"+ key +"'>"+ S[key]+"</key>\n")
+    k.write("</layer>\n")
+
+    footer = "  </encoding>\n</visualkeyboard>"
+    k.write(footer)
+    k.close()
+
+def prep(text):
+    #Prepares diacritics for output
+    if len(text) > 0:
+        thisCode = u'U+%04x'%ord(text[0])
+        thisChar = UnicodeArchive[thisCode.upper()]
+        if 'Category' in thisChar and thisChar['Category'] in combiners:
+            for line in UnicodeBlocks:
+                if int(thisCode[2:],16) >= line['min'] and int(thisCode[2:],16) <= line['max']:
+                    block = line['name']
+                    break
+            text = chr(int("25CC", 16)) + text
+            RTLblocks = ["Arabic","Hebrew","Aramaic","Persian"]
+            for name in RTLblocks:
+                if name in block:
+                    text = chr(int("200F", 16)) + text
+    return text 
+
+def sterilizeHTML(text):
+    text = prependEmptyCircle(text)
+    text = text.replace("&","&amp;")
+    text = text.replace(">","&gt;")
+    text = text.replace("<","&lt;")
+    return text
 def rowGenerator(keyList, passedKeyboard):
     expectedResult = [d for d in kbLinks if (d['row'] == 0)]
     rowList = []
@@ -2157,12 +2305,15 @@ def analyzeKB(passedKeyboard):
 def documentKB(passedKeyboard, infilter, deadkeyNames, layout="en-us"):
     printKeyList(passedKeyboard, False, True, layout, infilter, deadkeyNames)
     writeKeyboardGist(passedKeyboard,True, layout)
+    writeKVKS(passedKeyboard)
 
 
 keyboardRepo = {}
 filters = ["BEEP", "ANY(", "USE(", "NUL", "CONTEXT", "T_", "[Caps]"]
 deadkeyNames = [['dk(003B)', "Cam Key"],['dk(0021)', "Cam Key"]]
-UnicodeArchive = importUnicode()
+UnicodeBlocks = importBlocks()
+UnicodeArchive = importUnicode(UnicodeBlocks)
+
 
 #fileList = ["sil_cameroon_qwerty.kmn","FUBHAUASAZ.klc","FUBHAUASQW.klc","FUBRSQW.klc","FUBRSAZ.klc"]
 fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk"]),
@@ -2171,7 +2322,7 @@ fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk"]),
             ("FUBHAUASQW.klc",["en-us","en-uk","ar-101"]),
             ("FUBRSQW.klc",["en-us","en-uk","ar-101"]),
             ("FUBRSAZ.klc",["fr-fr","ar-102az","ar-101"])]
-fileList = [("FUBRSAZ.klc",["fr-fr","ar-102az","ar-101"])]
+fileList = [("FUBHAUASQW.klc",["en-us","en-uk","ar-101"])]
 for filenameToParse, layouts in fileList:
 #filenameToParse = "sil_cameroon_azerty.kmn"
     thisKeyboard = keyboardDefinition(filenameToParse)
