@@ -6,9 +6,8 @@ import functools
 from pprint import pprint
 from itertools import groupby
 
-#ToDo: Parse Stores like strings
-#Do Comparison
-#expand Any's
+#ToDo: Deal with False Positives on missing Keys
+#Go all in with R/L or not. Maybe ignore RALT if Alt and CTRL are used. 
 combiners = ["Mn", "Me", "Mc"]
 isVerbose = False
 kbProps = {}
@@ -458,6 +457,10 @@ def printKMN(passedKeyboard, forcedFilter = []):
         f.write("store(&NAME) '"+ passedKeyboard.getVariable('Name') + "'"+"\n")
         f.write("store(&COPYRIGHT) '"+ passedKeyboard.getVariable('Copyright') + "'"+"\n")
         f.write("store(&KEYBOARDVERSION) '"+ passedKeyboard.getVariable('Version') + "'"+"\n\n")
+        #f.write("store(&kmw_rtl) '" + 1 + "'")
+                #ToDo Calculate RTL
+        f.write("store(&VISUALKEYBOARD)'" + passedKeyboard.getKeyboardName()[:-4] + ".kvks'")
+
         f.write("begin Unicode > use(main)\n")
         f.write("group(main) using keys\n")
 
@@ -1318,16 +1321,18 @@ def inferCaps(passedKeyboard):
     
     keyboard = passedKeyboard.getCombos()
     SortedCombosOutput = sorted(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
-    f = open("outputs/" + passedKeyboard.getKeyboardName() + '_InferredCaps.txt', 'w', encoding="utf-8")
+    i = open("outputs/" + passedKeyboard.getKeyboardName() + '_InferredCaps.txt', 'w', encoding="utf-8")
     stringList = []
     for key, group in groupby(SortedCombosOutput, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None))):
-        Booler = []
         inferCaps = CheckCondition(group)
         if inferCaps != None:
             stringList.append(str(inferCaps[0]) + " " + str(inferCaps[1]) + "\n")
     stringList = list(set(stringList))
-    f.writelines(sorted(stringList))
-    f.close
+    stringList = sorted(stringList)
+    for line in stringList:
+        i.write(line)
+    i.close()
+    print("Caps Inference Written")
 
 
 def CheckCondition(group):
@@ -1528,14 +1533,9 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                         letterCode = output.strip().upper()[2:]
                         letter = chr(int(letterCode, 16))
                         if len(output) > 6:
-                            pause
-                        ThisChar = UnicodeArchive[output.upper()]
-                        if ThisChar['Category']  in combiners:
-                            stringtoWrite = stringtoWrite + " '" + chr(int("25CC", 16)) + letter + "'"
-                            codedString = codedString + " " + output
-                        else:
-                            stringtoWrite = stringtoWrite + " '" + letter + "'"
-                            codedString = codedString + " " + output
+                            pause #todo support 5 digit unicode
+                        stringtoWrite = stringtoWrite + " '" + prep(letter) + "'"
+                        codedString = codedString + " " + output
                     else:
                         stringtoWrite = stringtoWrite + " " + output
                         codedString = codedString + " " + output
@@ -1861,7 +1861,7 @@ def missingCombo(passedKeyboard):
     #keyboard = passedKeyboard.getCombos()
     keyboard = passedKeyboard.getSimpleCombos()
     SortedCombosKey = sorted(keyboard, key=lambda k: ("baseKey" not in k, k.get("baseKey", None),"baseOutput" not in k, k.get("baseOutput", None)))
-    f = open("outputs/" + passedKeyboard.getKeyboardName() + '_InferredCaps.txt', 'w', encoding="utf-8")
+    #f = open("outputs/" + passedKeyboard.getKeyboardName() + '_MissingCombos.txt', 'w', encoding="utf-8")
     stringList = []
     #https://help.keyman.com/DEVELOPER/language/guide/virtual-keys
     # Val   =               SHIFT     NCAPS   CAPS    RALT    LALT    ALT     RCTRL   LCTRL   CTRL
@@ -1938,29 +1938,27 @@ def missingCombo(passedKeyboard):
             if needs0 or needs1 or needs2 or needs3 or needs4 or needs5 or needs6 or needs7 or needs8 or needs9:
                 print(passedKeyboard.getKeyboardName())
             if needs1:
-                print("Missing [] for:" + lastKey)
+                print("Warning: Missing [] for:" + lastKey)
             if needs1:
-                print("Missing [SHIFT] for:" + lastKey)
+                print("Warning: Missing [SHIFT] for:" + lastKey)
             if needs2:
-                print("Missing [NCAPS] for:" + lastKey)
+                print("Warning: Missing [NCAPS] for:" + lastKey)
             if needs3:
-                print("Missing [CAPS] for:" + lastKey)
+                print("Warning: Missing [CAPS] for:" + lastKey)
             if needs4:
-                print("Missing [CAPS SHIFT] for:" + lastKey)
+                print("Warning: Missing [CAPS SHIFT] for:" + lastKey)
             if needs5:
-                print("Missing [NCAPS RALT] for:" + lastKey)
+                print("Warning: Missing [NCAPS RALT] for:" + lastKey)
             if needs6:
-                print("Missing [NCAPS SHIFT] for:" + lastKey)
+                print("Warning: Missing [NCAPS SHIFT] for:" + lastKey)
             if needs7:
-                print("Missing [CAPS RALT] for:" + lastKey)
+                print("Warning: Missing [CAPS RALT] for:" + lastKey)
             if needs8:
-                print("Missing [NCAPS SHIFT RALT] for:" + lastKey)
+                print("Warning: Missing [NCAPS SHIFT RALT] for:" + lastKey)
             if needs9:
-                print("Missing [CAPS SHIFT RALT] for:" + lastKey)
+                print("Warning: Missing [CAPS SHIFT RALT] for:" + lastKey)
 
-        stringList = list(set(stringList))
-        f.writelines(sorted(stringList))
-        f.close
+
 
 def printToJson(filenameToParse):
     jsonName = filenameToParse + ".json"
@@ -1989,6 +1987,7 @@ def writeKeyboardGist(passedKeyboard, color=True, layout = "en-us"):
     w2 = "w2"
     h2 = "h2"
     x2 = "x2"
+    type = ""
     #based on https://keyshorts.com/blogs/blog/44712961-how-to-identify-laptop-keyboard-localization
     if layout in ["en-us", "ar-101", "ko", "he-is", "ru", "th", "nl-nl", "it-it", "el-el", "pl-pl"]:
         type = "ANSI104"
@@ -2021,7 +2020,7 @@ def writeKeyboardGist(passedKeyboard, color=True, layout = "en-us"):
 
     header =   {
     "backcolor": "#ffffff",
-    "name": passedKeyboard.getPrettyName() + "based on " + layout,
+    "name": passedKeyboard.getPrettyName() + " (" + type + ")",
     "author": passedKeyboard.getVariable('&COPYRIGHT'),
     "background": {
       "name": "Carbon fibre 5",
@@ -2033,11 +2032,11 @@ def writeKeyboardGist(passedKeyboard, color=True, layout = "en-us"):
     for row in keyList:
         tempRow = rowGenerator(row, passedKeyboard)
         fullKB.append(tempRow)
-    jsonName = passedKeyboard.getKeyboardName() + ".kbd.json"
+    jsonName = passedKeyboard.getKeyboardName() + "_" + type + "_" + ".kbd.json"
     with open("outputs/" + jsonName, 'w', encoding="UTF-8") as fp:
         json.dump(fullKB, fp, indent=4)
 
-def writeKVKS(passedKeyboard):
+def writeKVKS(passedKeyboard,font):
     flags0 =                [False,   False,  False,  False,  False,  False,  False,  False,  False]
     flags1_SHIFT =          [True,    False,  False,  False,  False,  False,  False,  False,  False]
     flags2_NCAPS =          [False,   True,   False,  False,  False,  False,  False,  False,  False]
@@ -2114,7 +2113,7 @@ def writeKVKS(passedKeyboard):
                         localizedKey = sterilizeHTML(localizedKey)
                         SRA.update({combo['baseKey']: localizedKey})
     k = open("outputs/" + passedKeyboard.getKeyboardName()[:-4] + '.kvks', 'w', encoding="utf-8")
-    header = "<?xml version='1.0' encoding='utf-8'?>\n<visualkeyboard>\n  <header>\n    <version>10.0</version>\n    <kbdname>sil_cameroon_azerty</kbdname>\n    <flags>\n      <key102/>\n      <usealtgr/>\n    </flags>\n  </header>\n <encoding name='unicode' fontname='Andika' fontsize='-12'>\n"
+    header = "<?xml version='1.0' encoding='utf-8'?>\n<visualkeyboard>\n  <header>\n    <version>10.0</version>\n    <kbdname>sil_cameroon_azerty</kbdname>\n    <flags>\n      <key102/>\n      <usealtgr/>\n    </flags>\n  </header>\n <encoding name='unicode' fontname='"+ font + "' fontsize='-12'>\n"
     k.write(header)
     k.write("<layer shift='RA'>\n")
     for key in RA:
@@ -2158,7 +2157,7 @@ def prep(text):
     return text 
 
 def sterilizeHTML(text):
-    text = prependEmptyCircle(text)
+    text = prep(text)
     text = text.replace("&","&amp;")
     text = text.replace(">","&gt;")
     text = text.replace("<","&lt;")
@@ -2210,10 +2209,6 @@ def rowGenerator(keyList, passedKeyboard):
                                     currentKey['bottomLeft'] = u""
                                     for outItem in combo['outputs']:
                                         if "U+" in outItem:
-                                            ThisChar = UnicodeArchive[outItem.upper()]
-                                            if ThisChar['Category']  in combiners:
-                                                currentKey['bottomLeft'] = chr(int("25CC", 16))
-                                                #TODO Add empty circle
                                             if 'bottomLeft' not in currentKey:
                                                 currentKey['bottomLeft'] = chr(int(outItem.strip().upper()[-4:], 16))
                                             else:
@@ -2226,9 +2221,6 @@ def rowGenerator(keyList, passedKeyboard):
                                     currentKey['topLeft'] = u""
                                     for outItem in combo['outputs']:
                                         if "U+" in outItem:
-                                            ThisChar = UnicodeArchive[outItem.upper()]
-                                            if ThisChar['Category']  in combiners:
-                                                currentKey['topLeft'] = chr(int("25CC", 16))
                                             if 'topLeft' not in currentKey:
                                                 currentKey['topLeft'] = chr(int(outItem.strip().upper()[-4:], 16))
                                             else:
@@ -2241,9 +2233,6 @@ def rowGenerator(keyList, passedKeyboard):
                                     currentKey['topRight'] = u""
                                     for outItem in combo['outputs']:
                                         if "U+" in outItem:
-                                            ThisChar = UnicodeArchive[outItem.upper()]
-                                            if ThisChar['Category']  in combiners:
-                                                currentKey['topRight'] = chr(int("25CC", 16))
                                             if 'topRight' not in currentKey:
                                                 currentKey['topRight'] = chr(int(outItem.strip().upper()[-4:], 16))
                                             else:
@@ -2256,9 +2245,6 @@ def rowGenerator(keyList, passedKeyboard):
                                     currentKey['bottomRight'] = u""
                                     for outItem in combo['outputs']:
                                         if "U+" in outItem:
-                                            ThisChar = UnicodeArchive[outItem.upper()]
-                                            if ThisChar['Category']  in combiners:
-                                                currentKey['bottomRight'] = chr(int("25CC", 16))
                                             if 'bottomRight' not in currentKey:
                                                 currentKey['bottomRight'] = chr(int(outItem.strip().upper()[-4:], 16))
                                             else:
@@ -2271,7 +2257,7 @@ def rowGenerator(keyList, passedKeyboard):
             elif controlString != "":
                 keyString = controlString
             else:
-                keyString = currentKey['topLeft'] + u"\n" + currentKey['bottomLeft'] + u"\n" + currentKey['topRight'] + u"\n" + currentKey['bottomRight'] + u"\n"
+                keyString = prep(currentKey['topLeft']) + u"\n" + prep(currentKey['bottomLeft']) + u"\n" + prep(currentKey['topRight']) + u"\n" + prep(currentKey['bottomRight']) + u"\n"
             rowList.append(keyString)
     return rowList
 
@@ -2302,35 +2288,35 @@ def analyzeKB(passedKeyboard):
     missingCombo(passedKeyboard)
     outputKeyValues(passedKeyboard)
 
-def documentKB(passedKeyboard, infilter, deadkeyNames, layout="en-us"):
+def documentKB(passedKeyboard, infilter, deadkeyNames, layout="en-us", font="Andika"):
     printKeyList(passedKeyboard, False, True, layout, infilter, deadkeyNames)
     writeKeyboardGist(passedKeyboard,True, layout)
-    writeKVKS(passedKeyboard)
+    writeKVKS(passedKeyboard,font)
 
 
 keyboardRepo = {}
-filters = ["BEEP", "ANY(", "USE(", "NUL", "CONTEXT", "T_", "[Caps]"]
+filters = ["BEEP", "ANY(", "USE(", "NUL", "CONTEXT", "T_"]
 deadkeyNames = [['dk(003B)', "Cam Key"],['dk(0021)', "Cam Key"]]
 UnicodeBlocks = importBlocks()
 UnicodeArchive = importUnicode(UnicodeBlocks)
 
 
 #fileList = ["sil_cameroon_qwerty.kmn","FUBHAUASAZ.klc","FUBHAUASQW.klc","FUBRSQW.klc","FUBRSAZ.klc"]
-fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk"]),
-            ("sil_cameroon_azerty.kmn",["fr-fr","fr-ch","en-us"]),
-            ("FUBHAUASAZ.klc",["fr-fr","ar-101","ar-102az"]),
-            ("FUBHAUASQW.klc",["en-us","en-uk","ar-101"]),
-            ("FUBRSQW.klc",["en-us","en-uk","ar-101"]),
-            ("FUBRSAZ.klc",["fr-fr","ar-102az","ar-101"])]
-fileList = [("FUBHAUASQW.klc",["en-us","en-uk","ar-101"])]
-for filenameToParse, layouts in fileList:
+fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk"],"Andika"),
+            ("sil_cameroon_azerty.kmn",["fr-fr","fr-ch","en-us"],"Andika"),
+            ("FUBHAUASAZ.klc",["fr-fr","ar-101","ar-102az"],"Harmattan"),
+            ("FUBHAUASQW.klc",["en-us","en-uk","ar-101"],"Harmattan"),
+            ("FUBRSQW.klc",["en-us","en-uk","ar-101"],"Andika"),
+            ("FUBRSAZ.klc",["fr-fr","ar-102az","ar-101"],"Andika")]
+#fileList = [("FUBHAUASQW.klc",["en-us","en-uk","ar-101"],"Harmattan")]
+for filenameToParse, layouts, font in fileList:
 #filenameToParse = "sil_cameroon_azerty.kmn"
     thisKeyboard = keyboardDefinition(filenameToParse)
     #thisKeyboard.keymanComboList = []
     parseKB(thisKeyboard, filenameToParse, True)
     analyzeKB(thisKeyboard)
     for layout in layouts:
-        documentKB(thisKeyboard, filters, deadkeyNames, layout)
+        documentKB(thisKeyboard, filters, deadkeyNames, layout, font)
     keyboardRepo[filenameToParse] = thisKeyboard
 
 #filenameToParse = "sil_cameroon_qwerty.kmn"
