@@ -1582,7 +1582,7 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
     f.close()
     htm = open("outputs/" + passedKeyboard.getKeyboardName() + "_" + baseKB + "_" + '_Table.html', 'w', encoding="utf-8")
     h = []
-    h.append("<html><body>\n")
+    h.append("<html><head><meta charset='utf-8'></head><body>\n")
     h.append("<h1>Combinations for " + passedKeyboard.getPrettyName() + " based on physical " + baseKB + " keyboard.</h1>\n")
     for key, group in groupby(SortedCombos, key=lambda k: (k[1])):
         h.append("<h2>" + key + "</h2>\n")
@@ -2295,7 +2295,7 @@ def documentKB(passedKeyboard, infilter, deadkeyNames, layout="en-us", font="And
 
 
 keyboardRepo = {}
-filters = ["BEEP", "ANY(", "USE(", "NUL", "CONTEXT", "T_"]
+filters = ["BEEP", "ANY(", "USE(", "NUL", "CONTEXT", "T_", "[Caps]"]
 deadkeyNames = [['dk(003B)', "Cam Key"],['dk(0021)', "Cam Key"]]
 UnicodeBlocks = importBlocks()
 UnicodeArchive = importUnicode(UnicodeBlocks)
@@ -2310,42 +2310,12 @@ fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk"],"Andika"),
             ("FUBRSAZ.klc",["fr-fr","ar-102az","ar-101"],"Andika")]
 #fileList = [("FUBHAUASQW.klc",["en-us","en-uk","ar-101"],"Harmattan")]
 for filenameToParse, layouts, font in fileList:
-#filenameToParse = "sil_cameroon_azerty.kmn"
     thisKeyboard = keyboardDefinition(filenameToParse)
-    #thisKeyboard.keymanComboList = []
     parseKB(thisKeyboard, filenameToParse, True)
     analyzeKB(thisKeyboard)
     for layout in layouts:
         documentKB(thisKeyboard, filters, deadkeyNames, layout, font)
     keyboardRepo[filenameToParse] = thisKeyboard
-
-#filenameToParse = "sil_cameroon_qwerty.kmn"
-#keyboardRepo[filenameToParse] = keyboardDefinition(filenameToParse)
-#thisKeyboard =  keyboardRepo[filenameToParse]
-#parseKB(thisKeyboard, filenameToParse, True)
-#analyzeKB(thisKeyboard, filters, deadkeyNames)
-#keyboardRepo[filenameToParse] = copy.deepcopy(thisKeyboard)
-#printToJson(thisKeyboard)
-
-#filenameToParse = "fr-fr.klc.kmn"
-#keyboardRepo[filenameToParse] = keyboardDefinition(filenameToParse)
-#thisKeyboard =  keyboardRepo[filenameToParse]
-#parseKB(thisKeyboard, filenameToParse, True)
-#printKMN(thisKeyboard, ['isCTRL'])
-#analyzeKB(thisKeyboard, filters, deadkeyNames)
-#TODO Redirect print to thisKeyboard
-#printToJson(thisKeyboard)
-
-
-#filenameToParse = "sil_cameroon_azerty.kmn"
-#thisKeyboard = keyboardDefinition(filenameToParse)
-#thisKeyboard.keymanComboList = []
-#parseKB(thisKeyboard, filenameToParse, True)
-#analyzeKB(thisKeyboard, filters, deadkeyNames)
-#keyboardRepo[filenameToParse] = thisKeyboard
-#printToJson(thisKeyboard)
-
-
 
 
 print("Finished")
