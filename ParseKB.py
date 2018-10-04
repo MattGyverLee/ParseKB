@@ -8,6 +8,7 @@ from itertools import groupby
 
 #ToDo: Deal with False Positives on missing Keys
 #Go all in with R/L or not. Maybe ignore RALT if Alt and CTRL are used. 
+#deal with 5-digit Unicode
 combiners = ["Mn", "Me", "Mc"]
 isVerbose = False
 kbProps = {}
@@ -1372,7 +1373,7 @@ def CheckCondition(group):
     if FoundRaltSimple and FoundCapsShiftRalt:
         return True, input["isKey"]
 
-def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inFilter = [], deadkeyNames = []):
+def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inFilter = [], deadkeyNames = [], language = "en"):
     w = []
     letter = ""
     category = ""
@@ -1384,7 +1385,8 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
     SortedCombosOutputs = sorted(keyboard, key=lambda k: ("outputs" not in k, k.get("outputs", None)))
     #SortedCombosOutput = sorted(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
     #groupedCombosOutput = groupby(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None),"baseKey" not in k, k.get("baseKey", None)))
-    f = open("outputs/" + passedKeyboard.getKeyboardName() + "_" + baseKB + "_" +  '_Table.txt', 'w', encoding="utf-8")
+    f = open("outputs/" + passedKeyboard.getKeyboardName() + "_" + baseKB + "_" + language + '_Table.txt', 'w', encoding="utf-8")
+    u = open("outputs/Untranslated_" + language + '.txt', 'a', encoding="utf-8")
     #f.write(foo.encode('utf8'))
     f.write("########\n" + "All Combos Sorted by Output" + "\n########\n")
     for key, group in groupby(SortedCombosOutputs, key=lambda k: ("outputs" not in k, k.get("outputs", None))):
@@ -1556,18 +1558,33 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                 f.write(codedString + "\n")
             if stringtoWrite != "" and human:
                 stringtoWrite = stringtoWrite + "\t"
-                if getDescrip.upper() in UnicodeArchive:
-                    thisOutput = UnicodeArchive[getDescrip.upper()]
-                    if thisOutput["Name"] != "":
-                        stringtoWrite = stringtoWrite + thisOutput['Name'] + " (" + getDescrip + ")"
-                    else:
-                        print(thisOutput)
-                    if getDescrip in UnicodeArchive:
+                fallback = False
+                if language != "en":
+                    if getDescrip.upper() in UnicodeArchive:
                         thisOutput = UnicodeArchive[getDescrip.upper()]
-                        #if category == '':
-                        category = thisOutput['Category-Long']
-                else:
-                    print(getDescrip)
+                        if "Name-" + language in thisOutput and thisOutput["Name-" + language] != "":
+                            stringtoWrite = stringtoWrite + thisOutput['Name-' + language] + " (" + getDescrip + ")"
+                        else:
+                            u.write(getDescrip.upper()[2:]+" \t\n")
+                        if getDescrip in UnicodeArchive:
+                            thisOutput = UnicodeArchive[getDescrip.upper()]
+                            #if category == '':
+                            category = thisOutput['Category-Long']
+                    else:
+                        print(getDescrip)
+                if language == "en" or fallback:
+                    if getDescrip.upper() in UnicodeArchive:
+                        thisOutput = UnicodeArchive[getDescrip.upper()]
+                        if thisOutput["Name"] != "":
+                            stringtoWrite = stringtoWrite + thisOutput['Name'] + " (" + getDescrip + ")"
+                        else:
+                            u.write(getDescrip.upper()[2:]+" \t\n")
+                        if getDescrip in UnicodeArchive:
+                            thisOutput = UnicodeArchive[getDescrip.upper()]
+                            #if category == '':
+                            category = thisOutput['Category-Long']
+                    else:
+                        print(getDescrip)
                 #stringtoWrite = stringtoWrite.strip("\t]")
                 w.append([stringtoWrite, category, letter])
                 f.write(stringtoWrite + "\n")
@@ -1580,31 +1597,39 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
         for thing in group:
             f.write(thing[0] + "\n")
     f.close()
-    htm = open("outputs/" + passedKeyboard.getKeyboardName() + "_" + baseKB + "_" + '_Table.html', 'w', encoding="utf-8")
+    htm = open("outputs/" + passedKeyboard.getKeyboardName() + "_" + baseKB + "_" + language + '_Table.html', 'w', encoding="utf-8")
     h = []
-    h.append("<html><head><meta charset='utf-8'></head><body>\n")
-    h.append("<h1>Combinations for " + passedKeyboard.getPrettyName() + " based on physical " + baseKB + " keyboard.</h1>\n")
+    h.append("<html><head><meta charset='utf-8'/></head><body>\n")
+    if language == "en":
+        h.append("<h1>Combinations for " + passedKeyboard.getPrettyName() + " based on physical " + baseKB + " keyboard</h1>\n")
+    elif language == "fr":
+        h.append("<h1>Combinaisons pour " + passedKeyboard.getPrettyName() + " basée sur le clavier physique " + baseKB + "</h1>\n")
     for key, group in groupby(SortedCombos, key=lambda k: (k[1])):
         h.append("<h2>" + key + "</h2>\n")
-        h.append("<table border='1px'>\n")
+        h.append("<table>\n")
         for thing in group:
             h.append("<tr>\n")
             splitter = thing[0].split("\t")
             for element in splitter:
-                if element == splitter[0]:
+                
+                if element is splitter[0]:
+                    element = sterilizeHTML(element)
                     regex = re.compile(r"\[K_(.*?)\]", re.IGNORECASE)
                     h.append("<td><span class='input'>" + element + "</span></td>\n")
-                if element == splitter[1]:
+                if element is splitter[1]:
                     h.append("<td><span class='arrow'>" + element + "</span></td>\n")
-                if element == splitter[2]:
+                if element is splitter[2]:
+                    element = sterilizeHTML(element)
                     h.append("<td><span class='output'>" + element + "</span></td>\n")
-                if element == splitter[3] and element != "":
+                if element is splitter[3] and element != "":
+                    element = sterilizeHTML(element)
                     h.append("<td><span class='descrip'>" + element + "</span></td>\n")
             h.append("</tr>\n")
         h.append("</table>\n")
     h.append("</body></html>")
     htm.writelines(h)
     htm.close()
+    u.close()
     print("Coded")
 
 def findSimplest(list):
@@ -1694,6 +1719,23 @@ def importBlocks():
             blocks.append(tempRow)
     print("Finished\n\n")
     return blocks
+
+def addTranslation(language):
+    u = open('Unicode/UnicodeData-fr.txt', 'r', encoding="utf-8")
+    for line in u:
+        if "\n" in line:
+            line = line[:-1].strip()
+        if "\ufeff" in line:
+            line = line.strip("\ufeff")
+        elements = line.split('\t')
+        if "U+"+ elements[0] in UnicodeArchive:
+            entry = UnicodeArchive["U+"+ elements[0]]
+            if len(elements) == 2:
+                entry["Name-" + language] = elements[1]
+                print("yo")
+            else:
+                print(elements)
+
 
 
 def importUnicode(blocks):
@@ -1965,7 +2007,7 @@ def printToJson(filenameToParse):
     with open("outputs/" + jsonName, 'w') as fp:
         json.dump({filenameToParse : archive[filenameToParse]}, fp, indent=4)
 
-def writeKeyboardGist(passedKeyboard, color=True, layout = "en-us"):
+def writeKeyboardGist(passedKeyboard, color=True, layout = "en-us", language = "en"):
     #Current Supported Layouts ar US102, and AZERTY
     #see http://kbdlayout.info/ for layout hints.
     #thisKBProps = passedKeyboard
@@ -2158,9 +2200,12 @@ def prep(text):
 
 def sterilizeHTML(text):
     text = prep(text)
-    text = text.replace("&","&amp;")
-    text = text.replace(">","&gt;")
-    text = text.replace("<","&lt;")
+    if "&" in text:
+        text = text.replace("&","&amp;")
+    if ">" in text:
+        text = text.replace(">","&gt;")
+    if "<" in text:
+        text = text.replace("<","&lt;")
     return text
 def rowGenerator(keyList, passedKeyboard):
     expectedResult = [d for d in kbLinks if (d['row'] == 0)]
@@ -2288,9 +2333,9 @@ def analyzeKB(passedKeyboard):
     missingCombo(passedKeyboard)
     outputKeyValues(passedKeyboard)
 
-def documentKB(passedKeyboard, infilter, deadkeyNames, layout="en-us", font="Andika"):
-    printKeyList(passedKeyboard, False, True, layout, infilter, deadkeyNames)
-    writeKeyboardGist(passedKeyboard,True, layout)
+def documentKB(passedKeyboard, infilter, deadkeyNames, layout="en-us", font="Andika", language="en"):
+    printKeyList(passedKeyboard, False, True, layout, infilter, deadkeyNames, language)
+    writeKeyboardGist(passedKeyboard,True, layout,language)
     writeKVKS(passedKeyboard,font)
 
 
@@ -2301,21 +2346,31 @@ UnicodeBlocks = importBlocks()
 UnicodeArchive = importUnicode(UnicodeBlocks)
 
 
+
+
+
 #fileList = ["sil_cameroon_qwerty.kmn","FUBHAUASAZ.klc","FUBHAUASQW.klc","FUBRSQW.klc","FUBRSAZ.klc"]
-fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk"],"Andika"),
-            ("sil_cameroon_azerty.kmn",["fr-fr","fr-ch","en-us"],"Andika"),
-            ("FUBHAUASAZ.klc",["fr-fr","ar-101","ar-102az"],"Harmattan"),
-            ("FUBHAUASQW.klc",["en-us","en-uk","ar-101"],"Harmattan"),
-            ("FUBRSQW.klc",["en-us","en-uk","ar-101"],"Andika"),
-            ("FUBRSAZ.klc",["fr-fr","ar-102az","ar-101"],"Andika")]
+fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk","fr-ch"],"Andika"),
+            ("sil_cameroon_azerty.kmn",["fr-fr","en-us"],"Andika",)]
+languages = ["en","fr"]
+#fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk","fr-ch"],"Andika"),
+#            ("sil_cameroon_azerty.kmn",["fr-fr","en-us"],"Andika"),
+#            ("FUBHAUASAZ.klc",["fr-fr","ar-101","ar-102az"],"Harmattan"),
+#            ("FUBHAUASQW.klc",["en-us","en-uk","ar-101"],"Harmattan"),
+#            ("FUBRSQW.klc",["en-us","en-uk","ar-101"],"Andika"),
+#            ("FUBRSAZ.klc",["fr-fr","ar-102az","ar-101"],"Andika")]
 #fileList = [("FUBHAUASQW.klc",["en-us","en-uk","ar-101"],"Harmattan")]
+for language in languages:
+    if language != "en":
+        addTranslation(language)
 for filenameToParse, layouts, font in fileList:
-    thisKeyboard = keyboardDefinition(filenameToParse)
-    parseKB(thisKeyboard, filenameToParse, True)
-    analyzeKB(thisKeyboard)
-    for layout in layouts:
-        documentKB(thisKeyboard, filters, deadkeyNames, layout, font)
-    keyboardRepo[filenameToParse] = thisKeyboard
+        thisKeyboard = keyboardDefinition(filenameToParse)
+        parseKB(thisKeyboard, filenameToParse, True)
+        analyzeKB(thisKeyboard)
+        for language in languages:
+            for layout in layouts:
+                documentKB(thisKeyboard, filters, deadkeyNames, layout, font, language)
+        keyboardRepo[filenameToParse] = thisKeyboard
 
 
 print("Finished")
