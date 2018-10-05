@@ -1732,7 +1732,6 @@ def addTranslation(language):
             entry = UnicodeArchive["U+"+ elements[0]]
             if len(elements) == 2:
                 entry["Name-" + language] = elements[1]
-                print("yo")
             else:
                 print(elements)
 
@@ -2350,8 +2349,8 @@ UnicodeArchive = importUnicode(UnicodeBlocks)
 
 
 #fileList = ["sil_cameroon_qwerty.kmn","FUBHAUASAZ.klc","FUBHAUASQW.klc","FUBRSQW.klc","FUBRSAZ.klc"]
-fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk","fr-ch"],"Andika"),
-            ("sil_cameroon_azerty.kmn",["fr-fr","en-us"],"Andika",)]
+fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk","fr-ch","de-de","ar-101"],"Andika"),
+            ("sil_cameroon_azerty.kmn",["fr-fr","en-us","ar-102az"],"Andika",)]
 languages = ["en","fr"]
 #fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk","fr-ch"],"Andika"),
 #            ("sil_cameroon_azerty.kmn",["fr-fr","en-us"],"Andika"),
