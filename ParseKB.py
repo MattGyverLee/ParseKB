@@ -659,6 +659,9 @@ def parseKeyman(passedKeyboard, keymanFilename, generateDeadkeys = False):
                 upperLine = line.upper()
                 lineCount = lineCount + 1
                 verbose(lineCount,line)
+                if (upperLine.startswith(u"$KEYMANONLY: STORE(")):
+                    splitLine = line.split(" ")
+
                 if (upperLine.startswith(u"STORE(&")):
                     variableSearch = re.search('store\((.*)\)', line, re.IGNORECASE)
                     variableName = "Undefined"
@@ -733,8 +736,9 @@ def parseKeyman(passedKeyboard, keymanFilename, generateDeadkeys = False):
                     resultDef = processKeymanRule(line,lineCount,currentGroup, passedKeyboard)
                     if resultDef is None:
                         print("This line is unparsed:", line)
-                    resultDef["line"] = line
-                    resultDef["lineCount"] = lineCount
+                    else: 
+                        resultDef["line"] = line
+                        resultDef["lineCount"] = lineCount
                 # Storing Starts Here
                 resultDef["line"] = line
                 resultDef["lineCount"] = lineCount
@@ -1721,19 +1725,20 @@ def importBlocks():
     return blocks
 
 def addTranslation(language):
-    u = open('Unicode/UnicodeData-fr.txt', 'r', encoding="utf-8")
-    for line in u:
-        if "\n" in line:
-            line = line[:-1].strip()
-        if "\ufeff" in line:
-            line = line.strip("\ufeff")
-        elements = line.split('\t')
-        if "U+"+ elements[0] in UnicodeArchive:
-            entry = UnicodeArchive["U+"+ elements[0]]
-            if len(elements) == 2:
-                entry["Name-" + language] = elements[1]
-            else:
-                print(elements)
+    if language == "fr":
+        u = open('Unicode/UnicodeData-fr.txt', 'r', encoding="utf-8")
+        for line in u:
+            if "\n" in line:
+                line = line[:-1].strip()
+            if "\ufeff" in line:
+                line = line.strip("\ufeff")
+            elements = line.split('\t')
+            if "U+"+ elements[0] in UnicodeArchive:
+                entry = UnicodeArchive["U+"+ elements[0]]
+                if len(elements) == 2:
+                    entry["Name-" + language] = elements[1]
+                else:
+                    print(elements)
 
 
 
@@ -2006,7 +2011,7 @@ def printToJson(filenameToParse):
     with open("outputs/" + jsonName, 'w') as fp:
         json.dump({filenameToParse : archive[filenameToParse]}, fp, indent=4)
 
-def writeKeyboardGist(passedKeyboard, color=True, layout = "en-us", language = "en"):
+def writeKeyboardGist(passedKeyboard, color=True, layout = "en-us", language = "en", mnemonic=False):
     #Current Supported Layouts ar US102, and AZERTY
     #see http://kbdlayout.info/ for layout hints.
     #thisKBProps = passedKeyboard
@@ -2334,7 +2339,7 @@ def analyzeKB(passedKeyboard):
 
 def documentKB(passedKeyboard, infilter, deadkeyNames, layout="en-us", font="Andika", language="en"):
     printKeyList(passedKeyboard, False, True, layout, infilter, deadkeyNames, language)
-    writeKeyboardGist(passedKeyboard,True, layout,language)
+    writeKeyboardGist(passedKeyboard, True, layout,language, mnemonic)
     writeKVKS(passedKeyboard,font)
 
 
@@ -2349,8 +2354,8 @@ UnicodeArchive = importUnicode(UnicodeBlocks)
 
 
 #fileList = ["sil_cameroon_qwerty.kmn","FUBHAUASAZ.klc","FUBHAUASQW.klc","FUBRSQW.klc","FUBRSAZ.klc"]
-fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk","fr-ch","de-de","ar-101"],"Andika"),
-            ("sil_cameroon_azerty.kmn",["fr-fr","en-us","ar-102az"],"Andika",)]
+fileList = [("sil_euro_latin.kmn",["en-us","en-uk","fr-ch","de-de","ar-101"],"Andika"),("sil_cameroon_qwerty.kmn",["en-us","en-uk","fr-ch","de-de","ar-101"],"Andika"),
+            ("sil_cameroon_azerty.kmn",["fr-fr","en-us","ar-102az"],"Andika"),("FUBHAUASQW.klc",["en-us","en-uk","ar-101"],"Harmattan")]
 languages = ["en","fr"]
 #fileList = [("sil_cameroon_qwerty.kmn",["en-us","en-uk","fr-ch"],"Andika"),
 #            ("sil_cameroon_azerty.kmn",["fr-fr","en-us"],"Andika"),

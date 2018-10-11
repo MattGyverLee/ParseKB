@@ -7,7 +7,6 @@
 }
 .return {
   text-shadow: none;
-  font-weight: 600;
   font-size: 14pt;
   margin-left: -14px;
   margin-top: 10px;
@@ -15,26 +14,21 @@
 } 
 .keylabel0 { /* TOP LEFT */
   font-size: 12pt;
-  font-weight: 400;
   font-family: 'Harmattan';
+  margin-top: 2px;
   margin-left: 1px;
 }
 .keylabel6 { /* BOTTOM LEFT */
-  font-weight: 600;
-  font-size: 14pt;
-  margin-top: -2px;
+  font-size: 12pt;
   font-family: 'Harmattan';
   margin-left: 1px;
 }
 .keylabel2 { /* TOP RIGHT */
   font-size: 12pt;
-  font-weight: 400;
-  text-shadow: 0 0 5px #00ff00;
   font-family: 'Harmattan';
 }
 .keylabel8 { /* BOTTOM RIGHT */
   font-size: 12pt;
-  font-weight: 400;
   margin-top: -2px;
   font-family: 'Harmattan';
 }
