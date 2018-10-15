@@ -1603,8 +1603,6 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
     for key, group in groupby(SortedCombosOutputs, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None))):
         printKey = True
         for thing in group:
-            if 'baseKey' in thing and thing['baseKey'].startswith("K_"):
-                print("P")
             plusHappened = False
             if printKey:
                 f.write("##" + str(key[1]) + "##\n")
@@ -1621,8 +1619,6 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                 codedString = ""
             if 'inputs' in thing:
                 for input in thing['inputs']:
-                    if thing["type"] == "fallback":
-                        print("w")
                     localizedKey = "" 
                     if isinstance(input, dict):
                         if input['isCAPS']:
@@ -1690,39 +1686,38 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                                 codedString = codedString + " " + input
                         elif input.startswith("U+"):
                             #Convert back to key:
-                                listing = passedKeyboard.getCombosByOutput(input.upper())
-                                if plusHappened:
-                                    thing['baseKey'] = input
-                                if len(listing) == 0:
-                                    print("Warning: Unattainable input, this will probably crash!")
-                                newListing = findSimplest(listing)
-                                printableNewListing = ""
-                                relevantLines = passedKeyboard.getCombosbyFullKey(newListing[2],"KM")
-                                if newListing[2] != False:
-                                    if "SHIFT" in printableNewListing:
-                                        currentLine = newListing[0]
-                                        inputs = currentLine["inputs"]
-                                        for input in inputs:
-                                            if "fullKey" in input:# and input['fullKey'] == "[NCAPS SHIFT " + input['isKey'] + "]":
-                                                if 'outputs' in currentLine:
-                                                    for output in currentLine['outputs']:
-                                                        letterCode = output.strip().upper()[2:]
-                                                        letter = chr(int(letterCode, 16))
-                                                        localizedKey += letter
-                                                        #top one looks right
-                                    else:                                 
-                                        currentLine = newListing[0]
-                                        inputs = currentLine["inputs"]                    
-                                        for input in inputs:
-                                            if "fullKey" in input:# and input['fullKey'] == "[NCAPS " + input['isKey'] + "]":
-                                                if 'outputs' in currentLine:
-                                                    for output in currentLine['outputs']:
-                                                        letterCode = output.strip().upper()[2:]
-                                                        letter = chr(int(letterCode, 16))
-                                                        localizedKey += letter
-                                    stringtoWrite = stringtoWrite + " + '" + letter + "'"
-                                else: 
-                                    print("Error: Must deal with falses.")
+                            listing = passedKeyboard.getCombosByOutput(input.upper())
+                            if plusHappened:
+                                thing['baseKey'] = input
+                            if len(listing) == 0:
+                                print("Warning: Unattainable input, this will probably crash!")
+                            newListing = findSimplest(listing)
+                            printableNewListing = ""
+                            relevantLines = passedKeyboard.getCombosbyFullKey(newListing[2],"KM")
+                            if newListing[2] != False:
+                                if "SHIFT" in printableNewListing:
+                                    currentLine = newListing[0]
+                                    inputs = currentLine["inputs"]
+                                    for input in inputs:
+                                        if "fullKey" in input:
+                                            if 'outputs' in currentLine:
+                                                for output in currentLine['outputs']:
+                                                    letterCode = output.strip().upper()[2:]
+                                                    letter = chr(int(letterCode, 16))
+                                                    localizedKey += letter
+                                else:                                 
+                                    currentLine = newListing[0]
+                                    inputs = currentLine["inputs"]                    
+                                    for input in inputs:
+                                        if "fullKey" in input:
+                                            if 'outputs' in currentLine:
+                                                for output in currentLine['outputs']:
+                                                    letterCode = output.strip().upper()[2:]
+                                                    letter = chr(int(letterCode, 16))
+                                                    localizedKey += letter
+                                stringtoWrite = stringtoWrite + " + '" + letter + "'"
+                            else: 
+                                print("Error: Must deal with falses.")
                         elif input == "+":
                             verbose(0, "Plussish")
                             plusHappened = True
