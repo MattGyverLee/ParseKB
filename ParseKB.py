@@ -1567,23 +1567,44 @@ def CheckCondition(group):
         return True, input["isKey"]
     if FoundRaltSimple and FoundCapsShiftRalt:
         return True, input["isKey"]
+def updateTempOutputs(passedKeyboard, baseKB):
+    filenameToParse="KLC/" + baseKB + ".klc"
+    baseKeyboard = parseKB(filenameToParse)
+    for combo in passedKeyboard.getSimpleCombos():
+        if combo["type"] == "fallback":
+            if combo["comboFullKey"].startswith("[K_"):
+                tempFullKey = "[NCAPS " + combo["comboFullKey"][1:]
+            elif combo["comboFullKey"].startswith("[SHIFT K_"):
+                tempFullKey = "[NCAPS SHIFT " + combo["comboFullKey"][1:]
+            else:
+                tempFullKey = combo["comboFullKey"]
+            relevantCombos = baseKeyboard.getCombosbyFullKey(tempFullKey)
+            if len(relevantCombos) == 1:
+                relevantCombos = relevantCombos[0]
+                combo['outputs'] = copy.deepcopy(relevantCombos["outputs"])
+                combo['baseOutput'] = copy.deepcopy(relevantCombos["baseOutput"])
+            else: 
+                print("o")
 
 def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inFilter = [], deadkeyNames = [], language = "en"):
     w = []
+    allList = []
     letter = ""
     category = ""
-    filenameToParse="KLC/" + baseKB + ".klc"
-    baseKeyboard = parseKB(filenameToParse)
     from itertools import groupby
+    updateTempOutputs(passedKeyboard, baseKB)
+    baseKeyboard = parseKB("KLC/" + baseKB + ".klc")
     keyboard = passedKeyboard.getCombosWithOutput()
-    SortedCombosOutputs = sorted(keyboard, key=lambda k: ("outputs" not in k, k.get("outputs", None)))
+    SortedCombosOutputs = sorted(keyboard, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None)))
     f = open("outputs/" + passedKeyboard.getKeyboardName() + "_" + baseKB + "_" + language + '_Table.txt', 'w', encoding="utf-8")
     u = open("outputs/Untranslated_" + language + '.txt', 'a', encoding="utf-8")
     #f.write(foo.encode('utf8'))
     f.write("########\n" + "All Combos Sorted by Output" + "\n########\n")
-    for key, group in groupby(SortedCombosOutputs, key=lambda k: ("outputs" not in k, k.get("outputs", None))):
+    for key, group in groupby(SortedCombosOutputs, key=lambda k: ("baseOutput" not in k, k.get("baseOutput", None))):
         printKey = True
         for thing in group:
+            if 'baseKey' in thing and thing['baseKey'].startswith("K_"):
+                print("P")
             plusHappened = False
             if printKey:
                 f.write("##" + str(key[1]) + "##\n")
@@ -1600,6 +1621,8 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                 codedString = ""
             if 'inputs' in thing:
                 for input in thing['inputs']:
+                    if thing["type"] == "fallback":
+                        print("w")
                     localizedKey = "" 
                     if isinstance(input, dict):
                         if input['isCAPS']:
@@ -1787,8 +1810,13 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                             #if category == '':
                             category = thisOutput['Category-Long']
                 #stringtoWrite = stringtoWrite.strip("\t]")
-                w.append([stringtoWrite, category, letter])
-                f.write(stringtoWrite + "\n")
+                if thing["type"] == "fallback":
+                    stringtoWrite = stringtoWrite + "*"
+                if stringtoWrite not in allList:
+                    #This seems redundant
+                    append(allList, stringtoWrite)
+                    w.append([stringtoWrite, category, letter])
+                    f.write(stringtoWrite + "\n")
 
     SortedCombos = sorted(w, key=lambda k: (k[1], k[2]))    
     for key, group in groupby(SortedCombos, key=lambda k: (k[1])):
@@ -2106,19 +2134,16 @@ def missingCombo(passedKeyboard):
 
     processedKeyList = []
     listy = groupby(SortedCombosKey, key=lambda k: ("baseKey" not in k, k.get("baseKey", None)))
-
     for key, group in listy:
-            if "K_" in key:
-                append(processedKeyList,key)
-                checkOut(passedKeyboard,key,group,cfile)
+            if key[1] is not None and "K_" in key[1]:
+                checkOut(passedKeyboard,key,group,cfile, processedKeyList)
     for entry in kbLinks:
         addKey = entry["keyman"]
-        if addKey not in processedKeyList:
-            checkOut(passedKeyboard,addKey,[],cfile) 
+        checkOut(passedKeyboard,addKey,[],cfile, processedKeyList) 
     cfile.close()
 
 
-def checkOut(passedKeyboard,key,group, f):
+def checkOut(passedKeyboard,key,group, f, processedKeys):
     # Val   =               SHIFT     NCAPS   CAPS    RALT    LALT    ALT     RCTRL   LCTRL   CTRL
     flags0 =                [False,   False,  False,  False,  False,  False,  False,  False,  False]
     flags1_SHIFT =          [True,    False,  False,  False,  False,  False,  False,  False,  False]
@@ -2154,8 +2179,10 @@ def checkOut(passedKeyboard,key,group, f):
         needs7 = True
         needs8 = True
         needs9 = True
-    if (not needs0) and (not needs2):
+    if (needs0) and (not needs2):
         #Must be Mnemonic
+        needs0 = False
+        needs1 = False
         needs2 = True
         needs3 = True
         needs4 = True
@@ -2169,24 +2196,34 @@ def checkOut(passedKeyboard,key,group, f):
                         currentFlags = [item['isSHIFT'],item['isNCAPS'],item['isCAPS'],item['isRALT'],item['isLALT'],item['isALT'],item['isRCTRL'],item['isLCTRL'],item['isCTRL']]
                         if currentFlags == flags0:
                             needs0 = False
+                            append(processedKeys,combo['comboFullKey'])
                         elif currentFlags == flags1_SHIFT:
                             needs1 = False
+                            append(processedKeys,combo['comboFullKey'])
                         elif currentFlags == flags2_NCAPS:
                             needs2 = False
+                            append(processedKeys,combo['comboFullKey'])
                         elif currentFlags == flags3_NCAPS_SHIFT:
                             needs3 = False
+                            append(processedKeys,combo['comboFullKey'])
                         elif currentFlags == flags4_CAPS:
                             needs4 = False
+                            append(processedKeys,combo['comboFullKey'])
                         elif currentFlags == flags5_CAPS_SHIFT:
                             needs5 = False
+                            append(processedKeys,combo['comboFullKey'])
                         elif currentFlags == flags6_NCAPS_RALT:
                             needs6 = False
+                            append(processedKeys,combo['comboFullKey'])
                         elif currentFlags == flags7_NCAPS_SHIFT_RALT:
                             needs7 = False
+                            append(processedKeys,combo['comboFullKey'])
                         elif currentFlags == flags8_RALT_CAPS:
                             needs8 = False
+                            append(processedKeys,combo['comboFullKey'])
                         elif currentFlags == flags9_CAPS_SHIFT_RALT:
                             needs9 = False
+                            append(processedKeys,combo['comboFullKey'])
                         lastKey = item['isKey']
 
     if lastKey is None:
@@ -2195,104 +2232,116 @@ def checkOut(passedKeyboard,key,group, f):
         print(passedKeyboard.getKeyboardName())
         f.write(passedKeyboard.getKeyboardName() + "\n")
     if needs0:
-        print("Warning: Missing [] for:" + lastKey)
-        f.write("Warning: Missing [] for:" + lastKey + "\n")
         tempDef = {}
         tempDef["type"] = "fallback"
         tempDef["comboFullKey"] = "[" + lastKey + "]"
-        tempDef["baseKey"] = lastKey
-        keypress = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False,
-                                        "isRALT" : False, "isLALT" : False, "isALT" : False,
-                                        "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False}
-        keypress["isKey"] = lastKey
-        keypress["fullKey"] = tempDef["comboFullKey"]
-        tempDef["inputs"] = ["+",keypress]
-        passedKeyboard.addCombo(tempDef)
+        if keypress["comboFullKey"] not in processedKeys:
+            print("Warning: Missing [] for:" + lastKey)
+            f.write("Warning: Missing [] for:" + lastKey + "\n")
+            tempDef["baseKey"] = lastKey
+            keypress = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False,
+                                            "isRALT" : False, "isLALT" : False, "isALT" : False,
+                                            "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False, "outputs":[]}
+            keypress["isKey"] = lastKey
+            keypress["fullKey"] = tempDef["comboFullKey"]
+            tempDef["inputs"] = ["+",keypress]
+            passedKeyboard.addCombo(tempDef)
     if needs1:
-        print("Warning: Missing [SHIFT] for:" + lastKey)
-        f.write("Warning: Missing [SHIFT] for:" + lastKey + "\n")
         tempDef = {}
         tempDef["type"] = "fallback"
         tempDef["comboFullKey"] = "[SHIFT " + lastKey + "]"
-        tempDef["baseKey"] = lastKey
-        keypress = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False,
-                                        "isRALT" : False, "isLALT" : False, "isALT" : False,
-                                        "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False}
-        keypress["isKey"] = lastKey
-        keypress["fullKey"] = tempDef["comboFullKey"]
-        tempDef["inputs"] = ["+",keypress]
-        passedKeyboard.addCombo(tempDef)
+        if keypress["comboFullKey"] not in processedKeys:
+            print("Warning: Missing [SHIFT] for:" + lastKey)
+            f.write("Warning: Missing [SHIFT] for:" + lastKey + "\n")
+            tempDef["baseKey"] = lastKey
+            keypress = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False,
+                                            "isRALT" : False, "isLALT" : False, "isALT" : False,
+                                            "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False, "outputs":[]}
+            keypress["isKey"] = lastKey
+            keypress["fullKey"] = tempDef["comboFullKey"]
+            tempDef["inputs"] = ["+",keypress]
+            passedKeyboard.addCombo(tempDef)
     if needs2:
-        print("Warning: Missing [NCAPS] for:" + lastKey)
-        f.write("Warning: Missing [NCAPS] for:" + lastKey + "\n")
-        ####
         tempDef = {}
         tempDef["type"] = "fallback"
         tempDef["comboFullKey"] = "[NCAPS " + lastKey + "]"
-        tempDef["baseKey"] = lastKey
-        keypress = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False,
-                                        "isRALT" : False, "isLALT" : False, "isALT" : False,
-                                        "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False}
-        keypress["isKey"] = lastKey
-        keypress["fullKey"] = tempDef["comboFullKey"]
-        tempDef["inputs"] = ["+",keypress]
-        passedKeyboard.addCombo(tempDef)
+        if tempDef["comboFullKey"] not in processedKeys:
+            print("Warning: Missing [NCAPS] for:" + lastKey)
+            f.write("Warning: Missing [NCAPS] for:" + lastKey + "\n")
+            tempDef["baseKey"] = lastKey
+            keypress = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False,
+                                            "isRALT" : False, "isLALT" : False, "isALT" : False,
+                                            "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False, "outputs":[]}
+            keypress["isKey"] = lastKey
+            keypress["fullKey"] = tempDef["comboFullKey"]
+            tempDef["inputs"] = ["+",keypress]
+            passedKeyboard.addCombo(tempDef)
     if needs3:
-        print("Warning: Missing [NCAPS SHIFT] for:" + lastKey)
-        f.write("Warning: Missing [NCAPS SHIFT] for:" + lastKey + "\n")
         tempDef = {}
         tempDef["type"] = "fallback"
-        tempDef["comboFullKey"] = "[NCAPS SHIFT " + "]"
-        tempDef["baseKey"] = lastKey
-        keypress = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False,
-                                        "isRALT" : False, "isLALT" : False, "isALT" : False,
-                                        "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False}
-        keypress["isKey"] = lastKey
-        keypress["fullKey"] = tempDef["comboFullKey"]
-        tempDef["inputs"] = ["+",keypress]
-        passedKeyboard.addCombo(tempDef)
+        tempDef["comboFullKey"] = "[NCAPS SHIFT " + lastKey + "]"
+        if tempDef["comboFullKey"] not in processedKeys:
+            print("Warning: Missing [NCAPS SHIFT] for:" + lastKey)
+            f.write("Warning: Missing [NCAPS SHIFT] for:" + lastKey + "\n")
+            tempDef["baseKey"] = lastKey
+            keypress = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False,
+                                            "isRALT" : False, "isLALT" : False, "isALT" : False,
+                                            "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False, "outputs":[]}
+            keypress["isKey"] = lastKey
+            keypress["fullKey"] = tempDef["comboFullKey"]
+            tempDef["inputs"] = ["+",keypress]
+            passedKeyboard.addCombo(tempDef)
     if needs4:
-        print("Warning: Missing [CAPS] for:" + lastKey)
-        f.write("Warning: Missing [CAPS] for:" + lastKey + "\n")
         tempDef = {}
         tempDef["type"] = "fallback"
-        tempDef["fullKey"] = "[CAPS " + lastKey + "]"
-        tempDef["baseKey"] = lastKey
-        keypress = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False,
-                                        "isRALT" : False, "isLALT" : False, "isALT" : False,
-                                        "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False}
-        keypress["isKey"] = lastKey
-        keypress["fullKey"] = tempDef["comboFullKey"]
-        tempDef["inputs"] = ["+",keypress]
-        passedKeyboard.addCombo(tempDef)
+        tempDef["comboFullKey"] = "[CAPS " + lastKey + "]"
+        if tempDef["comboFullKey"] not in processedKeys:
+            print("Warning: Missing [CAPS] for:" + lastKey)
+            f.write("Warning: Missing [CAPS] for:" + lastKey + "\n")
+            tempDef["baseKey"] = lastKey
+            keypress = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False,
+                                            "isRALT" : False, "isLALT" : False, "isALT" : False,
+                                            "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False, "outputs":[]}
+            keypress["isKey"] = lastKey
+            keypress["fullKey"] = tempDef["comboFullKey"]
+            tempDef["inputs"] = ["+",keypress]
+            passedKeyboard.addCombo(tempDef)
     if needs5:
-        print("Warning: Missing [CAPS SHIFT] for:" + lastKey)
-        f.write("Warning: Missing [CAPS SHIFT] for:" + lastKey + "\n")
         tempDef = {}
         tempDef["type"] = "fallback"
-        tempDef["fullKey"] = "[CAPS SHIFT " + lastKey + "]"
-        tempDef["baseKey"] = lastKey
-        keypress = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False,
-                                        "isRALT" : False, "isLALT" : False, "isALT" : False,
-                                        "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False}
-        keypress["isKey"] = lastKey
-        keypress["fullKey"] = tempDef["comboFullKey"]
-        tempDef["inputs"] = ["+",keypress]
-        passedKeyboard.addCombo(tempDef)
+        tempDef["comboFullKey"] = "[CAPS SHIFT " + lastKey + "]"
+        if tempDef["comboFullKey"] not in processedKeys:
+            print("Warning: Missing [CAPS SHIFT] for:" + lastKey)
+            f.write("Warning: Missing [CAPS SHIFT] for:" + lastKey + "\n")
+            tempDef["baseKey"] = lastKey
+            keypress = {"isSHIFT" : False, "isNCAPS" : False, "isCAPS" : False,
+                                            "isRALT" : False, "isLALT" : False, "isALT" : False,
+                                            "isRCTRL" : False, "isLCTRL" : False, "isCTRL" : False, "outputs":[]}
+            keypress["isKey"] = lastKey
+            keypress["fullKey"] = tempDef["comboFullKey"]
+            tempDef["inputs"] = ["+",keypress]
+            passedKeyboard.addCombo(tempDef)
     if needs6:
-        print("Warning: Missing [NCAPS RALT] for:" + lastKey)
-        f.write("Warning: Missing [NCAPS RALT] for:" + lastKey + "\n")
+        tempFullKey = "[NCAPS RALT " + lastKey + "]"
+        if tempFullKey not in processedKeys:
+            print("Warning: Missing [NCAPS RALT] for:" + lastKey)
+            f.write("Warning: Missing [NCAPS RALT] for:" + lastKey + "\n")
     if needs7:
-        print("Warning: Missing [NCAPS SHIFT RALT] for:" + lastKey)
-        f.write("Warning: Missing [NCAPS SHIFT RALT] for:" + lastKey + "\n")
+        tempFullKey = "[NCAPS SHIFT RALT " + lastKey + "]"
+        if tempFullKey not in processedKeys:
+            print("Warning: Missing [NCAPS SHIFT RALT] for:" + lastKey)
+            f.write("Warning: Missing [NCAPS SHIFT RALT] for:" + lastKey + "\n")
     if needs8:
-        print("Warning: Missing [CAPS RALT] for:" + lastKey)
-        f.write("Warning: Missing [CAPS RALT] for:" + lastKey + "\n")
+        tempFullKey = "[CAPS RALT " + lastKey + "]"
+        if tempFullKey not in processedKeys:
+            print("Warning: Missing [CAPS RALT] for:" + lastKey)
+            f.write("Warning: Missing [CAPS RALT] for:" + lastKey + "\n")
     if needs9:
-        print("Warning: Missing [CAPS SHIFT RALT] for:" + lastKey)
-        f.write("Warning: Missing [CAPS SHIFT RALT] for:" + lastKey + "\n")
-
-
+        tempFullKey = "[CAPS SHIFT RALT " + lastKey + "]"
+        if tempFullKey not in processedKeys:
+            print("Warning: Missing [CAPS SHIFT RALT] for:" + lastKey)
+            f.write("Warning: Missing [CAPS SHIFT RALT] for:" + lastKey + "\n")
+    print("Checked Out")
 
 def printToJson(filenameToParse):
     jsonName = filenameToParse + ".json"
@@ -2668,7 +2717,7 @@ languages = ["en","fr"]
 #            ("FUBHAUASQW.klc",["en-us","en-uk","ar-101"],"Harmattan"),
 #            ("FUBRSQW.klc",["en-us","en-uk","ar-101"],"Andika"),
 #            ("FUBRSAZ.klc",["fr-fr","ar-102az","ar-101"],"Andika")]
-fileList = [("sil_euro_latin.kmn",["en-us"],"Andika")]
+fileList = [("sil_cameroon_qwerty.kmn",["en-us"],"Andika"),("sil_euro_latin.kmn",["en-us"],"Andika")]
 for language in languages:
     if language != "en":
         addTranslation(language)
