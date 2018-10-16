@@ -979,7 +979,8 @@ def parseKeyman(passedKeyboard, keymanFilename, generateDeadkeys = False):
                         #if len(inString) < 16:
                             #tempDef['baseKey'] = "K_" + chr(int(inString.strip().upper()[-4:], 16))
                         tempDef['lineCount'] = lineCount
-                        tempDef['baseOutput'] = outString.strip().upper()
+                        s = " "
+                        tempDef['baseOutput'] = s.join(tempDef['outputs'])
                         tempDef.pop('isExpandable',None)
                         storeItemCounter += 1
                         lineCount += 1
@@ -1192,7 +1193,7 @@ def buildCombo(line,inputs,outputs, lineCount, passedKeyboard):
             append(thisCombo['outputs'],outputUpper)
             if "dk" not in thisCombo["type"]:
                 thisCombo["type"] = thisCombo["type"] + ".dk"
-            thisCombo['baseOutput'] = outputUpper
+            #thisCombo['baseOutput'] = outputUpper
         elif (outputUpper.startswith(u"GROUP")):
             verbose(lineCount,"It's a Group")
             append(thisCombo['outputs'],outputUpper)
@@ -1215,13 +1216,13 @@ def buildCombo(line,inputs,outputs, lineCount, passedKeyboard):
             append(thisCombo['outputs'],outputUpper)
             if "deadEnd" not in thisCombo["type"]:
                 thisCombo['type'] = thisCombo["type"] + ".deadEnd"
-            thisCombo['baseOutput'] = outputUpper
+            #thisCombo['baseOutput'] = outputUpper
         elif (outputUpper.startswith(u"NUL")):
             verbose(lineCount,"It's a NUL")
             append(thisCombo['outputs'],outputUpper)
             if "deadEnd" not in thisCombo["type"]:
                 thisCombo['type'] = thisCombo["type"] + ".deadEnd"
-            thisCombo['baseOutput'] = outputUpper
+            #thisCombo['baseOutput'] = outputUpper
         elif (outputUpper.startswith(u"CONTEXT")):
             verbose(lineCount,"It's a Context")
             append(thisCombo['outputs'],outputUpper)
@@ -1230,7 +1231,7 @@ def buildCombo(line,inputs,outputs, lineCount, passedKeyboard):
         elif (output.startswith(u"U+")):
             verbose(lineCount,"It's a Unicode ID")
             append(thisCombo['outputs'],outputUpper)
-            thisCombo['baseOutput'] = outputUpper
+            #thisCombo['baseOutput'] = outputUpper
         elif (output.startswith("'") or output.startswith('"')):
             output = output[1:-1]
             if output == "---":
@@ -1240,7 +1241,8 @@ def buildCombo(line,inputs,outputs, lineCount, passedKeyboard):
                 append(thisCombo['outputs'],stringy.upper())
         #else:
             #print("Error: " + output)
-        
+    s = " "
+    thisCombo['baseOutput'] = s.join(thisCombo['outputs'])    
     return thisCombo
 
 def prod(iterable):
@@ -1675,24 +1677,24 @@ def printKeyList(passedKeyboard, coder = False, human = True, baseKB="en-us", in
                         codedString = codedString + " " + input['fullKey']
 
                     else:
-                        if input.startswith("dk"):
+                        if input.upper().startswith("DK("):
+                            isRealizeable = passedKeyboard.getCombosByOutput(input)
                             if (input.upper() == "DK(003B)") or (input.upper() == "DK(0021)"):
                                 stringtoWrite = stringtoWrite + " " + "[CAM Key]"
                                 codedString = codedString + " " + input
-                            elif input.upper() == "DK(1)":
-                                isRealizeable = passedKeyboard.getCombosByOutput(input)
-                                #todo Check if deadkey realizeable x + y = dk(?). 
+                            elif len(isRealizeable) == 0:
+                                #This Deadkey is a "hidden" deadkey that doesn't have a keypress.
                                 codedString = codedString + " " + input
-                            elif len(input) == 8:
-                                letterCode = input.strip().upper()[3:-1]
-                                letter = chr(int(letterCode, 16))
-                                stringtoWrite = stringtoWrite + " '" + letter + "'"
-                                codedString = codedString + " " + input
-                            else:
-                                stringtoWrite = stringtoWrite + " " + input
+                            elif len(isRealizeable) > 0:
+                                #TODO Find the DeadKey Key
+                                if len(input) == 8 or len(input) == 9:
+                                    letterCode = input.strip().upper()[3:-1]
+                                    letter = chr(int(letterCode, 16))
+                                    stringtoWrite = stringtoWrite + " '" + letter + "'"
+                                    codedString = codedString + " " + input
+                                else:
+                                    stringtoWrite = stringtoWrite + " " + input
                         elif input.startswith("U+"):
-                            if thing["lineCount"] == 172:
-                                print("172")
                             if not passedKeyboard.getVariable("mnemonic"):
                             #Convert back to key:
                                 listing = passedKeyboard.getCombosByOutput(input.upper())
@@ -1759,12 +1761,17 @@ def printKeyList(passedKeyboard, coder = False, human = True, baseKB="en-us", in
             ###########
             if 'outputs' in thing:
                 for output in thing['outputs']:
-                    if output.startswith("dk"):
-                        for theKey in deadkeyNames:
-                            if output.upper() == theKey[0].upper():
-                                category = "Deadkey"
-                        stringtoWrite = stringtoWrite + " " + output
-                        codedString = codedString + " " + output
+                    if output.upper().startswith("DK"):
+                        isRealizeable = passedKeyboard.getCombosByOutput(output)
+                        if len(isRealizeable) > 0:
+                            for theKey in deadkeyNames:
+                                if output.upper() == theKey[0].upper():
+                                    category = "Deadkey"
+                            stringtoWrite = stringtoWrite + " " + output
+                            codedString = codedString + " " + output
+                        elif len(isRealizeable) == 0:
+                            stringtoWrite = ""
+                            #Don't Print this Line
                     elif output.startswith("U+"):
                         getDescrip = output.upper()
                         letterCode = output.strip().upper()[2:]
