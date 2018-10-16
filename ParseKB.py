@@ -919,22 +919,24 @@ def parseKeyman(passedKeyboard, keymanFilename, generateDeadkeys = False):
                         #if len(inputTargetList[0]) != len(outputTargetList[0]):
                             print("Error: " + inputTargetStore, " and ", outputTargetStore, " are not the same length!")
                     append(outputTargetStores,outputTargetStore)
-                    append(outputTargetLists,outputTargetList[0]) #was [0]
+                    outputTargetLists.append(outputTargetList[0]) #was [0]
                     append(inputTargetStores,inputTargetStore)
-                    append(inputTargetLists,inputTargetList[0])
+                    inputTargetLists.append(inputTargetList[0])
                     append(inputLines,inputLine)
                     append(outputLines,outputLine)
                    #was [0]
                     indexNumCounter = indexNumCounter + 1
 
-            #theTable = generateCombos(line,importantInputs, inputTargetStores, inputTargetLists, inputLines, importantOutputs, outputTargetStores, outputTargetLists, outputLines)
             #Method 1 of processinglists
             if len(outputTargetLists) == 1: # This is the problem
                     storeItemCounter = 0
                     unwrappedInputTargetLists = inputTargetLists[0]
+                    unwrappedInputTargetStores = inputTargetStores[0]
                     unwrappedOutputTargetLists = outputTargetLists[0]
+                    unwrappedOutputTargetStores = outputTargetStores[0]
                     tempDef = []
-
+                    if line['lineCount'] == 67:
+                        print(line['lineCount'])
                     for i in range(0,len(unwrappedInputTargetLists)-1): # was -1
                         tempDef = copy.deepcopy(line)
                         inputCounter = 0
@@ -974,8 +976,8 @@ def parseKeyman(passedKeyboard, keymanFilename, generateDeadkeys = False):
                         verbose(lineCount, newLine)
                         tempDef['sourceLineCount'] = tempDef['lineCount']
                         tempDef['baseKey'] = 'Undefined'
-                        if len(inString) < 16:
-                            tempDef['baseKey'] = "K_" + chr(int(inString.strip().upper()[-4:], 16))
+                        #if len(inString) < 16:
+                            #tempDef['baseKey'] = "K_" + chr(int(inString.strip().upper()[-4:], 16))
                         tempDef['lineCount'] = lineCount
                         tempDef['baseOutput'] = outString.strip().upper()
                         tempDef.pop('isExpandable',None)
@@ -1586,7 +1588,7 @@ def updateTempOutputs(passedKeyboard, baseKB):
             else: 
                 print("o")
 
-def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inFilter = [], deadkeyNames = [], language = "en"):
+def printKeyList(passedKeyboard, coder = False, human = True, baseKB="en-us", inFilter = [], deadkeyNames = [], language = "en"):
     w = []
     allList = []
     letter = ""
@@ -1609,13 +1611,11 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                 printKey = False
             getDescrip = ""
             #Labels are only needed if both are enabled.
-            if code: 
-                stringtoWrite = "User:"
+            if coder and human: 
+                stringtoWrite = "User:\t"
+                codedString = "Code:\t"
             else:
                 stringtoWrite = ""
-            if human: 
-                codedString = "Code:"
-            else:
                 codedString = ""
             if 'inputs' in thing:
                 for input in thing['inputs']:
@@ -1679,52 +1679,68 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                             if (input.upper() == "DK(003B)") or (input.upper() == "DK(0021)"):
                                 stringtoWrite = stringtoWrite + " " + "[CAM Key]"
                                 codedString = codedString + " " + input
-                            else:
+                            elif input.upper() == "DK(1)":
+                                isRealizeable = passedKeyboard.getCombosByOutput(input)
+                                #todo Check if deadkey realizeable x + y = dk(?). 
+                                codedString = codedString + " " + input
+                            elif len(input) == 8:
                                 letterCode = input.strip().upper()[3:-1]
                                 letter = chr(int(letterCode, 16))
                                 stringtoWrite = stringtoWrite + " '" + letter + "'"
                                 codedString = codedString + " " + input
+                            else:
+                                stringtoWrite = stringtoWrite + " " + input
                         elif input.startswith("U+"):
+                            if thing["lineCount"] == 172:
+                                print("172")
+                            if not passedKeyboard.getVariable("mnemonic"):
                             #Convert back to key:
-                            listing = passedKeyboard.getCombosByOutput(input.upper())
-                            if plusHappened:
-                                thing['baseKey'] = input
-                            if len(listing) == 0:
-                                print("Warning: Unattainable input, this will probably crash!")
-                            newListing = findSimplest(listing)
-                            printableNewListing = ""
-                            relevantLines = passedKeyboard.getCombosbyFullKey(newListing[2],"KM")
-                            if newListing[2] != False:
-                                if "SHIFT" in printableNewListing:
-                                    currentLine = newListing[0]
-                                    inputs = currentLine["inputs"]
-                                    for input in inputs:
-                                        if "fullKey" in input:
-                                            if 'outputs' in currentLine:
-                                                for output in currentLine['outputs']:
-                                                    letterCode = output.strip().upper()[2:]
-                                                    letter = chr(int(letterCode, 16))
-                                                    localizedKey += letter
-                                else:                                 
-                                    currentLine = newListing[0]
-                                    inputs = currentLine["inputs"]                    
-                                    for input in inputs:
-                                        if "fullKey" in input:
-                                            if 'outputs' in currentLine:
-                                                for output in currentLine['outputs']:
-                                                    letterCode = output.strip().upper()[2:]
-                                                    letter = chr(int(letterCode, 16))
-                                                    localizedKey += letter
-                                stringtoWrite = stringtoWrite + " + '" + letter + "'"
-                            else: 
-                                print("Error: Must deal with falses.")
+                                listing = passedKeyboard.getCombosByOutput(input.upper())
+                                if plusHappened:
+                                    thing['baseKey'] = input
+                                if len(listing) == 0:
+                                    print("Warning: Unattainable input, this will probably crash!")
+                                newListing = findSimplest(listing)
+                                printableNewListing = ""
+                                relevantLines = passedKeyboard.getCombosbyFullKey(newListing[2],"KM")
+                                if newListing[2] != False:
+                                    if "SHIFT" in printableNewListing:
+                                        currentLine = newListing[0]
+                                        inputs = currentLine["inputs"]
+                                        for input in inputs:
+                                            if "fullKey" in input:
+                                                if 'outputs' in currentLine:
+                                                    for output in currentLine['outputs']:
+                                                        letterCode = output.strip().upper()[2:]
+                                                        letter = chr(int(letterCode, 16))
+                                                        localizedKey += letter
+                                    else:                                 
+                                        currentLine = newListing[0]
+                                        inputs = currentLine["inputs"]                    
+                                        for input in inputs:
+                                            if "fullKey" in input:
+                                                if 'outputs' in currentLine:
+                                                    for output in currentLine['outputs']:
+                                                        letterCode = output.strip().upper()[2:]
+                                                        letter = chr(int(letterCode, 16))
+                                                        localizedKey += letter
+                                    stringtoWrite = stringtoWrite + " + '" + letter + "'"
+                                else: 
+                                    print("Error: Must deal with falses.")
+                            else: #Mnemonic
+                                    code = input[2:]
+                                    letter = chr(int(code, 16))
+                                    stringtoWrite = stringtoWrite + " '" + letter + "'"
                         elif input == "+":
                             verbose(0, "Plussish")
                             plusHappened = True
+                            #ToDo: Split Context and Input 
+                            if thing["inputs"].index(input) != 0:
+                                stringtoWrite = stringtoWrite + " + "
                         else:
                             stringtoWrite = stringtoWrite + " '" + input + "'"
                             codedString = codedString + " " + input
-
+                        
             stringtoWrite = stringtoWrite.replace("' ' ", "[Space] ")
             stringtoWrite = stringtoWrite.replace(" ' '", " [Space]")
             if localizedKey != "":
@@ -1760,10 +1776,6 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                     else:
                         stringtoWrite = stringtoWrite + " " + output
                         codedString = codedString + " " + output
-            else:
-                #Must be mnemonic
-                baseKeyboard = parseKB("KLC/" + baseKB + ".klc")
-                print("b")
             for item in inFilter:
                 if (item.upper() in stringtoWrite.upper()) or (item.upper() in codedString.upper()):
                     codedString = ""
@@ -1771,7 +1783,7 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
             if ('inputs' not in thing) or ('outputs' not in thing):
                 codedString = ""
                 stringtoWrite = ""
-            if codedString != "" and code:
+            if codedString != "" and coder:
                 codedString = codedString + "\t" + str(thing['lineCount'])
                 if getDescrip in UnicodeArchive:
                     thisOutput = UnicodeArchive[getDescrip]
@@ -1807,7 +1819,7 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
                 #stringtoWrite = stringtoWrite.strip("\t]")
                 if thing["type"] == "fallback":
                     stringtoWrite = stringtoWrite + "*"
-                if stringtoWrite not in allList:
+                if stringtoWrite not in allList and stringtoWrite[:-1] not in allList:
                     #This seems redundant
                     append(allList, stringtoWrite)
                     w.append([stringtoWrite, category, letter])
@@ -1821,7 +1833,7 @@ def printKeyList(passedKeyboard, code = False, human = True, baseKB="en-us", inF
     f.close()
     htm = open("outputs/" + passedKeyboard.getKeyboardName() + "_" + baseKB + "_" + language + '_Table.html', 'w', encoding="utf-8")
     h = []
-    append(h,"<html><head><meta charset='utf-8'/></head><body>\n")
+    append(h,"<html><head><meta charset='utf-8'/><link rel='stylesheet' href='css\kb.css'/></head><body>\n")
     if language == "en":
         append(h,"<h1>Combinations for " + passedKeyboard.getPrettyName() + " based on physical " + baseKB + " keyboard</h1>\n")
     elif language == "fr":
@@ -2712,7 +2724,7 @@ languages = ["en","fr"]
 #            ("FUBHAUASQW.klc",["en-us","en-uk","ar-101"],"Harmattan"),
 #            ("FUBRSQW.klc",["en-us","en-uk","ar-101"],"Andika"),
 #            ("FUBRSAZ.klc",["fr-fr","ar-102az","ar-101"],"Andika")]
-fileList = [("sil_cameroon_qwerty.kmn",["en-us"],"Andika"),("sil_euro_latin.kmn",["en-us"],"Andika")]
+fileList = [("sil_euro_latin.kmn",["en-us"],"Andika"),("sil_cameroon_qwerty.kmn",["en-us"],"Andika")]
 for language in languages:
     if language != "en":
         addTranslation(language)
