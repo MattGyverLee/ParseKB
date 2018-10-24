@@ -337,5 +337,5 @@ ASALocalRun/
 /*.kmx
 *.txt
 build/
-output/*
-!output/readme.txt
+outputs/*
+!outputs/readme.txt
