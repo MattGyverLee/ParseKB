@@ -2731,7 +2731,7 @@ languages = ["en","fr"]
 #            ("FUBHAUASQW.klc",["en-us","en-uk","ar-101"],"Harmattan"),
 #            ("FUBRSQW.klc",["en-us","en-uk","ar-101"],"Andika"),
 #            ("FUBRSAZ.klc",["fr-fr","ar-102az","ar-101"],"Andika")]
-fileList = [("sil_euro_latin.kmn",["en-us"],"Andika"),("sil_cameroon_qwerty.kmn",["en-us"],"Andika")]
+fileList = [("sil_euro_latin.kmn",["en-us"],"Andika"),("sil_cameroon_qwerty.kmn",["en-us"],"Andika"),("clavbur9.kmn",["en-us"],"Andika")]
 for language in languages:
     if language != "en":
         addTranslation(language)
