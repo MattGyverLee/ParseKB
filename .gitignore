@@ -328,11 +328,14 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
-*.kmn
+
+
 *.json
-sil_cameroon_azerty.kmn.json
-sil_cameroon_qwerty.kmn.json
-sil_cameroon_azerty.kmn.json
-sil_cameroon_qwerty.kmn.json
-*.kmx
+/*.klc
+/*.kmn
+/*.json
+/*.kmx
 *.txt
+build/
+outputs/*
+!outputs/readme.txt
