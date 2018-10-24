@@ -338,3 +338,4 @@ ASALocalRun/
 *.txt
 build/
 output/*
+!output/readme.txt
